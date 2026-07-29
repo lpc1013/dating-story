@@ -1,0 +1,17 @@
+{
+  "name": "恋爱约会模拟器",
+  "short_name": "约会模拟",
+  "description": "一场关于心动的冒险——选择你的故事，开启约会之旅",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#1a1a2e",
+  "theme_color": "#ff6b6b",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "data/covers/叶惠美.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    }
+  ]
+}

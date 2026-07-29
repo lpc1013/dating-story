@@ -1,0 +1,136 @@
+{
+  "version": 1,
+  "desc": "游戏规则定义。格式用事件名+选项文案（不用索引），加载时由 resolveGameRules() 转为运行时格式。修改剧情后可在此增删跳转/结局，无需动代码。",
+  "rules": [
+    {
+      "type": "jump",
+      "id": "cloudy_dessert_to_bookstore",
+      "weather": "cloudy",
+      "at": { "event": "甜品下午茶", "when": "去书店逛逛，顺便吃个下午茶" },
+      "then": { "goToEvent": "书店奇遇" }
+    },
+    {
+      "type": "jump",
+      "id": "rainy_dessert_to_pindou",
+      "weather": "rainy",
+      "at": { "event": "甜品下午茶", "when": "提议去玩拼豆" },
+      "then": { "goToEvent": "拼豆奇遇" }
+    },
+    {
+      "type": "jump",
+      "id": "rainy_umbrella_tilt_left",
+      "at": { "event": "伞向谁倾斜", "when": "伞向她那边倾斜，自己淋湿" },
+      "then": { "goToEvent": "共伞聊天" }
+    },
+    {
+      "type": "jump",
+      "id": "rainy_umbrella_tilt_middle",
+      "at": { "event": "伞向谁倾斜", "when": "伞向中间倾斜，一起淋一点" },
+      "then": { "goToEvent": "雨中漫步" }
+    },
+    {
+      "type": "jump",
+      "id": "rainy_chat_listen",
+      "at": { "event": "共伞聊天", "when": "认真倾听，不急着给建议" },
+      "then": { "goToEvent": "雨后彩虹" }
+    },
+    {
+      "type": "jump",
+      "id": "rainy_chat_advice",
+      "at": { "event": "共伞聊天", "when": "快速思考，提出解决的建议" },
+      "then": { "goToEvent": "雨后分别" }
+    },
+    {
+      "type": "jump",
+      "id": "rainy_chat_comfort",
+      "at": { "event": "共伞聊天", "when": "安慰她，说一切都会好起来的" },
+      "then": { "goToEvent": "雨后分别" }
+    },
+    {
+      "type": "jump",
+      "id": "rainy_chat_dismiss",
+      "at": { "event": "共伞聊天", "when": "说\"这点小事有什么好烦的\"" },
+      "then": { "goToEvent": "雨后分别" }
+    },
+    {
+      "type": "jump",
+      "id": "snowy_photo_take_good",
+      "at": { "event": "雪中拍照", "when": "认真帮她拍照" },
+      "then": { "goToEvent": "雪中滑冰" }
+    },
+    {
+      "type": "jump",
+      "id": "snowy_photo_together",
+      "at": { "event": "雪中拍照", "when": "拍一张合影" },
+      "then": { "goToEvent": "雪中滑冰" }
+    },
+    {
+      "type": "jump",
+      "id": "snowy_photo_no_battery",
+      "at": { "event": "雪中拍照", "when": "手机没电了，拍不了" },
+      "then": { "goToEvent": "玻璃窗起雾" }
+    },
+    {
+      "type": "jump",
+      "id": "snowy_photo_too_trouble",
+      "at": { "event": "雪中拍照", "when": "说拍照太麻烦" },
+      "then": { "goToEvent": "玻璃窗起雾" }
+    },
+    {
+      "type": "jump",
+      "id": "sunny2_subway_squeeze",
+      "at": { "event": "地铁的抉择", "when": "拉她挤上车，紧紧护着她不被碰" },
+      "then": { "goToEvent": "夫子庙" }
+    },
+    {
+      "type": "jump",
+      "id": "sunny2_subway_complain",
+      "at": { "event": "地铁的抉择", "when": "吐槽地铁人多，抱怨出行麻烦" },
+      "then": { "goToEvent": "夫子庙" }
+    },
+    {
+      "type": "jump",
+      "id": "cloudy2_mist_navigate",
+      "at": { "event": "迷雾寻路", "when": "拿出手机导航，但信号很弱，你焦急地寻找信号" },
+      "then": { "goToEvent": "若隐若现的古建筑" }
+    },
+    {
+      "type": "jump",
+      "id": "cloudy2_lost_wait",
+      "at": { "event": "雾中迷路", "when": "说在原地等待雾散" },
+      "then": { "goToEvent": "若隐若现的古建筑" }
+    },
+    {
+      "type": "jump",
+      "id": "cloudy2_lost_blame",
+      "at": { "event": "雾中迷路", "when": "说\"都怪你，非要出来\"" },
+      "then": { "goToEvent": "若隐若现的古建筑" }
+    },
+    {
+      "type": "end",
+      "id": "cloudy_ktv_leave_early_good",
+      "weather": "cloudy",
+      "at": { "event": "KTV", "when": "说太晚了，送她回家（直通游戏）" },
+      "then": { "ending": "good" }
+    },
+    {
+      "type": "end",
+      "id": "rainy_ktv_leave_early_bad",
+      "weather": "rainy",
+      "at": { "event": "KTV", "when": "说太晚了，送她回家（直通游戏）" },
+      "then": { "ending": "bad" }
+    },
+    {
+      "type": "end",
+      "id": "rainy_umbrella_ignore_bad",
+      "at": { "event": "伞向谁倾斜", "when": "没在意，继续走" },
+      "then": { "ending": "bad" }
+    },
+    {
+      "type": "end",
+      "id": "snowy_wish_peek_good",
+      "at": { "event": "雪地心愿", "when": "偷看她写的内容" },
+      "then": { "ending": "good" }
+    }
+  ]
+}

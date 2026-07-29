@@ -1,0 +1,2809 @@
+{
+  "晴天": [
+    {
+      "title": "接女友出行",
+      "description": "今天是你们约会的日子，你早早起床准备。看着窗外明媚的阳光，你心里盘算着：今天要给女友一个完美的约会体验。现在要去接她了，你选择什么方式？",
+      "choices": [
+        {
+          "text": "骑自行车带她兜风，享受阳光",
+          "money": 0,
+          "like": 8,
+          "heart": 5,
+          "feedback": "阳光正好，风吹过她的发梢，她笑得很开心",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "打车过去，不想让她晒着",
+          "money": -4,
+          "like": 10,
+          "heart": 7,
+          "feedback": "打车虽然贵，但你准时到达，她笑得很甜",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "走路过去，顺便买束花",
+          "money": -1,
+          "like": 6,
+          "heart": 6,
+          "feedback": "走路虽然累，但你买了花，她很开心",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "坐地铁，虽然挤但准时",
+          "money": 0,
+          "like": 1,
+          "heart": 0,
+          "feedback": "地铁上人挤人，你勉强准时赶到",
+          "emotion": "neutral",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "商场抽奖",
+      "description": "你们逛进一家大商场，中庭的抽奖转盘被人群围得水泄不通。女友拽着你的袖子，眼睛亮晶晶：\"亲爱的，我们去抽奖吧！听说头奖是台新手机呢！\"她跃跃欲试，像个小孩子。",
+      "choices": [
+        {
+          "text": "花点钱买几张抽奖券，搏个头奖",
+          "money": -4,
+          "like": 10,
+          "heart": 5,
+          "feedback": "你买了好几张抽奖券，转盘飞转——结果中了个毛绒玩偶。她抱着玩偶笑得眼睛弯弯：\"虽然没有手机，但这个也好可爱！\"",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "理性劝她，中奖概率太低不值得",
+          "money": 0,
+          "like": 0,
+          "heart": -1,
+          "feedback": "你给她算了算中奖概率，她点点头：\"嗯...你说得对，万一中不了就亏了。\"但她眼神里有一丝小失落。",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "说抽奖都是套路，拉她直接走",
+          "money": 0,
+          "like": -6,
+          "heart": -7,
+          "feedback": "她撇撇嘴：\"你真扫兴...就玩一下嘛...\"",
+          "emotion": "angry",
+          "achievement": null
+        },
+        {
+          "text": "让她自己抽一次，你买单",
+          "money": 0,
+          "like": 6,
+          "heart": 6,
+          "feedback": "她兴奋地转动转盘，中了一张甜品券，开心地蹦跳：\"赚到啦！\"",
+          "emotion": "happy",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "看电影",
+      "description": "商场里连着影院，新上映的爱情片海报格外醒目。女友指着海报：\"亲爱的，我们去看电影吧！听说这部超甜的～\"她期待地看着你。但票价不便宜，你心里盘算着怎么买票最划算...",
+      "choices": [
+        {
+          "text": "蹲个特价票/团购，精打细算",
+          "money": -2,
+          "like": 10,
+          "heart": 7,
+          "feedback": "你打开App比价，蹲到一张半价特惠票，省下不少钱。她佩服地竖起大拇指：\"你真会过日子！\"",
+          "emotion": "happy",
+          "achievement": "精明消费者"
+        },
+        {
+          "text": "直接买IMAX厅，体验拉满",
+          "money": -5,
+          "like": 10,
+          "heart": 5,
+          "feedback": "IMAX大屏很震撼，她看得津津有味，靠在你肩上说\"好浪漫\"。",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "说电影太贵，回家看",
+          "money": 0,
+          "like": 2,
+          "heart": -1,
+          "feedback": "她有点失望：\"好吧...回家看也行。\"",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "说不想看，继续逛街",
+          "money": 0,
+          "like": -6,
+          "heart": -5,
+          "feedback": "她撇撇嘴：\"你真扫兴...\"",
+          "emotion": "angry",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "手机意外碎裂",
+      "description": "逛着逛着，你手一滑，手机\"啪\"地摔在地上——屏幕瞬间裂成了蜘蛛网！你心里一凉：完了，现在出门全靠手机支付，没手机寸步难行...女友看着碎屏，有点担心：\"亲爱的，你的手机...怎么办？\"",
+      "choices": [
+        {
+          "text": "用还能勉强点的屏幕，移动支付给维修店下单",
+          "money": -4,
+          "like": 8,
+          "heart": 4,
+          "feedback": "你忍着碎屏的刺痛，火速用移动支付下了维修单。修好的一刻你感慨：\"还好有移动支付，不然今天真寸步难行。\"",
+          "emotion": "happy",
+          "achievement": "现代移动支付"
+        },
+        {
+          "text": "先用她的手机扫码，撑过今天",
+          "money": 0,
+          "like": 2,
+          "heart": 1,
+          "feedback": "你借她的手机付了款，她无奈地笑：\"那你今天归我养啦。\"",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "说凑合用，不修了",
+          "money": 0,
+          "like": 0,
+          "heart": -1,
+          "feedback": "你凑合着用碎屏，可扫码老失败，排队时尴尬得不行。",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "烦躁地抱怨倒霉，影响心情",
+          "money": 0,
+          "like": -8,
+          "heart": -5,
+          "feedback": "你烦躁地叹气，她有点不知所措地站在一旁。",
+          "emotion": "angry",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "共享耳机",
+      "description": "你们走在街上，女友拿出耳机：\"亲爱的，这首歌超好听，我们一起听吧！\"她把一只耳机递给你，眼神里充满了期待...音乐响起，是《打火机》这首歌。她靠在你肩上，轻声哼唱，声音甜美而动人。你隐约听见她唱着\"你是我心尖上的牵丝戏...\"，似乎这首歌触动了她的心事...她闭着眼睛，沉浸在这首歌的旋律中，脸上带着温柔的笑容。这一刻，整个世界都安静了，只剩下你们两个人和这首温柔的歌...",
+      "choices": [
+        {
+          "text": "接过耳机，和她一起听，享受这温馨时刻",
+          "money": 0,
+          "like": 8,
+          "heart": 5,
+          "feedback": "你们一人一只耳机，一起听着歌。她靠在你肩上，轻声哼唱，这一刻，整个世界都变得温柔...她转过头，眼睛里闪烁着幸福的光芒：\"和你一起听歌，真好...\"",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "说\"我不用耳机，你听吧\"，继续往前走",
+          "money": 0,
+          "like": 0,
+          "heart": 0,
+          "feedback": "她愣了一下，然后笑着说：\"好吧...\"她一个人听着歌，跟着你往前走。虽然她没有生气，但你感觉她有点失望...",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "说\"这首歌不好听，换一首吧\"",
+          "money": 0,
+          "like": -7,
+          "heart": -7,
+          "feedback": "她脸色瞬间变得难看：\"你懂什么！这首歌对我来说很重要！\"她生气地摘下耳机，转身就走。你追上去，她冷冷地说：\"你根本不懂我...\"这一刻，你们之间的距离仿佛拉远了...",
+          "emotion": "angry",
+          "achievement": null
+        },
+        {
+          "text": "把音乐调成哈基米音乐《打火基》，哈基米南北绿豆！",
+          "money": 0,
+          "like": 6,
+          "heart": 6,
+          "feedback": "你突然把音乐切换成了哈基米版本的《打火基》，\"哈基米南北绿豆！\"的旋律响起。她愣了一下，然后噗嗤一声笑了出来：\"你太搞笑了！\"她靠在你肩上，笑得前仰后合：\"哈基米南北绿豆！哈哈哈哈！\"这一刻，她的心彻底属于你了...",
+          "emotion": "happy",
+          "achievement": "哈基米南北绿豆"
+        }
+      ]
+    },
+    {
+      "title": "阳光花摊",
+      "description": "阳光明媚，路边有个卖花的小摊。摊主热情地招呼：\"今天阳光真好，买束花吧！这束玫瑰是刚从花店拿的，新鲜得很！\"女友看着那束在阳光下闪闪发光的玫瑰，眼睛亮晶晶的...",
+      "choices": [
+        {
+          "text": "买下玫瑰，温柔地送给女友",
+          "money": -4,
+          "like": 12,
+          "heart": 13,
+          "feedback": "阳光下的玫瑰被晒得有点蔫，你却偏偏挑了最精神的那一支，温柔地递给她。她接过花，把脸埋进花瓣里深深吸了一口，再抬头时眼睛亮晶晶的：\"谢谢你...它好像还带着太阳的味道...好浪漫...\"",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "买一枝玫瑰，意思一下",
+          "money": 0,
+          "like": 2,
+          "heart": -1,
+          "feedback": "阳光下的玫瑰格外鲜艳，你买了一枝玫瑰，她笑了笑：\"谢谢，很漂亮\"",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "说太贵了，不买",
+          "money": 0,
+          "like": 1,
+          "heart": 0,
+          "feedback": "你摇摇头，她看了看阳光下的玫瑰，但还是跟着你走了",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "说花很快就谢了，不买",
+          "money": 0,
+          "like": -7,
+          "heart": -7,
+          "feedback": "她撇撇嘴：\"你真扫兴...阳光这么好，买束花多浪漫...\"",
+          "emotion": "angry",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "公园野餐",
+      "description": "阳光明媚，微风拂面。你们来到公园，草地上铺满了阳光。她拿出野餐垫：\"亲爱的，我们在这里野餐吧！好舒服～\"她期待地看着你...",
+      "choices": [
+        {
+          "text": "买了三明治和水果，好好野餐",
+          "money": -4,
+          "like": 10,
+          "heart": 5,
+          "feedback": "你们在草地上野餐，她开心地吃着三明治，说\"好好吃！\"",
+          "emotion": "happy",
+          "achievement": "野餐时光"
+        },
+        {
+          "text": "买点零食和饮料",
+          "money": -2,
+          "like": 4,
+          "heart": 0,
+          "feedback": "她吃了点零食，还算满意",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "一起DIY制作美食，享受过程",
+          "money": -5,
+          "like": 12,
+          "heart": 13,
+          "feedback": "你们蹲在野餐垫上，把面包片抹得乱七八糟，却笑得比谁都开心。她把自己做的歪歪扭扭的三明治塞进你嘴里，眼睛弯成月牙：\"以后每个周末，都这样过好不好？\"阳光落在她发梢，那一刻你忽然懂了，所谓浪漫，不过是两个人愿意把时间浪费在一起。",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "说太麻烦了，不野餐",
+          "money": 0,
+          "like": 2,
+          "heart": 1,
+          "feedback": "她看了看草地，但还是跟着你走了",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "说草地太脏，别坐",
+          "money": 0,
+          "like": -7,
+          "heart": -5,
+          "feedback": "她撇撇嘴：\"你真扫兴...\"",
+          "emotion": "angry",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "摩天轮",
+      "description": "你们来到游乐园，远远地看到巨大的摩天轮在阳光下闪闪发光。她兴奋地拉着你的手：\"亲爱的，我们去坐摩天轮吧！听说在最高处可以俯瞰整个城市！\"",
+      "choices": [
+        {
+          "text": "买了两张票，陪她坐摩天轮",
+          "money": -4,
+          "like": 8,
+          "heart": 7,
+          "feedback": "你们坐在摩天轮上，俯瞰整个城市，她开心地靠在你肩上：\"好美！\"",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "说太高了，有点害怕",
+          "money": 0,
+          "like": 1,
+          "heart": 1,
+          "feedback": "你小声说有点怕高，她立刻握紧你的手：\"那我们慢慢来。\"摩天轮启动时她一直陪着你，指尖的温度比阳光还暖。",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "说太贵了，不坐",
+          "money": 0,
+          "like": 0,
+          "heart": 1,
+          "feedback": "你算了算票价，觉得不值，说\"太贵了不坐\"。她耸耸肩，两人转身去逛别处，倒也没真失落，只是回头多看了摩天轮一眼。",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "不玩，继续逛街",
+          "money": 0,
+          "like": 0,
+          "heart": -1,
+          "feedback": "你提议不坐了，直接去逛街。她笑着点头，牵着你往礼品店走，倒也兴致勃勃——对她来说，和你在一起，去哪儿都好。",
+          "emotion": "neutral",
+          "achievement": "有些人走着走着就散了"
+        },
+        {
+          "text": "在摩天轮升到最高点时，轻轻吻她的唇角",
+          "money": 0,
+          "like": 12,
+          "heart": 13,
+          "feedback": "摩天轮爬到城市最高处，万家灯火在脚下铺成一片星海。你捧起她的脸，在她唇角落下一个轻得像叹息的吻。她先是一愣，眼里漾开细碎的光，然后笑着搂紧你的脖子，把额头抵在你肩上：\"这么高的地方，我只想吻你一个人。这一刻，我会记一辈子。\"",
+          "emotion": "happy",
+          "achievement": "摩天轮之吻"
+        }
+      ]
+    },
+    {
+      "title": "复古照相馆",
+      "description": "复古照相馆橱窗里摆满了各种复古道具：旧式照相机、复古服装、老式留声机...女友停下脚步，眼睛亮晶晶地看着橱窗：\"亲爱的，这家照相馆好有感觉！我们进去拍几张照片吧？用那些复古道具，肯定很有趣！\"她拉着你的手，满怀期待地看着你，眼神里充满了渴望。你看着兜里的钱，你犹豫着，不知道该不该答应她...",
+      "choices": [
+        {
+          "text": "拉她进去用道具拍照，满足她的愿望",
+          "money": -5,
+          "like": 8,
+          "heart": 5,
+          "feedback": "她开心地跳起来：\"太好了！\"你们走进照相馆，她选了一套复古旗袍，你选了一套民国西装。摄影师给你们拍了一组复古照片，她看着照片，眼睛里闪烁着幸福的光芒：\"这是我拍过最好看的照片！谢谢你亲爱的！\"这一刻，你觉得花再多钱也值得...",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "在门口看一眼就走，说下次再来",
+          "money": 0,
+          "like": 2,
+          "heart": 1,
+          "feedback": "她撇撇嘴：\"好吧...下次再来...\"她依依不舍地看着橱窗，但还是跟着你走了。一路上，她时不时回头看照相馆，眼神里充满了遗憾...",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "说\"拍照太土气了，有什么好拍的\"",
+          "money": 0,
+          "like": -7,
+          "heart": -7,
+          "feedback": "她脸色瞬间变得难看：\"你懂什么！这叫复古！叫艺术！\"她生气地松开你的手，转身就走。你追上去，她冷冷地说：\"你根本不懂我...\"这一刻，你们之间的距离仿佛拉远了...",
+          "emotion": "angry",
+          "achievement": null
+        },
+        {
+          "text": "和她拍搞怪合照，用最夸张的道具",
+          "money": -4,
+          "like": 8,
+          "heart": 5,
+          "feedback": "她眼睛一亮：\"好主意！\"你们走进照相馆，选了最夸张的道具：你戴了顶滑稽的帽子，她戴了个大眼镜。摄影师给你们拍了一组搞怪照片，她笑得前仰后合：\"哈哈哈哈！这个太搞笑了！\"你们看着照片，一起大笑起来，这一刻，所有的烦恼都烟消云散了...",
+          "emotion": "happy",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "飞镖游戏",
+      "description": "女友看到飞镖游戏，跃跃欲试：\"亲爱的，我们来比比谁准！输的人请对方喝奶茶！\"",
+      "choices": [
+        {
+          "text": "买了好多飞镖，陪她玩",
+          "money": -4,
+          "like": 8,
+          "heart": 5,
+          "feedback": "飞镖不便宜，但她玩得超开心",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "买少量飞镖，玩几局",
+          "money": -1,
+          "like": 4,
+          "heart": 0,
+          "feedback": "少量飞镖，她玩了几局就停了",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "不玩，继续逛街",
+          "money": 0,
+          "like": 0,
+          "heart": 1,
+          "feedback": "她撇撇嘴，但还是同意了",
+          "emotion": "neutral",
+          "achievement": "有些人走着走着就散了"
+        },
+        {
+          "text": "说不想玩，她不太乐意",
+          "money": 0,
+          "like": -7,
+          "heart": -5,
+          "feedback": "没花钱，但她不开心",
+          "emotion": "angry",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "帽子被风吹走了",
+      "description": "一阵风吹过，女友头上的帽子被吹飞了！她惊呼一声，帽子在风中翻滚，越飘越远。她看着你，眼神里充满了期待...",
+      "choices": [
+        {
+          "text": "温柔地帮她整理头发",
+          "money": 0,
+          "like": 7,
+          "heart": 4,
+          "feedback": "你温柔地帮她整理了被风吹乱的头发。她脸颊微红，眼睛亮晶晶地看着你：\"谢谢你...你真好...\"",
+          "emotion": "happy",
+          "achievement": "帽子奇缘"
+        },
+        {
+          "text": "追上去捡帽子",
+          "money": 0,
+          "like": 2,
+          "heart": 1,
+          "feedback": "你追上去捡起帽子，拍了拍灰尘递给她。她笑了笑：\"谢谢...差点就丢了\"",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "说\"跑什么，再买一个\"",
+          "money": 0,
+          "like": 0,
+          "heart": -1,
+          "feedback": "她撇撇嘴：\"这可是限量款...算了，我自己捡吧\"",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "假装没看见",
+          "money": 0,
+          "like": -8,
+          "heart": -7,
+          "feedback": "她追了好远才捡回帽子，回来后有点生气：\"你为什么不帮我追一下...\"",
+          "emotion": "angry",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "KTV",
+      "description": "吃完烤肉，女友挽着你的手，哼着轻松的小曲——\"你是谁家的小鬼，这么晚了还没睡~~\"忽然，有个想法冒了出来：要不，去KTV唱首歌吧？你望着身旁糯糯的女友，决定——",
+      "choices": [
+        {
+          "text": "订了豪华包厢，还点了酒水",
+          "money": -4,
+          "like": 2,
+          "heart": 1,
+          "feedback": "豪华包厢加酒水，但她看起来有点累",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "订普通包厢，唱几首歌",
+          "money": -2,
+          "like": 3,
+          "heart": 2,
+          "feedback": "普通包厢，她唱了几首就停了",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "说太吵了，去散步",
+          "money": 0,
+          "like": 8,
+          "heart": 5,
+          "feedback": "她松了口气，挽着你的手慢慢走",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "说太晚了，送她回家（直通游戏）",
+          "money": 0,
+          "like": 7,
+          "heart": 5,
+          "feedback": "送她回家，体贴又省钱，她感动地说\"你真好\"",
+          "emotion": "happy",
+          "achievement": "贴心男友"
+        }
+      ]
+    },
+    {
+      "title": "女友的痒痒肉",
+      "description": "你们并肩走着，你的手无意中触碰到了女友的胳膊，她反射般地缩了回去，脸上露出一丝慌乱。你突然意识到，你好像碰到了她的痒痒肉。你看着她，嘴角微微上扬，一个小小的恶作剧在你脑海中开始浮现...",
+      "choices": [
+        {
+          "text": "轻轻挠她的痒痒肉，看她咯咯笑个不停",
+          "money": 0,
+          "like": 6,
+          "heart": 5,
+          "feedback": "你轻轻挠了一下她的胳膊，她立刻咯咯笑起来，身体扭动着躲避：\"别挠我！哈哈哈！好痒！\"她笑得眼睛弯弯的，脸上泛起幸福的红晕。你看着她开心的样子，心里也跟着温暖起来...",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "假装没发现，继续走",
+          "money": 0,
+          "like": 1,
+          "heart": 1,
+          "feedback": "你假装没发现，继续往前走。她松了口气，但眼神里似乎有一丝期待：\"你...你刚才是不是想挠我？\"你摇摇头，她轻轻叹了口气，继续跟着你走...",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "用力挠她，让她受不了",
+          "money": 0,
+          "like": -7,
+          "heart": -7,
+          "feedback": "你用力挠她的胳膊，她立刻笑得喘不过气：\"别...别挠了！哈哈哈！受不了了！\"她笑着推开你，脸色涨红：\"你太过分了！\"她生气地转过身，不理你了...",
+          "emotion": "angry",
+          "achievement": null
+        },
+        {
+          "text": "轻轻挠她一下，等她笑得没站稳时抱住她",
+          "money": 0,
+          "like": 12,
+          "heart": 13,
+          "feedback": "你故意挠了下她胳膊，她笑着往后躲，脚下一晃差点栽倒。你一把将她捞进怀里，她顺势贴上来，脸颊烧得通红：\"你...你就是故意的！\"拳头软绵绵捶在你胸口，人却没挪开半分。风把她的发丝吹到你下巴，痒痒的，像心也跟着酥了一块。",
+          "emotion": "happy",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "街头艺人",
+      "description": "夜幕降临，街角传来吉他声，一位街头艺人正在弹唱。他唱的是《牵丝戏》，声音温柔而忧伤。你们停下脚步，你隐约听见女友跟着哼出了一段旋律，声音轻柔，似乎这首歌触动了她的心事...",
+      "choices": [
+        {
+          "text": "偷偷拿出手机来录音",
+          "money": 0,
+          "like": 1,
+          "heart": 1,
+          "feedback": "你偷偷拿出手机来录音，她发现后脸红着说\"这首歌...让我想起了以前的事\"，眼神里带着一丝伤感，似乎在回忆某段往事...",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "笑着取笑\"你还会唱这首歌？唱得真好听~\"",
+          "money": 0,
+          "like": -6,
+          "heart": -7,
+          "feedback": "你带着调侃的语气笑着说，她脸瞬间涨红，生气地说\"你懂什么！这首歌对我来说很重要！你根本不懂我！\"她转身就走，留下你一个人在街头，气氛瞬间降至冰点...",
+          "emotion": "angry",
+          "achievement": null
+        },
+        {
+          "text": "温柔地接着她唱的片段继续哼唱",
+          "money": 0,
+          "like": 12,
+          "heart": 12,
+          "feedback": "你接住她哼到一半的调子，声音轻轻合上去，像怕惊飞一只鸟。她惊讶地转头看你，眼尾一点点红了，然后笑着靠过来，和你一起把那首《牵丝戏》唱完。路人的掌声里，她悄悄勾住你的小指：\"原来你一直，都听懂我。\"",
+          "emotion": "happy",
+          "achievement": "街头艺人合唱"
+        },
+        {
+          "text": "假装没听见，继续往前走",
+          "money": 0,
+          "like": 2,
+          "heart": 0,
+          "feedback": "你假装没听见，继续往前走。她看了看街头艺人，又看了看你，眼神里充满了失望和失落，但还是默默跟着你走了，一路上都没有说话...",
+          "emotion": "neutral",
+          "achievement": "有些人走着走着就散了"
+        }
+      ]
+    },
+    {
+      "title": "看夕阳",
+      "description": "夕阳西下，天边染上了一层绚丽的橙红色。你们走到一处可以俯瞰城市的高地，眼前的景色美得令人屏息。金色的阳光洒在女友的脸上，给她镀上了一层温柔的光晕。她停下脚步，静静地望着远方，眼神里充满了对这美景的沉醉。风吹过，她的长发轻轻飘动，这一刻，时间仿佛静止了...",
+      "choices": [
+        {
+          "text": "静静陪她看夕阳，享受这浪漫时刻",
+          "money": 0,
+          "like": 12,
+          "heart": 14,
+          "feedback": "你没说话，只是站到她身侧，让她自然靠上你的肩。天边烧成一片橘红，她轻声说：\"原来夕阳每天都落，可和你一起看的，今天是头一回。\"余晖把两个人的影子拉得很长，长过这一整个温柔的傍晚。",
+          "emotion": "happy",
+          "achievement": "日落告白"
+        },
+        {
+          "text": "说\"快走吧，天快黑了\"",
+          "money": 0,
+          "like": 0,
+          "heart": -1,
+          "feedback": "她看了看夕阳，又看了看你，眼神里充满了失望：\"再等等嘛...再待一会儿...\"她依依不舍地看着夕阳，但还是跟着你走了...",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "拿出手机拍照，说\"拍个照纪念一下\"",
+          "money": 0,
+          "like": 6,
+          "heart": 6,
+          "feedback": "你拿出手机，给她拍了一张照片。夕阳的余晖洒在她脸上，她笑着摆姿势，眼睛里闪烁着幸福的光芒：\"拍得真好看！谢谢你亲爱的！\"这一刻，她觉得你是世界上最贴心的人...",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "说\"太阳快下山了，没什么好看的\"",
+          "money": 0,
+          "like": -8,
+          "heart": -6,
+          "feedback": "她脸色瞬间变得难看：\"你懂什么！这叫浪漫！叫意境！\"她生气地松开你的手，转身就走。你追上去，她冷冷地说：\"你根本不懂我...\"这一刻，你们之间的距离仿佛拉远了...",
+          "emotion": "angry",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "酒店",
+      "description": "约会到很晚，她轻轻靠在你肩上，声音有些疲惫：\"亲爱的，今天好开心...但我不想回家，我想和你多待一会儿...\"夜色已深，街灯把她的影子拉得很长，晚风轻轻拂过，她显得格外温柔可爱...",
+      "choices": [
+        {
+          "text": "订了五星级酒店套房",
+          "money": -4,
+          "like": -6,
+          "heart": -6,
+          "feedback": "她脸红了，但轻轻推开了你：\"太快了...我还没准备好\"",
+          "emotion": "angry",
+          "achievement": null
+        },
+        {
+          "text": "订了快捷酒店",
+          "money": -2,
+          "like": -6,
+          "heart": -5,
+          "feedback": "她摇了摇头，眼神失望：\"我以为你更懂我...\"",
+          "emotion": "angry",
+          "achievement": null
+        },
+        {
+          "text": "温柔地说太晚了，送她回家",
+          "money": 0,
+          "like": 8,
+          "heart": 5,
+          "feedback": "她感动地看着你：\"谢谢你尊重我...\"回家路上她紧紧挽着你的手",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "送她回家，路上聊聊天",
+          "money": 0,
+          "like": 1,
+          "heart": -1,
+          "feedback": "送她回家，她笑了笑：\"下次再约吧\"",
+          "emotion": "neutral",
+          "achievement": null
+        }
+      ]
+    }
+  ],
+  "多云": [
+    {
+      "title": "接女友出行",
+      "description": "今天是你们约会的日子，你早早起床准备。窗外云层温柔地铺开，光线柔柔的，你心里盘算着：今天要给女友一个完美的约会体验。现在要去接她了，你选择什么方式？",
+      "choices": [
+        {
+          "text": "打车过去，天气不错不让她等",
+          "money": -4,
+          "like": 8,
+          "heart": 7,
+          "feedback": "打车虽然贵，但你准时到达，她笑得很甜",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "骑共享单车，天气凉爽",
+          "money": 0,
+          "like": 6,
+          "heart": 6,
+          "feedback": "天气凉爽，骑车很舒服，她心情不错",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "走路过去，顺便买束花",
+          "money": -1,
+          "like": 6,
+          "heart": 6,
+          "feedback": "走路虽然累，但你买了花，她很开心",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "坐地铁，虽然挤但准时",
+          "money": 0,
+          "like": 1,
+          "heart": 0,
+          "feedback": "地铁上人挤人，你勉强准时赶到",
+          "emotion": "neutral",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "奶茶店",
+      "description": "接到女友后，她挽着你的手臂，眼睛亮晶晶地指着不远处那家网红奶茶店：\"亲爱的，我想喝那家的芋泥脆脆奶芙！听说超好喝～\"",
+      "choices": [
+        {
+          "text": "排队买了两杯芋泥脆脆奶芙，还加了双倍小料",
+          "money": -4,
+          "like": 9,
+          "heart": 5,
+          "feedback": "她捧着奶茶，眼睛笑成了月牙",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "点一杯两人分享，甜蜜加倍",
+          "money": 0,
+          "like": 6,
+          "heart": 4,
+          "feedback": "你吸一口她吸一口，路人羡慕",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "说太甜了，喝水更健康",
+          "money": -1,
+          "like": 2,
+          "heart": 1,
+          "feedback": "她撇撇嘴，但还是喝了水",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "说去便利店买，她撇了撇嘴",
+          "money": 0,
+          "like": -8,
+          "heart": -5,
+          "feedback": "便宜奶茶，她勉强喝了几口",
+          "emotion": "angry",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "甜品下午茶",
+      "description": "喝完奶茶，女友提议找个地方坐坐，享受下午茶时光。她翻开手机，给你看那家新开的甜品店图片：\"这家店的略贵抹茶套餐超好看的！还有抹茶冰淇淋！\"",
+      "choices": [
+        {
+          "text": "去了新开的甜品店，点了略贵抹茶套餐",
+          "money": -4,
+          "like": 8,
+          "heart": 6,
+          "feedback": "多云天气在甜品店里，她开心地拍照发朋友圈",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "找家平价甜品店，也不错",
+          "money": -2,
+          "like": 2,
+          "heart": 0,
+          "feedback": "平价店，她勉强接受",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "去书店逛逛，顺便吃个下午茶",
+          "money": 0,
+          "like": 8,
+          "heart": 5,
+          "feedback": "她眼睛一亮，立刻同意了",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "说回家吃水果，她失望地叹气",
+          "money": 0,
+          "like": -7,
+          "heart": -7,
+          "feedback": "免费但无聊，她兴致缺缺",
+          "emotion": "angry",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "闻到烟味怎么办",
+      "description": "刚从甜品店出来，你们走向地铁站。地铁车厢里人挤人，空气闷热。突然，你闻到一股刺鼻的烟味。她皱了皱鼻子，似乎也闻到了，往你怀里缩了缩...",
+      "choices": [
+        {
+          "text": "大声斥责抽烟的人",
+          "money": 0,
+          "like": 0,
+          "heart": 0,
+          "feedback": "你大声斥责，抽烟的人不情愿地灭了烟，但周围的人都看过来，场面有点尴尬",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "温柔把她护在没有烟味的角落",
+          "money": 0,
+          "like": 12,
+          "heart": 12,
+          "feedback": "你侧过身，用肩膀替她挡住那股烟，把她的脸轻轻按进自己怀里。她怔了怔，双臂悄悄环上你的腰，闷闷的声音从胸口传来：\"有你在，连烟味都不可怕了。\"",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "提前下车，换下一班",
+          "money": 0,
+          "like": 6,
+          "heart": 5,
+          "feedback": "你拉着她提前下车，在站台上等下一班，她松了口气，说\"还是这里空气好\"",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "让她忍耐一下",
+          "money": 0,
+          "like": -6,
+          "heart": -7,
+          "feedback": "她皱着眉头，默默忍受，但眼神里满是失望",
+          "emotion": "angry",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "共享耳机",
+      "description": "你们走在街上，女友拿出耳机：\"亲爱的，这首歌超好听，我们一起听吧！\"她把一只耳机递给你，眼神里充满了期待...音乐响起，是《打火机》这首歌。她靠在你肩上，轻声哼唱，声音甜美而动人。你隐约听见她唱着\"你是我心尖上的牵丝戏...\"，似乎这首歌触动了她的心事...她闭着眼睛，沉浸在这首歌的旋律中，脸上带着温柔的笑容。这一刻，整个世界都安静了，只剩下你们两个人和这首温柔的歌...",
+      "choices": [
+        {
+          "text": "接过耳机，和她一起听，享受这温馨时刻",
+          "money": 0,
+          "like": 8,
+          "heart": 5,
+          "feedback": "你们一人一只耳机，一起听着歌。她靠在你肩上，轻声哼唱，这一刻，整个世界都变得温柔...她转过头，眼睛里闪烁着幸福的光芒：\"和你一起听歌，真好...\"",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "说\"我不用耳机，你听吧\"，继续往前走",
+          "money": 0,
+          "like": 0,
+          "heart": 0,
+          "feedback": "她愣了一下，然后笑着说：\"好吧...\"她一个人听着歌，跟着你往前走。虽然她没有生气，但你感觉她有点失望...",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "说\"这首歌不好听，换一首吧\"",
+          "money": 0,
+          "like": -7,
+          "heart": -7,
+          "feedback": "她脸色瞬间变得难看：\"你懂什么！这首歌对我来说很重要！\"她生气地摘下耳机，转身就走。你追上去，她冷冷地说：\"你根本不懂我...\"这一刻，你们之间的距离仿佛拉远了...",
+          "emotion": "angry",
+          "achievement": null
+        },
+        {
+          "text": "把音乐调成哈基米音乐《打火基》，哈基米南北绿豆！",
+          "money": 0,
+          "like": 6,
+          "heart": 6,
+          "feedback": "你突然把音乐切换成了哈基米版本的《打火基》，\"哈基米南北绿豆！\"的旋律响起。她愣了一下，然后噗嗤一声笑了出来：\"你太搞笑了！\"她靠在你肩上，笑得前仰后合：\"哈基米南北绿豆！哈哈哈哈！\"这一刻，她的心彻底属于你了...",
+          "emotion": "happy",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "多云花摊",
+      "description": "多云天气，微风拂面。路边有个卖花的小摊，摊主热情地招呼：\"今天天气不错，买束花吧！这束玫瑰是刚从花店拿的，新鲜得很！\"女友看着那束玫瑰，眼睛亮晶晶的...",
+      "choices": [
+        {
+          "text": "买下玫瑰，温柔地送给女友",
+          "money": -4,
+          "like": 12,
+          "heart": 13,
+          "feedback": "多云的天光柔柔的，衬得玫瑰格外温柔。你买下它，轻轻别在她耳畔：\"多云也好，这样没人跟我们抢风景。\"她摸着那朵花，脸颊微红：\"你总能把普通的日子，过成诗...\"",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "买一枝玫瑰，意思一下",
+          "money": 0,
+          "like": 2,
+          "heart": -1,
+          "feedback": "多云天气下的玫瑰格外温柔，你买了一枝玫瑰，她笑了笑：\"谢谢，很漂亮\"",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "说太贵了，不买",
+          "money": 0,
+          "like": 1,
+          "heart": 0,
+          "feedback": "你摇摇头，她看了看玫瑰，但还是跟着你走了",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "说花很快就谢了，不买",
+          "money": 0,
+          "like": -7,
+          "heart": -7,
+          "feedback": "她撇撇嘴：\"你真扫兴...\"",
+          "emotion": "angry",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "书店奇遇",
+      "description": "你们走进书店，空气中弥漫着淡淡的书香。门口的特价牌格外醒目：\"全场图书8折，文学区特价5折起\"。女友拉着你的手，在书架间穿梭，她的手指轻轻划过一排排书脊，最终停留在文学区，你决定...",
+      "choices": [
+        {
+          "text": "顺手买下一本《百年孤独》",
+          "money": -4,
+          "like": 9,
+          "heart": 7,
+          "feedback": "她接过书，眼睛亮晶晶的：\"你也知道我喜欢这本！\"",
+          "emotion": "happy",
+          "achievement": "书店奇缘"
+        },
+        {
+          "text": "买本漫画杂志《知音漫客》",
+          "money": -2,
+          "like": 4,
+          "heart": 1,
+          "feedback": "她接过漫画杂志：\"嗯...我英语一般...\"",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "顺带着买本数独，训练数学思维",
+          "money": -2,
+          "like": -5,
+          "heart": -5,
+          "feedback": "她皱着眉头：\"我最讨厌数学了...\"",
+          "emotion": "angry",
+          "achievement": null
+        },
+        {
+          "text": "买本散文集，文艺一下",
+          "money": -2,
+          "like": 4,
+          "heart": 1,
+          "feedback": "她翻了翻散文集：\"嗯...还行吧\"",
+          "emotion": "neutral",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "街头拍照",
+      "description": "路过一个风景不错的街角，女友拿出手机：\"亲爱的，帮我拍张照吧！这里光线不错～\"她摆好姿势，期待地看着你...",
+      "choices": [
+        {
+          "text": "蹲下仰拍，显腿长",
+          "money": 0,
+          "like": 6,
+          "heart": 5,
+          "feedback": "你蹲下来仰拍，她看到照片后开心地说：\"哇！我腿好长！\"",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "侧身拍，显瘦",
+          "money": 0,
+          "like": 6,
+          "heart": 6,
+          "feedback": "你侧身拍，她满意地点头：\"嗯，这个角度不错\"",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "随意拍一张",
+          "money": 0,
+          "like": 2,
+          "heart": 1,
+          "feedback": "你随意拍了一张，她看了看：\"嗯...还行吧\"",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "说不会拍，让她自己拍",
+          "money": 0,
+          "like": -8,
+          "heart": -7,
+          "feedback": "她撇撇嘴：\"好吧...我自己拍\"",
+          "emotion": "angry",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "复古照相馆",
+      "description": "复古照相馆橱窗里摆满了各种复古道具：旧式照相机、复古服装、老式留声机...女友停下脚步，眼睛亮晶晶地看着橱窗：\"亲爱的，这家照相馆好有感觉！我们进去拍几张照片吧？用那些复古道具，肯定很有趣！\"她拉着你的手，满怀期待地看着你，眼神里充满了渴望。你看着兜里的钱，你犹豫着，不知道该不该答应她...",
+      "choices": [
+        {
+          "text": "拉她进去用道具拍照，满足她的愿望",
+          "money": -5,
+          "like": 8,
+          "heart": 5,
+          "feedback": "她开心地跳起来：\"太好了！\"你们走进照相馆，她选了一套复古旗袍，你选了一套民国西装。摄影师给你们拍了一组复古照片，她看着照片，眼睛里闪烁着幸福的光芒：\"这是我拍过最好看的照片！谢谢你亲爱的！\"这一刻，你觉得花再多钱也值得...",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "在门口看一眼就走，说下次再来",
+          "money": 0,
+          "like": 2,
+          "heart": 1,
+          "feedback": "她撇撇嘴：\"好吧...下次再来...\"她依依不舍地看着橱窗，但还是跟着你走了。一路上，她时不时回头看照相馆，眼神里充满了遗憾...",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "说\"拍照太土气了，有什么好拍的\"",
+          "money": 0,
+          "like": -7,
+          "heart": -7,
+          "feedback": "她脸色瞬间变得难看：\"你懂什么！这叫复古！叫艺术！\"她生气地松开你的手，转身就走。你追上去，她冷冷地说：\"你根本不懂我...\"这一刻，你们之间的距离仿佛拉远了...",
+          "emotion": "angry",
+          "achievement": null
+        },
+        {
+          "text": "和她拍搞怪合照，用最夸张的道具",
+          "money": -4,
+          "like": 8,
+          "heart": 5,
+          "feedback": "她眼睛一亮：\"好主意！\"你们走进照相馆，选了最夸张的道具：你戴了顶滑稽的帽子，她戴了个大眼镜。摄影师给你们拍了一组搞怪照片，她笑得前仰后合：\"哈哈哈哈！这个太搞笑了！\"你们看着照片，一起大笑起来，这一刻，所有的烦恼都烟消云散了...",
+          "emotion": "happy",
+          "achievement": "照相馆回忆"
+        }
+      ]
+    },
+    {
+      "title": "餐厅点菜",
+      "description": "肚子饿了，你们走进一家餐厅。女友坐在对面，撑着脑袋，满脸期待地看着你：\"我猜，你一定知道我喜欢吃什么...\"",
+      "choices": [
+        {
+          "text": "点一份热气腾腾的干锅牛蛙",
+          "money": -4,
+          "like": 8,
+          "heart": 6,
+          "feedback": "干锅牛蛙上桌，她开心地大快朵颐：\"太好吃了！\"",
+          "emotion": "happy",
+          "achievement": "我懂你"
+        },
+        {
+          "text": "点一份裹上酱汁的烧鸭拌饭",
+          "money": -2,
+          "like": 3,
+          "heart": 1,
+          "feedback": "烧鸭拌饭，她吃得还算满意：\"嗯，这个也不错\"",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "点香喷喷的羊肉泡馍",
+          "money": -2,
+          "like": -5,
+          "heart": -4,
+          "feedback": "她闻到羊肉味，皱着眉头：\"我不吃羊肉...\"",
+          "emotion": "angry",
+          "achievement": "分手饭"
+        },
+        {
+          "text": "点一个特辣的辣子鸡",
+          "money": -1,
+          "like": 2,
+          "heart": 1,
+          "feedback": "她勉强吃了几口，辣得直喝水",
+          "emotion": "neutral",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "餐厅点汤",
+      "description": "菜上齐了，女友看着菜单上的汤品：\"再来个汤吧，喝点汤舒服～\"她指着汤品区，期待地看着你...",
+      "choices": [
+        {
+          "text": "点药膳鸡汤，滋补养生",
+          "money": -2,
+          "like": 8,
+          "heart": 6,
+          "feedback": "药膳鸡汤很滋补，她开心地喝了几碗：\"这个好喝！\"",
+          "emotion": "happy",
+          "achievement": "我懂你"
+        },
+        {
+          "text": "点冬瓜荷叶汤，清爽解腻",
+          "money": -1,
+          "like": 3,
+          "heart": 0,
+          "feedback": "冬瓜荷叶汤清爽，她喝了几口：\"嗯，还不错\"",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "点奶油蘑菇汤，西式风味",
+          "money": -1,
+          "like": 2,
+          "heart": 2,
+          "feedback": "奶油蘑菇汤浓郁，她勉强喝了几口：\"有点腻...\"",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "点牛肉酸汤，开胃解腻",
+          "money": -1,
+          "like": -5,
+          "heart": -6,
+          "feedback": "牛肉酸汤太酸了，她皱着眉头：\"这个好酸...\"",
+          "emotion": "angry",
+          "achievement": "分手饭"
+        }
+      ]
+    },
+    {
+      "title": "餐厅点甜品",
+      "description": "吃饱喝足，女友看着甜品区：\"来个甜品吧，甜点让心情变好～\"她指着甜品菜单，眼睛亮晶晶的...",
+      "choices": [
+        {
+          "text": "点马蹄酥，传统甜品",
+          "money": -1,
+          "like": 2,
+          "heart": 2,
+          "feedback": "马蹄酥清甜，她吃了几口：\"嗯，还行\"",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "点一份DQ抹茶冰淇淋",
+          "money": -2,
+          "like": 10,
+          "heart": 6,
+          "feedback": "抹茶冰淇淋很清爽，她开心地吃：\"这个好吃！\"",
+          "emotion": "happy",
+          "achievement": "我懂你"
+        },
+        {
+          "text": "点草莓奶昔，甜美诱人",
+          "money": -1,
+          "like": -5,
+          "heart": -5,
+          "feedback": "她闻到草莓味，皱着眉头：\"我不喜欢草莓...\"",
+          "emotion": "angry",
+          "achievement": "分手饭"
+        },
+        {
+          "text": "点奥利奥雪媚娘，软糯香甜",
+          "money": -2,
+          "like": 8,
+          "heart": 6,
+          "feedback": "雪媚娘软糯，她开心地吃：\"这个好好吃！\"",
+          "emotion": "happy",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "KTV",
+      "description": "吃完烤肉，女友挽着你的手，哼着轻松的小曲——\"你是谁家的小鬼，这么晚了还没睡~~\"忽然，有个想法冒了出来：要不，去KTV唱首歌吧？你望着身旁糯糯的女友，决定——",
+      "choices": [
+        {
+          "text": "订了豪华包厢，还点了酒水",
+          "money": -4,
+          "like": 2,
+          "heart": 1,
+          "feedback": "豪华包厢加酒水，但她看起来有点累",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "订普通包厢，唱几首歌",
+          "money": -2,
+          "like": 3,
+          "heart": 2,
+          "feedback": "普通包厢，她唱了几首就停了",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "说太吵了，去散步",
+          "money": 0,
+          "like": 8,
+          "heart": 5,
+          "feedback": "她松了口气，挽着你的手慢慢走",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "说太晚了，送她回家（直通游戏）",
+          "money": 0,
+          "like": 7,
+          "heart": 5,
+          "feedback": "送她回家，体贴又省钱，她感动地说\"你真好\"",
+          "emotion": "happy",
+          "achievement": "贴心男友"
+        }
+      ]
+    },
+    {
+      "title": "街头艺人",
+      "description": "夜幕降临，街角传来吉他声，一位街头艺人正在弹唱。他唱的是《牵丝戏》，声音温柔而忧伤。你们停下脚步，你隐约听见女友跟着哼出了一段旋律，声音轻柔，似乎这首歌触动了她的心事...",
+      "choices": [
+        {
+          "text": "偷偷拿出手机来录音",
+          "money": 0,
+          "like": 1,
+          "heart": 1,
+          "feedback": "你偷偷拿出手机来录音，她发现后脸红着说\"这首歌...让我想起了以前的事\"，眼神里带着一丝伤感，似乎在回忆某段往事...",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "笑着取笑\"你还会唱这首歌？唱得真好听~\"",
+          "money": 0,
+          "like": -6,
+          "heart": -7,
+          "feedback": "你带着调侃的语气笑着说，她脸瞬间涨红，生气地说\"你懂什么！这首歌对我来说很重要！你根本不懂我！\"她转身就走，留下你一个人在街头，气氛瞬间降至冰点...",
+          "emotion": "angry",
+          "achievement": null
+        },
+        {
+          "text": "温柔地接着她唱的片段继续哼唱",
+          "money": 0,
+          "like": 12,
+          "heart": 12,
+          "feedback": "你接住她哼到一半的调子，声音轻轻合上去，像怕惊飞一只鸟。她惊讶地转头看你，眼尾一点点红了，然后笑着靠过来，和你一起把那首《牵丝戏》唱完。路人的掌声里，她悄悄勾住你的小指：\"原来你一直，都听懂我。\"",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "假装没听见，继续往前走",
+          "money": 0,
+          "like": 2,
+          "heart": 0,
+          "feedback": "你假装没听见，继续往前走。她看了看街头艺人，又看了看你，眼神里充满了失望和失落，但还是默默跟着你走了，一路上都没有说话...",
+          "emotion": "neutral",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "咖啡店小憩",
+      "description": "逛累了，你们走进一家温馨的咖啡店。店里飘着咖啡的香气，轻柔的音乐在耳边回荡。她找了个靠窗的位置坐下，看着窗外的街景...",
+      "choices": [
+        {
+          "text": "点一杯拿铁和一块提拉米苏",
+          "money": -4,
+          "like": 8,
+          "heart": 6,
+          "feedback": "她开心地吃着提拉米苏，说\"这个好好吃！\"",
+          "emotion": "happy",
+          "achievement": "咖啡时光"
+        },
+        {
+          "text": "点两杯美式咖啡",
+          "money": -2,
+          "like": 4,
+          "heart": 0,
+          "feedback": "她喝了口咖啡，撇撇嘴：\"有点苦...\"",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "点一杯奶茶和一杯咖啡",
+          "money": -2,
+          "like": 8,
+          "heart": 6,
+          "feedback": "她开心地喝着奶茶，说\"这个好喝！\"",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "说太贵了，不点",
+          "money": 0,
+          "like": 2,
+          "heart": 1,
+          "feedback": "她看了看菜单，但还是跟着你走了",
+          "emotion": "neutral",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "面包店",
+      "description": "雨过天青，街角飘来阵阵黄油与酵母的甜香。一家刚出炉的面包店门口排着小队，女友吸了吸鼻子，眼睛亮晶晶地望向你：\"亲爱的，好香啊...我们去买个面包吧？刚出炉的才好吃～\"",
+      "choices": [
+        {
+          "text": "买一个她最爱的可颂，还请店员多烤两分钟",
+          "money": -2,
+          "like": 10,
+          "heart": 5,
+          "feedback": "你记得她爱吃可颂，特意让店员多烤到金黄。她咬下一口，酥皮簌簌掉在指尖：\"你怎么知道我喜欢这个！\"",
+          "emotion": "happy",
+          "achievement": "面包店甜蜜"
+        },
+        {
+          "text": "买两个不同口味，一人一个分享",
+          "money": -2,
+          "like": 10,
+          "heart": 5,
+          "feedback": "你们一人一个面包，她把咬过一口的递给你：\"尝尝我的，超好吃！\"",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "说面包太容易胖，不买了",
+          "money": 0,
+          "like": 1,
+          "heart": -1,
+          "feedback": "她看了看面包店，有点遗憾地跟着你走了。",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "说家里有面包，别浪费钱",
+          "money": 0,
+          "like": -7,
+          "heart": -7,
+          "feedback": "她撇撇嘴：\"你真扫兴...刚出炉的多香啊。\"",
+          "emotion": "angry",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "看夕阳",
+      "description": "夕阳西下，天边染上了一层绚丽的橙红色。你们走到一处可以俯瞰城市的高地，眼前的景色美得令人屏息。金色的阳光洒在女友的脸上，给她镀上了一层温柔的光晕。她停下脚步，静静地望着远方，眼神里充满了对这美景的沉醉。风吹过，她的长发轻轻飘动，这一刻，时间仿佛静止了...",
+      "choices": [
+        {
+          "text": "静静陪她看夕阳，享受这浪漫时刻",
+          "money": 0,
+          "like": 12,
+          "heart": 14,
+          "feedback": "你没说话，只是站到她身侧，让她自然靠上你的肩。天边烧成一片橘红，她轻声说：\"原来夕阳每天都落，可和你一起看的，今天是头一回。\"余晖把两个人的影子拉得很长，长过这一整个温柔的傍晚。",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "说\"快走吧，天快黑了\"",
+          "money": 0,
+          "like": 0,
+          "heart": -1,
+          "feedback": "她看了看夕阳，又看了看你，眼神里充满了失望：\"再等等嘛...再待一会儿...\"她依依不舍地看着夕阳，但还是跟着你走了...",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "拿出手机拍照，说\"拍个照纪念一下\"",
+          "money": 0,
+          "like": 6,
+          "heart": 6,
+          "feedback": "你拿出手机，给她拍了一张照片。夕阳的余晖洒在她脸上，她笑着摆姿势，眼睛里闪烁着幸福的光芒：\"拍得真好看！谢谢你亲爱的！\"这一刻，她觉得你是世界上最贴心的人...",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "说\"太阳快下山了，没什么好看的\"",
+          "money": 0,
+          "like": -8,
+          "heart": -6,
+          "feedback": "她脸色瞬间变得难看：\"你懂什么！这叫浪漫！叫意境！\"她生气地松开你的手，转身就走。你追上去，她冷冷地说：\"你根本不懂我...\"这一刻，你们之间的距离仿佛拉远了...",
+          "emotion": "angry",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "女友的痒痒肉",
+      "description": "你们并肩走着，你的手无意中触碰到了女友的胳膊，她反射般地缩了回去，脸上露出一丝慌乱。你突然意识到，你好像碰到了她的痒痒肉。你看着她，嘴角微微上扬，一个小小的恶作剧在你脑海中开始浮现...",
+      "choices": [
+        {
+          "text": "轻轻挠她的痒痒肉，看她咯咯笑个不停",
+          "money": 0,
+          "like": 6,
+          "heart": 5,
+          "feedback": "你轻轻挠了一下她的胳膊，她立刻咯咯笑起来，身体扭动着躲避：\"别挠我！哈哈哈！好痒！\"她笑得眼睛弯弯的，脸上泛起幸福的红晕。你看着她开心的样子，心里也跟着温暖起来...",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "假装没发现，继续走",
+          "money": 0,
+          "like": 1,
+          "heart": 1,
+          "feedback": "你假装没发现，继续往前走。她松了口气，但眼神里似乎有一丝期待：\"你...你刚才是不是想挠我？\"你摇摇头，她轻轻叹了口气，继续跟着你走...",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "用力挠她，让她受不了",
+          "money": 0,
+          "like": -7,
+          "heart": -7,
+          "feedback": "你用力挠她的胳膊，她立刻笑得喘不过气：\"别...别挠了！哈哈哈！受不了了！\"她笑着推开你，脸色涨红：\"你太过分了！\"她生气地转过身，不理你了...",
+          "emotion": "angry",
+          "achievement": null
+        },
+        {
+          "text": "轻轻挠她一下，等她笑得没站稳时抱住她",
+          "money": 0,
+          "like": 12,
+          "heart": 13,
+          "feedback": "你故意挠了下她胳膊，她笑着往后躲，脚下一晃差点栽倒。你一把将她捞进怀里，她顺势贴上来，脸颊烧得通红：\"你...你就是故意的！\"拳头软绵绵捶在你胸口，人却没挪开半分。风把她的发丝吹到你下巴，痒痒的，像心也跟着酥了一块。",
+          "emotion": "happy",
+          "achievement": null
+        }
+      ]
+    }
+  ],
+  "雨天": [
+    {
+      "title": "接女友出行",
+      "description": "今天是你们约会的日子，你早早起床准备。窗外下着淅淅沥沥的雨，你心里盘算着：今天要给女友一个完美的约会体验。现在要去接她了，你选择什么方式？",
+      "choices": [
+        {
+          "text": "打车过去，不想让她淋雨",
+          "money": -4,
+          "like": 8,
+          "heart": 7,
+          "feedback": "雨天打车，她感动地看着你，说\"你真好\"",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "走路过去，撑伞接她",
+          "money": 0,
+          "like": 7,
+          "heart": 4,
+          "feedback": "你撑着伞去接她，伞向她那边倾斜，你的半个肩膀都湿透了，她心疼地擦去你脸上的雨水，说\"傻瓜\"",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "骑共享单车，雨中骑行",
+          "money": 0,
+          "like": 1,
+          "heart": 0,
+          "feedback": "雨中骑车，你全身湿透，她有点心疼",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "决定不去了",
+          "money": 0,
+          "like": -8,
+          "heart": -7,
+          "feedback": "你发消息说\"今天不去了\"，手机那头沉默了几秒，她轻轻\"哦\"了一声。窗外的雨还在下，你望着天花板，忽然觉得这个本该浪漫的日子里，少了一块很重要的拼图。",
+          "emotion": "angry",
+          "achievement": "雨中失约"
+        }
+      ]
+    },
+    {
+      "title": "奶茶店",
+      "description": "接到女友后，她挽着你的手臂，眼睛亮晶晶地指着不远处那家网红奶茶店：\"亲爱的，我想喝那家的芋泥脆脆奶芙！听说超好喝～\"",
+      "choices": [
+        {
+          "text": "排队买了两杯芋泥脆脆奶芙，还加了双倍小料",
+          "money": -4,
+          "like": 9,
+          "heart": 5,
+          "feedback": "她捧着奶茶，眼睛笑成了月牙",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "点一杯两人分享，甜蜜加倍",
+          "money": 0,
+          "like": 6,
+          "heart": 4,
+          "feedback": "你吸一口她吸一口，路人羡慕",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "说太甜了，喝水更健康",
+          "money": -1,
+          "like": 2,
+          "heart": 1,
+          "feedback": "她撇撇嘴，但还是喝了水",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "说去便利店买，她撇了撇嘴",
+          "money": 0,
+          "like": -8,
+          "heart": -5,
+          "feedback": "便宜奶茶，她勉强喝了几口",
+          "emotion": "angry",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "甜品下午茶",
+      "description": "喝完奶茶，女友提议找个地方坐坐，享受下午茶时光。她翻开手机，给你看那家新开的甜品店图片：\"这家店的略贵抹茶套餐超好看的！还有抹茶冰淇淋！\"",
+      "choices": [
+        {
+          "text": "去了新开的甜品店，点了略贵抹茶套餐",
+          "money": -4,
+          "like": 8,
+          "heart": 6,
+          "feedback": "雨天在甜品店里，她开心地拍照发朋友圈",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "找家平价甜品店，避雨也不错",
+          "money": -2,
+          "like": 3,
+          "heart": 2,
+          "feedback": "平价店，她勉强接受",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "提议去玩拼豆",
+          "money": 0,
+          "like": 7,
+          "heart": 5,
+          "feedback": "拼豆很有趣，她开心地答应了",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "说回家吃水果，她失望地叹气",
+          "money": 0,
+          "like": -7,
+          "heart": -7,
+          "feedback": "免费但无聊，她兴致缺缺",
+          "emotion": "angry",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "闻到烟味怎么办",
+      "description": "雨天地铁车厢里人挤人，空气闷热。突然，你闻到一股刺鼻的烟味。她皱了皱鼻子，似乎也闻到了，往你怀里缩了缩...",
+      "choices": [
+        {
+          "text": "大声斥责抽烟的人",
+          "money": 0,
+          "like": 0,
+          "heart": 0,
+          "feedback": "雨天地铁里，你大声斥责，抽烟的人不情愿地灭了烟，但周围的人都看过来，场面有点尴尬",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "温柔把她护在没有烟味的角落",
+          "money": 0,
+          "like": 12,
+          "heart": 12,
+          "feedback": "地铁里那股烟飘过来，你侧身把她护在墙角，用外套挡住飘散的味道，把她的脸轻轻按进怀里。她怔了怔，双臂悄悄环上你的腰：\"下雨天本来就烦，可你一挡，好像也没那么糟了。\"",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "提前下车，换下一班",
+          "money": 0,
+          "like": 6,
+          "heart": 5,
+          "feedback": "雨天地铁里，你拉着她提前下车，在站台上等下一班，她松了口气，说\"还是这里空气好\"",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "让她忍耐一下",
+          "money": 0,
+          "like": -6,
+          "heart": -7,
+          "feedback": "雨天地铁里，她皱着眉头，默默忍受，但眼神里满是失望",
+          "emotion": "angry",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "雨中捡到钱包",
+      "description": "雨渐渐小了，你们撑着伞走在路上。突然，你发现水洼里有一个钱包，捡起来一看，里面有不少现金和证件！女友惊讶地说：\"哇，运气真好！这是谁丢的？\"她想起了刚才在雨中花摊看到的玫瑰，虽然浪漫，但捡到钱包也是意外之喜...",
+      "choices": [
+        {
+          "text": "收下钱包，意外之喜",
+          "money": -1,
+          "like": -6,
+          "heart": -6,
+          "feedback": "你收下了钱包，增加了资金，但她失望地看着你：\"这样不好...这不是我们的钱...\"",
+          "emotion": "angry",
+          "achievement": null
+        },
+        {
+          "text": "寻找失主，归还钱包",
+          "money": 0,
+          "like": 7,
+          "heart": 6,
+          "feedback": "你四处寻找失主，最终找到了失主。失主感激地给了你一些酬金，她为你感到骄傲，说\"你真善良\"",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "交给警察叔叔",
+          "money": 0,
+          "like": 6,
+          "heart": 4,
+          "feedback": "你把钱包交给了警察，她满意地点头：\"你真是个好人\"",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "说可能是陷阱，别捡",
+          "money": 0,
+          "like": 1,
+          "heart": 0,
+          "feedback": "你谨慎地没有捡，她觉得你很细心，说\"小心点也好\"",
+          "emotion": "neutral",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "雨中花摊",
+      "description": "雨越下越大，你们跑到路边避雨。路边有个卖花的小摊，摊主热情地招呼：\"雨中买花，别有一番浪漫！这束玫瑰是刚从花店拿的，新鲜得很！\"女友看着那束鲜艳的玫瑰，眼睛亮晶晶的...",
+      "choices": [
+        {
+          "text": "买下玫瑰，温柔地送给女友",
+          "money": -4,
+          "like": 12,
+          "heart": 13,
+          "feedback": "雨丝斜斜地落，你用外套替那束玫瑰挡了挡，才递给她。她接过花，又伸手把你被雨打湿的鬓角拨开：\"傻瓜，花哪有你重要。\"雨里的玫瑰，倒比晴日更鲜活了几分。",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "买一枝玫瑰，意思一下",
+          "money": 0,
+          "like": 2,
+          "heart": -1,
+          "feedback": "雨中买花，你买了一枝玫瑰，她笑了笑：\"谢谢，很漂亮\"",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "说雨中买花太傻了，不买",
+          "money": 0,
+          "like": 2,
+          "heart": 1,
+          "feedback": "你摇摇头，她看了看玫瑰，但还是跟着你走了",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "说太贵了，不买",
+          "money": 0,
+          "like": -8,
+          "heart": -7,
+          "feedback": "她撇撇嘴：\"你真扫兴...\"",
+          "emotion": "angry",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "雨中遇见流浪猫",
+      "description": "雨越下越大，你撑着伞护着她。突然，一阵微弱的猫叫声传来。你们停下脚步，发现路边的屋檐下，一只湿漉漉的小猫蜷缩着，瑟瑟发抖。它的毛发被雨水打湿，眼睛里充满了无助和恐惧。女友蹲下身，心疼地看着小猫：\"好可怜...它一定很冷...\"她看着你，眼神里充满了期待...",
+      "choices": [
+        {
+          "text": "买来猫粮和牛奶，喂它",
+          "money": -2,
+          "like": 10,
+          "heart": 5,
+          "feedback": "你买来猫粮和牛奶，小猫开心地吃了起来。她感动地看着你：\"你真有爱心！\"她想起了雪天那次，你给她买烤红薯的温暖，今天你又给了小猫温暖",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "找来纸箱和毛巾，给它做个窝",
+          "money": 0,
+          "like": 6,
+          "heart": 4,
+          "feedback": "你找来纸箱和毛巾，给小猫做了个温暖的窝。她满意地点头：\"这样它就不会冷了...\"她想起了雪天那次，你给她围围巾的温暖，今天你又给了小猫温暖",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "说会有人照顾的，走吧",
+          "money": 0,
+          "like": 2,
+          "heart": 1,
+          "feedback": "你拉着她走了，她回头看了一眼小猫，眼神里有点失望，但还是跟着你走了",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "说脏死了，别碰",
+          "money": 0,
+          "like": -8,
+          "heart": -7,
+          "feedback": "她撇撇嘴：\"你真没有爱心...\"她想起了雪天那次，你拒绝给她买烤红薯的冷漠，今天你又拒绝了小猫",
+          "emotion": "angry",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "拼豆奇遇",
+      "description": "你们来到拼豆店，店里有很多可爱的拼豆材料。她眼睛一亮，拿起一个小熊图案的拼豆：\"这个好可爱！我想做这个！\"店员笑着走过来：\"今天是我们店周年庆，所有拼豆材料免费！而且做好的作品可以带回家哦～\"",
+      "choices": [
+        {
+          "text": "拼一个新春发财的可爱熊",
+          "money": 0,
+          "like": 6,
+          "heart": 6,
+          "feedback": "你们一起拼了一个新春发财的可爱熊，她开心地拿着作品：\"好可爱！我要把它放在床头！\"",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "拼一个超大的兰酱",
+          "money": 0,
+          "like": 7,
+          "heart": 4,
+          "feedback": "你们拼了一个超大的兰酱，她惊喜地说：\"哇！好大！我好喜欢！\"",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "拼一个兔子朱迪警官",
+          "money": 0,
+          "like": 7,
+          "heart": 4,
+          "feedback": "你们拼了一个兔子朱迪警官，她开心地说：\"朱迪警官太可爱了！我要把它放在书桌上！\"",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "拼一只可爱的柴犬",
+          "money": 0,
+          "like": 8,
+          "heart": 4,
+          "feedback": "你们拼了一只可爱的柴犬，她笑着说：\"它好乖！就像真的柴犬一样！\"",
+          "emotion": "happy",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "伞向谁倾斜",
+      "description": "雨越下越大，你撑着伞，紧紧护着她。雨水打在伞面上，发出噼里啪啦的声音。她抬头看着你，嘴角微微上扬。你感觉到伞有点重...",
+      "choices": [
+        {
+          "text": "伞向她那边倾斜，自己淋湿",
+          "money": 0,
+          "like": 7,
+          "heart": 4,
+          "feedback": "你淋湿了半个肩膀，她心疼地擦去你脸上的雨水，说\"傻瓜\"",
+          "emotion": "happy",
+          "achievement": "雨中守护"
+        },
+        {
+          "text": "伞向中间倾斜，一起淋一点",
+          "money": 0,
+          "like": 12,
+          "heart": 12,
+          "feedback": "伞歪在中间，雨丝还是调皮地溅上你们肩头。她没躲，反而笑着往你这边靠了靠，湿漉漉的肩膀挨着湿漉漉的肩膀：\"一起淋一点，好像也不错。\"",
+          "emotion": "happy",
+          "achievement": "他朝若是同淋雪 也许人间共白头"
+        },
+        {
+          "text": "伞向自己这边倾斜，她淋湿了",
+          "money": 0,
+          "like": -7,
+          "heart": -5,
+          "feedback": "她淋湿了，皱着眉头，不说话",
+          "emotion": "angry",
+          "achievement": null
+        },
+        {
+          "text": "没在意，继续走",
+          "money": 0,
+          "like": 6,
+          "heart": 6,
+          "feedback": "你把伞向她那边倾斜，她靠在你肩上，轻声聊起了心事...",
+          "emotion": "happy",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "烤肉店",
+      "description": "夜幕降临，肚子饿了。你们走进一家烤肉店，热气腾腾，香气四溢。女友看着菜单，期待地看着你：\"亲爱的，我们……？\"",
+      "choices": [
+        {
+          "text": "烤羊肉",
+          "money": -4,
+          "like": -5,
+          "heart": -6,
+          "feedback": "你点了烤羊肉，她闻到那股羊膻味，脸色瞬间变了...她默默放下了筷子，说\"我不吃羊肉\"，好感度大幅下降",
+          "emotion": "angry",
+          "achievement": null
+        },
+        {
+          "text": "烤牛肉",
+          "money": -4,
+          "like": 9,
+          "heart": 5,
+          "feedback": "烤牛肉很嫩，她吃得很开心，说\"你真懂我\"",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "啤酒和炸串",
+          "money": -4,
+          "like": -5,
+          "heart": -5,
+          "feedback": "你点了啤酒和炸串，她皱着眉头说\"我不喝酒，而且炸串太油腻了...\"",
+          "emotion": "angry",
+          "achievement": null
+        },
+        {
+          "text": "炒饭",
+          "money": -2,
+          "like": 4,
+          "heart": 0,
+          "feedback": "炒饭还可以，她勉强接受了",
+          "emotion": "neutral",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "KTV",
+      "description": "吃完烤肉，女友挽着你的手，哼着轻松的小曲——\"你是谁家的小鬼，这么晚了还没睡~~\"忽然，有个想法冒了出来：要不，去KTV唱首歌吧？你望着身旁糯糯的女友，决定——",
+      "choices": [
+        {
+          "text": "订了豪华包厢，还点了酒水",
+          "money": -4,
+          "like": 2,
+          "heart": 1,
+          "feedback": "豪华包厢加酒水，但她看起来有点累",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "订普通包厢，唱几首歌",
+          "money": -2,
+          "like": 3,
+          "heart": 2,
+          "feedback": "普通包厢，她唱了几首就停了",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "说太吵了，去散步",
+          "money": 0,
+          "like": 8,
+          "heart": 5,
+          "feedback": "她松了口气，挽着你的手慢慢走",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "说太晚了，送她回家（直通游戏）",
+          "money": 0,
+          "like": 7,
+          "heart": 5,
+          "feedback": "送她回家，体贴又省钱，她感动地说\"你真好\"",
+          "emotion": "happy",
+          "achievement": "贴心男友"
+        }
+      ]
+    },
+    {
+      "title": "雨后爱心捐款",
+      "description": "雨渐渐小了，你们路过一个捐款箱，上面写着：\"为山区孩子捐款\"。一位志愿者走过来：\"您好，能为山区孩子捐一点吗？每一分钱都能帮助他们上学。\"女友看着捐款箱，眼神里充满了同情...她看着你，眼神里充满了期待...",
+      "choices": [
+        {
+          "text": "毫不犹豫地慷慨捐款，甚至想多捐一点",
+          "money": -1,
+          "like": 10,
+          "heart": 6,
+          "feedback": "你毫不犹豫地掏出钱包，甚至想多捐一点。她惊讶地看着你，然后感动地说：\"你真有爱心！\"她紧紧握住你的手，眼神里充满了敬佩和感动。但你心里清楚，这笔钱本来可以用来给她买杯热饮...",
+          "emotion": "happy",
+          "achievement": "雨后彩虹"
+        },
+        {
+          "text": "犹豫后捐一点，心里有点不舍",
+          "money": -1,
+          "like": 3,
+          "heart": 0,
+          "feedback": "你犹豫了片刻，掏出钱包捐了一点。她满意地点头，说：\"有心就好...\"但眼神里似乎有一丝失望",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "说下次再捐，拉着她快步离开",
+          "money": 0,
+          "like": 2,
+          "heart": 0,
+          "feedback": "你看了看捐款箱，又看了看她，说：\"下次再捐吧，今天钱不太够...\"然后拉着她快步离开。她回头看了一眼捐款箱，眼神里充满了失望",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "说\"这种捐款都是骗人的，别上当\"",
+          "money": 0,
+          "like": -8,
+          "heart": -5,
+          "feedback": "你皱着眉头说：\"这种捐款都是骗人的，别上当...\"她愣住了，然后失望地看着你：\"你怎么能这么说...山区孩子真的需要帮助...\"",
+          "emotion": "angry",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "雨中漫步",
+      "description": "雨渐渐小了，你们撑着伞走在雨中。空气清新，路灯倒映在水洼里，像星星一样闪烁。她挽着你的手臂，轻声说：\"雨中漫步，别有一番浪漫...\"",
+      "choices": [
+        {
+          "text": "陪她继续走，享受雨中漫步",
+          "money": 0,
+          "like": 7,
+          "heart": 6,
+          "feedback": "你们在雨中漫步，她靠在你肩上，说\"这样真好\"...大雨让整座城市倾倒，但你们的感情却在雨中升华...",
+          "emotion": "happy",
+          "achievement": "大雨让整座城市倾倒"
+        },
+        {
+          "text": "说找个地方躲雨，别淋湿了",
+          "money": 0,
+          "like": 2,
+          "heart": -1,
+          "feedback": "你们走进咖啡店，她喝了杯热咖啡，但还是有点失望",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "说太冷了，回家吧",
+          "money": 0,
+          "like": 0,
+          "heart": -1,
+          "feedback": "她看了看雨，但还是跟着你走了",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "说雨中漫步很傻，赶紧走",
+          "money": 0,
+          "like": -8,
+          "heart": -7,
+          "feedback": "她撇撇嘴：\"你真扫兴...\"",
+          "emotion": "angry",
+          "achievement": null
+        },
+        {
+          "text": "在雨里轻声说\"雨中的你，比晴天更美\"",
+          "money": 0,
+          "like": 12,
+          "heart": 13,
+          "feedback": "你停下脚步，替她把贴在脸颊的湿发拢到耳后，雨水顺着你的指缝滑落。你看着她说：\"别人都盼晴天，可我只想记住，雨里这是谁的模样。\"她眼眶一下子红了，把脸埋进你怀里，声音闷闷的：\"你这张嘴...怎么偏就，最能戳中我。\"",
+          "emotion": "happy",
+          "achievement": "雨中情话"
+        }
+      ]
+    },
+    {
+      "title": "共伞聊天",
+      "description": "你把伞向她那边倾斜，她靠在你肩上，轻声聊起了心事。伞下的小空间里，你们紧紧挨着，雨水打在伞面上，发出噼里啪啦的声音。她挽着你的手臂，轻声说：\"雨中聊天，感觉好亲密...\"她开始向你吐槽最近遇到的烦心事……",
+      "choices": [
+        {
+          "text": "快速思考，提出解决的建议",
+          "money": 0,
+          "like": 0,
+          "heart": -1,
+          "feedback": "你快速提出了解决方案，她点点头：\"嗯...你说得有道理...\"但她眼神里有点失落，她更希望你能认真听她说",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "认真倾听，不急着给建议",
+          "money": 0,
+          "like": 12,
+          "heart": 12,
+          "feedback": "你没插嘴，只是偶尔点点头，让她把话说完。雨打在伞面上的声音里，她越说越轻，最后笑了：\"奇怪，跟你说了这么多，心里像被晒过一样暖。\"她挽紧你的手臂，指尖在你袖口停了很久。",
+          "emotion": "happy",
+          "achievement": "完美的倾听者"
+        },
+        {
+          "text": "安慰她，说一切都会好起来的",
+          "money": 0,
+          "like": 1,
+          "heart": -1,
+          "feedback": "你安慰她，她笑了笑：\"嗯，我知道...\"但眼神里还是有点担忧",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "说\"这点小事有什么好烦的\"",
+          "money": 0,
+          "like": -7,
+          "heart": -6,
+          "feedback": "她愣了一下，然后失望地看着你：\"你根本不懂我...\"她松开了你的手，默默地走在前面",
+          "emotion": "angry",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "雨后彩虹",
+      "description": "雨渐渐停了，天空放晴，一道彩虹出现在天边。你们走到她家楼下，她停下脚步，转过身看着你，眼睛亮晶晶的：\"今天雨中漫步，真的好浪漫...谢谢你陪我。\"她轻轻握住你的手，似乎不想分开...你们一起抬头看着天边的彩虹，她转过头看着你，期待地说：\"你看，彩虹好美...\"",
+      "choices": [
+        {
+          "text": "指着彩虹说\"我们有缘分\"",
+          "money": 0,
+          "like": 0,
+          "heart": 1,
+          "feedback": "她笑了笑：\"嗯，也许吧...\"她觉得这个说法有点老套，但还是接受了",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "看彩虹，女友觉得正常",
+          "money": 0,
+          "like": 2,
+          "heart": 0,
+          "feedback": "你们一起看着彩虹，她觉得这很正常，没什么特别的",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "说彩虹没意思不看，女友觉得你敷衍",
+          "money": 0,
+          "like": -7,
+          "heart": -6,
+          "feedback": "她撇撇嘴：\"你真扫兴...这么美的彩虹你都不看...\"",
+          "emotion": "angry",
+          "achievement": null
+        },
+        {
+          "text": "\"你瞧，越大的雨，结束后的彩虹就越是美丽呢\"",
+          "money": 0,
+          "like": 6,
+          "heart": 6,
+          "feedback": "她感动地看着你，眼眶微红：\"你说得对...就像我们的感情，经历了风雨，才会更加美丽...\"她紧紧握住你的手，不想分开",
+          "emotion": "happy",
+          "achievement": "伞下倾心"
+        }
+      ]
+    },
+    {
+      "title": "雨后分别",
+      "description": "雨刚停，天色渐暗。你们走到她家楼下，路灯昏黄，空气中还残留着雨后的清新。她停下脚步，转过身看着你，眼睛亮晶晶的：\"今天雨中漫步，真的好浪漫...谢谢你陪我。\"她轻轻握住你的手，似乎不想分开...",
+      "choices": [
+        {
+          "text": "告别后悄悄注视着她的离去",
+          "money": 0,
+          "like": 6,
+          "heart": 6,
+          "feedback": "你温柔地告别，然后站在原地，悄悄注视着她走进楼道。她回头看了你一眼，害羞地笑了，心里暖暖的。你安静地站在楼下，看着她的身影消失在楼道里，心里充满了温暖和幸福。这种安静的幸福，是你们之间最珍贵的默契...",
+          "emotion": "happy",
+          "achievement": "很安静"
+        },
+        {
+          "text": "用一个拥抱当做告别",
+          "money": 0,
+          "like": 1,
+          "heart": 0,
+          "feedback": "你轻轻拥抱她，她靠在你怀里，轻声说：\"你也路上小心...\"她松开手，依依不舍地看着你离开",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "偷偷亲她一口",
+          "money": 0,
+          "like": -7,
+          "heart": -7,
+          "feedback": "你偷偷亲了她的脸颊，她脸红着推开你：\"这么多人看着呢！太突然了...\"她转身就走，没有回头",
+          "emotion": "angry",
+          "achievement": null
+        },
+        {
+          "text": "转身就走",
+          "money": 0,
+          "like": -7,
+          "heart": -6,
+          "feedback": "你转身就走，她愣了一下，然后失望地看着你的背影，默默地走进了楼道",
+          "emotion": "angry",
+          "achievement": null
+        }
+      ]
+    }
+  ],
+  "雪天": [
+    {
+      "title": "接女友出行",
+      "description": "今天是你们约会的日子，你早早起床准备。窗外飘着细雪，世界一片素白，你心里盘算着：今天要给女友一个完美的约会体验。现在要去接她了，你选择什么方式？",
+      "choices": [
+        {
+          "text": "打车过去，不想让她受冻",
+          "money": -4,
+          "like": 9,
+          "heart": 5,
+          "feedback": "雪天打车，她感动地看着你，说\"你真好\"",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "走路过去，撑伞接她",
+          "money": 0,
+          "like": 7,
+          "heart": 4,
+          "feedback": "你撑着伞去接她，伞向她那边倾斜，你的半个肩膀都冻僵了，她心疼地擦去你脸上的雪花，说\"傻瓜\"",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "骑共享单车，锻炼身体",
+          "money": 0,
+          "like": -8,
+          "heart": -5,
+          "feedback": "大雪天骑车路滑，你摔倒了，她心疼又生气：\"这么冷的天，你疯了吗？万一摔坏了怎么办！\"",
+          "emotion": "angry",
+          "achievement": null
+        },
+        {
+          "text": "坐地铁，虽然挤但准时",
+          "money": 0,
+          "like": 1,
+          "heart": 0,
+          "feedback": "地铁上人挤人，你勉强准时赶到",
+          "emotion": "neutral",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "奶茶店",
+      "description": "接到女友后，她挽着你的手臂，眼睛亮晶晶地指着不远处那家网红奶茶店：\"亲爱的，我想喝那家的芋泥脆脆奶芙！听说超好喝～\"",
+      "choices": [
+        {
+          "text": "排队买了两杯芋泥脆脆奶芙，还加了双倍小料",
+          "money": -4,
+          "like": 9,
+          "heart": 5,
+          "feedback": "她捧着奶茶，眼睛笑成了月牙",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "点一杯两人分享，甜蜜加倍",
+          "money": 0,
+          "like": 6,
+          "heart": 4,
+          "feedback": "你吸一口她吸一口，路人羡慕",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "说太甜了，喝水更健康",
+          "money": -1,
+          "like": 2,
+          "heart": 1,
+          "feedback": "她撇撇嘴，但还是喝了水",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "说去便利店买，她撇了撇嘴",
+          "money": 0,
+          "like": -8,
+          "heart": -5,
+          "feedback": "便宜奶茶，她勉强喝了几口",
+          "emotion": "angry",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "甜品下午茶",
+      "description": "喝完奶茶，女友提议找个地方坐坐，享受下午茶时光。她翻开手机，给你看那家新开的甜品店图片：\"这家店的略贵抹茶套餐超好看的！还有抹茶冰淇淋！\"",
+      "choices": [
+        {
+          "text": "去了新开的甜品店，点了略贵抹茶套餐",
+          "money": -4,
+          "like": 8,
+          "heart": 6,
+          "feedback": "雪天在甜品店里，她开心地拍照发朋友圈",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "找家平价甜品店，避雪也不错",
+          "money": -2,
+          "like": 4,
+          "heart": 2,
+          "feedback": "平价店，她勉强接受",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "点一杯暖暖的巧克力奶茶",
+          "money": 0,
+          "like": 7,
+          "heart": 5,
+          "feedback": "她捧着热奶茶，眼睛亮晶晶的：\"好暖和～\"",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "说回家吃水果，她失望地叹气",
+          "money": 0,
+          "like": -7,
+          "heart": -7,
+          "feedback": "免费但无聊，她兴致缺缺",
+          "emotion": "angry",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "闻到烟味怎么办",
+      "description": "地铁车厢里人挤人，空气闷热。突然，你闻到一股刺鼻的烟味。她皱了皱鼻子，似乎也闻到了，往你怀里缩了缩...",
+      "choices": [
+        {
+          "text": "大声斥责抽烟的人",
+          "money": 0,
+          "like": 0,
+          "heart": 0,
+          "feedback": "你大声斥责，抽烟的人不情愿地灭了烟，但周围的人都看过来，场面有点尴尬",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "温柔把她护在没有烟味的角落",
+          "money": 0,
+          "like": 12,
+          "heart": 12,
+          "feedback": "你侧过身，用肩膀替她挡住那股烟，把她的脸轻轻按进自己怀里。她怔了怔，双臂悄悄环上你的腰，闷闷的声音从胸口传来：\"有你在，连烟味都不可怕了。\"",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "提前下车，换下一班",
+          "money": 0,
+          "like": 6,
+          "heart": 5,
+          "feedback": "你拉着她提前下车，在站台上等下一班，她松了口气，说\"还是这里空气好\"",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "让她忍耐一下",
+          "money": 0,
+          "like": -6,
+          "heart": -7,
+          "feedback": "她皱着眉头，默默忍受，但眼神里满是失望",
+          "emotion": "angry",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "手机充电",
+      "description": "雪越下越大，你们走在厚厚的积雪上。突然，女友的手机发出低电量警告：\"哎呀，手机快没电了！冬天手机掉电太快了...\"她担心地看着手机，\"要是没电了，等会儿想拍照怎么办？\"你们正好路过一家咖啡店，里面有共享充电宝...",
+      "choices": [
+        {
+          "text": "帮她租个充电宝，充满电再走",
+          "money": -2,
+          "like": 8,
+          "heart": 6,
+          "feedback": "你帮她租了充电宝，等手机充满电才继续走。她开心地说：\"谢谢亲爱的！这样等会儿就可以尽情拍照了～\"",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "说不用充，够用的",
+          "money": 0,
+          "like": 0,
+          "heart": 1,
+          "feedback": "她看了看手机电量，虽然有点担心，但还是跟着你继续走了...",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "说拍照太麻烦，不充也行",
+          "money": 0,
+          "like": -6,
+          "heart": -7,
+          "feedback": "她撇撇嘴：\"你真扫兴...我明明想拍照的...\"手机电量越来越低...",
+          "emotion": "angry",
+          "achievement": null
+        },
+        {
+          "text": "说找个地方充电再继续",
+          "money": 0,
+          "like": 8,
+          "heart": 5,
+          "feedback": "你们走进咖啡店，她一边充电一边喝热咖啡，心情不错。等手机充满电后，你们继续雪中漫步...",
+          "emotion": "happy",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "路边花摊",
+      "description": "路边有个卖花的小摊，摊主热情地招呼：\"买束花吧！这束玫瑰是刚从花店拿的，新鲜得很！\"女友看着那束鲜艳的玫瑰，眼睛亮晶晶的...",
+      "choices": [
+        {
+          "text": "买下玫瑰，温柔地送给女友",
+          "money": -4,
+          "like": 12,
+          "heart": 13,
+          "feedback": "雪落无声，你买下那支玫瑰，指腹轻轻拂去花瓣上的薄雪，才递给她。她捧着花呵了呵气，抬眼时睫毛缀着细碎的雪：\"谢谢你...它比春天先到了。\"",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "买一枝玫瑰，意思一下",
+          "money": 0,
+          "like": 2,
+          "heart": -1,
+          "feedback": "你买了一枝玫瑰，她笑了笑：\"谢谢，很漂亮\"",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "说太贵了，不买",
+          "money": 0,
+          "like": 1,
+          "heart": 0,
+          "feedback": "你摇摇头，她看了看玫瑰，但还是跟着你走了",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "说花很快就谢了，不买",
+          "money": 0,
+          "like": -7,
+          "heart": -7,
+          "feedback": "她撇撇嘴：\"你真扫兴...\"",
+          "emotion": "angry",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "堆雪人",
+      "description": "雪天天气系统联动：雪越下越大，整个世界都披上了银装。雪花纷纷扬扬地飘落，像银色的精灵在空中飞舞。路灯下，雪花落在你的肩头，也落在她的发梢。女友兴奋地搓着手，眼睛亮晶晶地看着你：\"亲爱的，我们堆个超大的雪人吧！好久没玩雪了～\"她期待地看着你，像个小孩子一样兴奋。",
+      "choices": [
+        {
+          "text": "陪她堆一个超大的雪人",
+          "money": 0,
+          "like": 8,
+          "heart": 6,
+          "feedback": "你们一起堆了一个超大的雪人，她开心地笑了，还给它戴上了你的围巾。雪天堆雪人，是你们共同的回忆...",
+          "emotion": "happy",
+          "achievement": "雪地浪漫"
+        },
+        {
+          "text": "说太冷了，找个地方暖和一下",
+          "money": 0,
+          "like": 1,
+          "heart": 1,
+          "feedback": "她有点失望，但还是跟着你走进了温暖的咖啡店。雪天的寒冷，需要温暖的咖啡来驱散...",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "趁她不注意，悄悄往她脖子里面灌雪",
+          "money": 0,
+          "like": -8,
+          "heart": -6,
+          "feedback": "她尖叫着跳起来，脸都冻红了：\"你太过分了！我再也不理你了！\"雪天的玩笑，有时候会适得其反...",
+          "emotion": "angry",
+          "achievement": null
+        },
+        {
+          "text": "折一朵雪玫瑰送给她",
+          "money": 0,
+          "like": 12,
+          "heart": 14,
+          "feedback": "你蹲下来，把干净的雪团成花瓣，小心折出一朵雪玫瑰，捧到她面前。她惊喜地睁大眼，接过去对着光看：\"会化掉的呀...\"话是这么说，却把它轻轻拢在手心，像捧着什么易碎的宝贝：\"这是我收过，最舍不得化的礼物。\"",
+          "emotion": "happy",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "围巾的归属",
+      "description": "雪天天气系统联动：雪越下越大，寒风刺骨。雪花像银色的精灵在空中飞舞，落在你的肩头，也落在她的发梢。女友缩着脖子，瑟瑟发抖，冻得通红的脸上带着一丝委屈。你看着她冻得发红的脸颊，心里有点心疼。你脖子上围着一条温暖的围巾——那是她亲手为你织的可爱小猫围巾，花了她整整一个月的业余时间。",
+      "choices": [
+        {
+          "text": "把自己的围巾取下来给她围上",
+          "money": 0,
+          "like": 6,
+          "heart": 4,
+          "feedback": "你把围巾围在她脖子上，她感动地看着你：\"那你呢？你不冷吗？这是我自己织的...\"雪天的温暖，就在于这份互相的关怀...",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "把围巾一人一半，一起围",
+          "money": 0,
+          "like": 12,
+          "heart": 12,
+          "feedback": "你把围巾绕成两圈，一人一半，中间那截正好把你们系在一起。她缩着脖子笑：\"这样，谁也跑不掉啦。\"雪落满肩头，可隔着这一圈毛线，两个人暖得像是共用着同一颗心跳。",
+          "emotion": "happy",
+          "achievement": "他朝若是同淋雪 也许人间共白头II"
+        },
+        {
+          "text": "说你自己也冷，留着围巾",
+          "money": 0,
+          "like": 0,
+          "heart": 1,
+          "feedback": "她缩了缩脖子，没说话，但眼神里有点失望。雪天的寒冷，需要温暖来驱散...",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "说出门应该多穿点",
+          "money": 0,
+          "like": -8,
+          "heart": -7,
+          "feedback": "她皱了皱眉头：\"我忘了嘛...你怎么这么凶\"雪天的寒冷，需要温暖来驱散...",
+          "emotion": "angry",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "如何暖手",
+      "description": "雪天天气系统联动：雪地里走了一会儿，寒风刺骨。雪花像银色的精灵在空中飞舞，落在你的肩头，也落在她的发梢。女友的手冻得通红，她把手缩在袖子里，小声说：\"手好冷啊...\"她看着你，眼神里带着一丝期待。",
+      "choices": [
+        {
+          "text": "用双手捂住她的手，帮她暖手",
+          "money": 0,
+          "like": -6,
+          "heart": -6,
+          "feedback": "你用双手捂住她的手，她冻得直哆嗦：\"你的手也这么冷！反而更冷了！\"雪天的寒冷，需要真正的温暖来驱散...",
+          "emotion": "angry",
+          "achievement": "高冷男士"
+        },
+        {
+          "text": "让她把手伸进你的口袋",
+          "money": 0,
+          "like": 7,
+          "heart": 6,
+          "feedback": "她把手伸进你的口袋，紧紧挨着你的手，笑着说：\"这样好暖和～\"雪天的浪漫，就在于这份共同的温暖...",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "说多搓搓手就暖和了",
+          "money": 0,
+          "like": 2,
+          "heart": 1,
+          "feedback": "她搓了搓手，笑了笑：\"嗯...好像有点用\"雪天的寒冷，需要温暖来驱散...",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "说找个地方暖和一下",
+          "money": 0,
+          "like": 1,
+          "heart": -1,
+          "feedback": "你们走进了一家咖啡店，她喝了杯热咖啡，手终于暖和了。雪天的寒冷，需要温暖的咖啡来驱散...",
+          "emotion": "neutral",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "雪中漫步",
+      "description": "雪天天气系统联动：雪越下越大，整个世界都披上了银装。雪花纷纷扬扬地飘落，像银色的精灵在空中飞舞。你们走在雪地上，脚下发出咯吱咯吱的声音。她挽着你的手臂，轻声说：\"雪中漫步，好浪漫...\"她的声音在雪地里显得格外温柔...",
+      "choices": [
+        {
+          "text": "陪她继续走，享受雪中漫步",
+          "money": 0,
+          "like": 11,
+          "heart": 14,
+          "feedback": "雪越下越柔，她自然而然靠上你的肩，脚印一深一浅并排延伸。她轻声说：\"要是这条路，一直走到白头就好了。\"你没接话，只是把她的手揣进自己口袋，让两个人的温度，在雪地里偷偷连成一条线。",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "说太冷了，找个地方暖和一下",
+          "money": 0,
+          "like": 1,
+          "heart": 1,
+          "feedback": "你们走进咖啡店，她喝了杯热咖啡，但还是有点失望...",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "说雪中漫步很傻，赶紧走",
+          "money": 0,
+          "like": -7,
+          "heart": -5,
+          "feedback": "她撇撇嘴：\"你真扫兴...\"",
+          "emotion": "angry",
+          "achievement": null
+        },
+        {
+          "text": "说路滑，小心点",
+          "money": 0,
+          "like": 0,
+          "heart": 1,
+          "feedback": "你扶着她，小心地走着，她笑着说：\"谢谢你...\"",
+          "emotion": "neutral",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "雪中拍照",
+      "description": "雪天天气系统联动：雪越下越大，整个世界都披上了银装。雪花纷纷扬扬地飘落，像银色的精灵在空中飞舞。女友拿出手机，看着周围的雪景：\"亲爱的，帮我拍张照吧！雪天拍照一定很漂亮...\"她站在雪地里，摆好姿势，期待地看着你...",
+      "choices": [
+        {
+          "text": "认真帮她拍照",
+          "money": 0,
+          "like": 7,
+          "heart": 6,
+          "feedback": "你认真地帮她拍照，雪中的她美得像仙女。她开心地说：\"拍得真好！\"",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "手机没电了，拍不了",
+          "money": 0,
+          "like": 1,
+          "heart": 0,
+          "feedback": "她看了看手机，但还是跟着你走了，眼神里有点失望...",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "说拍照太麻烦",
+          "money": 0,
+          "like": -7,
+          "heart": -6,
+          "feedback": "她撇撇嘴：\"你真扫兴...\"",
+          "emotion": "angry",
+          "achievement": null
+        },
+        {
+          "text": "拍一张合影",
+          "money": 0,
+          "like": 12,
+          "heart": 14,
+          "feedback": "快门按下那刻，她忽然踮脚凑近你耳边：\"笑这么好看，可得洗出来夹进书里。\"照片里雪落满头，两个人笑得毫无防备——原来最美好的回忆，从来不是某处风景，是身边这个人。",
+          "emotion": "happy",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "雪中滑冰",
+      "description": "雪天天气系统联动：雪越下越大，整个世界都披上了银装。雪花纷纷扬扬地飘落，像银色的精灵在空中飞舞。你们来到冰场，女友兴奋地说：\"亲爱的，我们去滑冰吧！好久没滑冰了～\"她期待地看着你...（解锁条件：需要先完成堆雪人、围巾分享、暖手、烤红薯四个事件）",
+      "choices": [
+        {
+          "text": "陪她一起滑冰，滑出爱心图案",
+          "money": -4,
+          "like": 10,
+          "heart": 6,
+          "feedback": "你们一起滑冰，你滑出了一个大大的爱心图案，她开心地笑了：\"好浪漫！\"",
+          "emotion": "happy",
+          "achievement": "雪中滑冰"
+        },
+        {
+          "text": "在旁边看着她滑，为她加油",
+          "money": 0,
+          "like": 6,
+          "heart": 6,
+          "feedback": "她在冰场上滑得开心，滑出了一个漂亮的圆圈，你在一旁看着，心里暖暖的...",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "陪她一起滑冰，滑出星星图案",
+          "money": -4,
+          "like": 8,
+          "heart": 6,
+          "feedback": "你们一起滑冰，你滑出了一颗闪亮的星星，她惊喜地说：\"好厉害！\"",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "陪她一起滑冰，滑出她的名字",
+          "money": -4,
+          "like": 12,
+          "heart": 15,
+          "feedback": "你牵着她在冰面上转，忽然松开手，滑出她名字的那一笔一划。她扶着栏杆看呆了，鼻头红红地笑：\"笨蛋，冰会化的呀。\"可眼眶却湿了一角——有些话不必说出口，刀痕在冰上，名字在心里。",
+          "emotion": "happy",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "玻璃窗起雾",
+      "description": "你们走进一家温暖的咖啡店避雪，窗外的雪还在下，屋内的暖气让玻璃窗上蒙上了一层薄薄的水雾。女友看着窗户，手指轻轻划过玻璃，留下一道道痕迹。她转过头，眼睛亮晶晶地看着你，像是在期待什么...",
+      "choices": [
+        {
+          "text": "在雾上画爱心给她看",
+          "money": 0,
+          "like": 6,
+          "heart": 4,
+          "feedback": "你在玻璃上画了一个大大的爱心，她开心地笑了，也在旁边画了一个小爱心，两个爱心紧紧挨着...",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "随便划两下",
+          "money": 0,
+          "like": 1,
+          "heart": 1,
+          "feedback": "你在玻璃上随便划了几下，她笑了笑：\"你画的是什么呀？看不懂...\"她有点失望，但还是和你一起玩了一会儿",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "觉得无聊别乱画",
+          "money": 0,
+          "like": -6,
+          "heart": -7,
+          "feedback": "她撇撇嘴：\"你真扫兴...我就想和你一起玩嘛...\"她轻轻叹了口气，看着窗外的雪",
+          "emotion": "angry",
+          "achievement": null
+        },
+        {
+          "text": "画她的小名在玻璃上",
+          "money": 0,
+          "like": 7,
+          "heart": 5,
+          "feedback": "你在玻璃上认真地写下她的小名，她惊喜地捂住嘴：\"哇！你记得我的小名！\"她开心地笑了，也在旁边写下了你的名字，两个名字紧紧挨着...",
+          "emotion": "happy",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "雪中烤红薯",
+      "description": "雪天天气系统联动：雪越下越大，寒风刺骨。路边传来烤红薯的香气，摊主热情地招呼：\"热乎乎的烤红薯！刚出炉的！\"女友吸了吸鼻子，眼睛亮晶晶地看着你。你买了一个热乎乎的烤红薯，她开心地捧在手里，咬了一口：\"好甜～\"但吃到一半，她突然停下来，皱着眉头说：\"哎呀，吃不下了...太饱了...\"她把剩下的半个红薯递到你面前，期待地看着你...",
+      "choices": [
+        {
+          "text": "温柔地说\"没关系，我帮你吃\"",
+          "money": 0,
+          "like": 7,
+          "heart": 6,
+          "feedback": "你温柔地接过她吃剩的半个红薯，毫不犹豫地吃了起来。她感动地看着你：\"你真好...都不嫌弃...\"雪天的温暖，就在于这份包容和体贴...",
+          "emotion": "happy",
+          "achievement": "雪中温暖"
+        },
+        {
+          "text": "笑着说\"那我也要吃一半，你给我留一半\"",
+          "money": 0,
+          "like": 8,
+          "heart": 4,
+          "feedback": "你笑着从她手中拿过红薯，掰下一半递给她：\"那我们一人一半吧～\"她开心地笑了：\"这样好公平～\"雪天的浪漫，就在于这份幽默和智慧...",
+          "emotion": "happy",
+          "achievement": null
+        },
+        {
+          "text": "说\"你吃剩下的，我不要\"",
+          "money": 0,
+          "like": 1,
+          "heart": 1,
+          "feedback": "她撇撇嘴，把红薯扔进了垃圾桶：\"那算了...\"她有点失望，但还是跟着你走了。雪天的寒冷，需要温暖来驱散...",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "说\"你怎么这么浪费\"",
+          "money": 0,
+          "like": -6,
+          "heart": -7,
+          "feedback": "她生气地看着你：\"我只是吃不下了而已！你至于吗？\"她松开了你的手，独自向前走去。雪天的寒冷，需要温暖来驱散...",
+          "emotion": "angry",
+          "achievement": null
+        }
+      ]
+    },
+    {
+      "title": "雪中偷吻",
+      "description": "雪天天气系统联动：雪越下越大，整个世界都披上了银装。雪花纷纷扬扬地飘落，像银色的精灵在空中飞舞。落在你的肩头，也落在她的发梢。她停下来，转过头看着你，睫毛上沾着雪花，眼睛亮晶晶的...",
+      "choices": [
+        {
+          "text": "克制自己，不亲她",
+          "money": 0,
+          "like": 8,
+          "heart": 6,
+          "feedback": "你望着她睫毛上未化的雪，到底只是抬手替她拂去，没有更进一步。她怔了怔，忽然踮脚在你脸颊边轻轻一碰，又红着耳尖退开：\"你这么克制...我反而更想靠近你了。\"雪花落进她笑起来的眉眼，比吻更温柔。",
+          "emotion": "happy",
+          "achievement": "发于情，止于礼"
+        },
+        {
+          "text": "亲她的脸颊",
+          "money": 0,
+          "like": -6,
+          "heart": -7,
+          "feedback": "你突然亲了她的脸颊，她愣了一下，然后轻轻推开你...\"太突然了...我们还没有到那个阶段呢...\"她有些尴尬地笑了笑，眼神里带着一丝失望...",
+          "emotion": "angry",
+          "achievement": "操之过急"
+        },
+        {
+          "text": "亲她的额头",
+          "money": 0,
+          "like": 2,
+          "heart": 0,
+          "feedback": "你轻轻亲了她的额头，她愣了一下，然后笑了笑：\"你真温柔...\"她握住你的手，继续向前走去...",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "亲她的嘴唇",
+          "money": 0,
+          "like": -7,
+          "heart": -6,
+          "feedback": "你突然吻了她的嘴唇，她惊慌地推开你，脸色变得通红...\"你...你太冲动了！我们才刚开始约会...\"她生气地转过身，不再看你...",
+          "emotion": "angry",
+          "achievement": "操之过急"
+        }
+      ]
+    },
+    {
+      "title": "雪地心愿",
+      "description": "雪天天气系统联动：雪越下越大，地面上已经积了厚厚一层。雪花纷纷扬扬地飘落，像银色的精灵在空中飞舞。女友突然停下脚步，蹲下身，用手指在雪地上画着什么。她转过头，眼睛亮晶晶地看着你：\"亲爱的，我们在这里写下心愿吧，听说写在雪地上的心愿，会一直留到春天呢...\"",
+      "choices": [
+        {
+          "text": "不写，看她写",
+          "money": 0,
+          "like": -6,
+          "heart": -5,
+          "feedback": "她蹲在雪地上，认真地写下她的心愿，你站在一旁看着。她写完后，失望地看了你一眼，说：\"你为什么不一起写呢...\"她轻轻叹了口气",
+          "emotion": "angry",
+          "achievement": null
+        },
+        {
+          "text": "随便写点俏皮话",
+          "money": 0,
+          "like": 0,
+          "heart": -1,
+          "feedback": "你在雪地上随便写了几句俏皮话，她笑了笑：\"你写的是什么呀？看不懂...\"她有点失望，但还是写下了她的心愿",
+          "emotion": "neutral",
+          "achievement": null
+        },
+        {
+          "text": "认真写下心愿",
+          "money": 0,
+          "like": 12,
+          "heart": 14,
+          "feedback": "你蹲在雪地里，一笔一划写下\"和你，永远在一起\"。她看着那行字，眼睛亮得像落了星子，也蹲下来，在自己名字旁边添了颗歪歪的心。你们相视而笑，在雪地里紧紧相拥——冷的是风，暖的是此刻不肯松开的手。",
+          "emotion": "happy",
+          "achievement": "雪地心愿"
+        },
+        {
+          "text": "偷看她写的内容",
+          "money": 0,
+          "like": 12,
+          "heart": 13,
+          "feedback": "你装作看别处，却悄悄偏头瞥她写的是什么。她发现了，害羞地笑，手却没遮住那行字——\"我喜欢你\"。你心里那点悬了许久的石头，\"咚\"地落了地。原来青春里那场小心翼翼的暗恋，尽头是双向奔赴，谁也没先认输。",
+          "emotion": "happy",
+          "achievement": "我喜欢你"
+        }
+      ]
+    }
+  ]
+}

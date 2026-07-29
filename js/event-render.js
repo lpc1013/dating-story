@@ -1,0 +1,291 @@
+// js/event-render.js — 从 achievements.js 拆分（功能：事件渲染）
+
+function injectItemChoices(event, container) {
+            const inv = gameState.inventory || {};
+            // 用物品ID做精确匹配，不再依赖名称关键词搜索
+            const itemMap = {
+                'flower': { text: '送出红玫瑰 🌹', like: 8, emoji: '🌹', id: 'flower', displayName: '红玫瑰' },
+                'chocolate': { text: '分享手工巧克力 🍫', like: 5, emoji: '🍫', id: 'chocolate', displayName: '手工巧克力' },
+                'perfume': { text: '送上淡雅香水 ✨', like: 10, emoji: '✨', id: 'perfume', displayName: '淡雅香水' },
+                'necklace': { text: '为她戴上纯银项链 📿', like: 15, emoji: '📿', id: 'necklace', displayName: '纯银项链' },
+                'plush': { text: '递上大白熊公仔 🧸', like: 7, emoji: '🧸', id: 'plush', displayName: '大白熊公仔' },
+                'watch': { text: '送情侣手表 ⌚', like: 20, emoji: '⌚', id: 'watch', displayName: '情侣手表' },
+                'ticket': { text: '拿出游乐园门票 🎟️', like: 12, emoji: '🎟️', id: 'ticket', displayName: '游乐园门票' },
+                'camera': { text: '用拍立得记录此刻 📷', like: 18, emoji: '📷', id: 'camera', displayName: '拍立得' }
+            };
+            const w = selectData.weather;
+            // 检查背包中实际拥有的物品
+            const owned = Object.keys(inv).filter(k => inv[k] && inv[k].count > 0);
+            if (!owned.length) return;
+            // 查找背包物品对应的礼物名（反向匹配：背包键 → gift.name → gift.id）
+            const giftByName = {};
+            gifts.forEach(g => { giftByName[g.name] = g.id; });
+            
+            owned.forEach(itemName => {
+                const giftId = giftByName[itemName];
+                const def = giftId ? itemMap[giftId] : null;
+                if (!def) return; // 自定义物品不在此显示
+                // 检查是否已被其他选项使用过
+                if (container.querySelector('[data-item="'+giftId+'"]')) return;
+                
+                const btn = document.createElement('button');
+                btn.className = 'choice-btn';
+                btn.setAttribute('data-item', giftId);
+                btn.innerHTML = '<span style="font-size:16px;margin-right:6px;">'+def.emoji+'</span>'+def.text;
+                btn.style.borderTop = '1px dashed var(--gold)';
+                btn.style.background = 'linear-gradient(90deg, rgba(255,215,0,0.08), transparent)';
+                btn.onclick = function(){
+                    gameState.like = Math.min(100, gameState.like + def.like);
+                    updateStats();
+                    showAchievementToast(def.emoji+' 使用了：'+def.displayName);
+                    // 消耗物品
+                    if (inv[itemName]) { inv[itemName].count--; if (inv[itemName].count <= 0) delete inv[itemName]; }
+                    makeChoice({ text: def.text, like: def.like, money: 0, heart: def.like > 10 ? 5 : 2, emotion: 'happy', feedback: def.text, branch: 'good' }, event);
+                };
+                container.appendChild(btn);
+            });
+        }
+
+function renderParticles(el, weather) {
+            if (!el) return;
+            let p = el.querySelector('.scene-cg-particles');
+            if (!p) { p = document.createElement('div'); p.className = 'scene-cg-particles'; el.appendChild(p); }
+            p.innerHTML = '';
+            const count = weather === '雨天' ? 18 : weather === '雪天' ? 12 : weather === '多云' ? 4 : 2;
+            const cls = weather === '雨天' ? 'raindrop' : weather === '雪天' ? 'snowflake' : weather === '多云' ? 'sunbeam' : 'sunbeam';
+            for (let i = 0; i < count; i++) {
+                const d = document.createElement('div');
+                d.className = cls;
+                d.style.left = (Math.random() * 100) + '%';
+                d.style.animationDuration = ((weather === '雨天' ? .5 : weather === '雪天' ? 2 : 3) + Math.random() * 2) + 's';
+                d.style.animationDelay = (Math.random() * 3) + 's';
+                if (weather === '晴天' || weather === '多云') {
+                    d.style.width = d.style.height = (20 + Math.random() * 40) + 'px';
+                    d.style.top = (Math.random() * 60) + '%';
+                    d.style.left = (Math.random() * 80) + '%';
+                }
+                p.appendChild(d);
+            }
+        }
+
+function showEvent(index) {
+            // 清除上一事件的反馈
+            const fbEl = document.getElementById('feedback');
+            if (fbEl) { fbEl.classList.remove('show'); fbEl.innerHTML = ''; fbEl.style.display = ''; }
+            
+            // 更新通讯录状态
+            if (typeof updateContactStatuses === 'function') updateContactStatuses();
+            
+            const events = gameData[selectData.weather];
+            if (index >= events.length) {
+                showResult();
+                return;
+            }
+
+            // 检查是否切换到黑夜
+            if (gameState.nightTriggerEvent !== -1 && index >= gameState.nightTriggerEvent && !gameState.isNight) {
+                gameState.isNight = true;
+                // 日落过渡动画（1.5s 遮罩渐变 → 再切换夜晚主题）
+                var overlay = document.getElementById('sunset-overlay');
+                if (!overlay) {
+                    overlay = document.createElement('div');
+                    overlay.id = 'sunset-overlay';
+                    overlay.innerHTML = '<div class="sunset-quote">🌅 日落黄昏，夜的浪漫才刚刚开始…</div>';
+                    document.body.appendChild(overlay);
+                }
+                overlay.classList.add('active');
+                setTimeout(function() {
+                    overlay.classList.remove('active');
+                    SoundManager.playBgm('night');
+                    const theme = weatherThemes['黑夜'];
+                    document.documentElement.style.setProperty('--header-bg', theme.header);
+                    document.body.style.background = theme.body;
+                    document.getElementById('game-container').classList.add('night-mode');
+                    updateDaytimeIndicator();
+                    showAchievementToast("🌙 夜幕降临，浪漫升级！好感度与心动值变化翻倍。");
+                }, 2200);
+            }
+
+            const event = events[index];
+            const gameContent = document.getElementById('game-content');
+
+            // 立即清空旧选项，避免淡入 300ms 窗口内旧按钮仍可点击（如"看穿心思"重渲染当前事件时的竞态/闪烁）
+            const choicesEl = document.getElementById('choices');
+            if (choicesEl) choicesEl.innerHTML = '';
+            
+            // 天气系统提示逻辑
+            // 晴天: 75% 概率看见提示
+            // 多云: 只有 3 个随机事件能看见所有提示
+            // 雨天: 每个事件随机一个选项能看见提示
+            // 雪天: 看不见提示
+            
+            if (!gameState.weatherBuffs) {
+                gameState.weatherBuffs = {
+                    cloudyEvents: []
+                };
+                if (selectData.weather === '多云') {
+                    const indices = Array.from({length: events.length}, (_, i) => i);
+                    // 确保只有 3 个随机事件显示提示
+                    for (let i = 0; i < 3; i++) {
+                        if (indices.length > 0) {
+                            const randIdx = Math.floor(Math.random() * indices.length);
+                            gameState.weatherBuffs.cloudyEvents.push(indices.splice(randIdx, 1)[0]);
+                        }
+                    }
+                }
+            }
+
+            // 添加切换动画
+            gameContent.style.opacity = '0';
+            gameContent.style.transform = 'translateY(10px)';
+            
+            setTimeout(() => {
+                document.getElementById('event-title').textContent = event.title;
+                // 夜幕后给描述附加氛围批注
+                var descText = event.description;
+                if (gameState.isNight && selectData.dateType === '一整天') {
+                    descText += '\n\n🌙 夜色温柔，灯火阑珊。';
+                }
+                document.getElementById('event-description').textContent = descText;
+                document.getElementById('event-info').textContent = `事件 ${index + 1}/${events.length}`;
+                var pf = document.getElementById('progress-fill'); if (pf) pf.style.width = ((index + 1) / events.length * 100) + '%';
+
+                // —— 配图：事件场景图(#scene-cg) ——
+                if (window.ASSET_MAP) {
+                  let imgPath = null, imgSub = null;
+                  const vk = selectData.variantKey;
+                  if (vk && ASSET_MAP.eventImages[vk] && ASSET_MAP.eventImages[vk][event.title]) {
+                    imgPath = ASSET_MAP.eventImages[vk][event.title];
+                    imgSub = vk;
+                  } else if (ASSET_MAP.cnToSubs && ASSET_MAP.cnToSubs[selectData.weather]) {
+                    for (const sub of ASSET_MAP.cnToSubs[selectData.weather]) {
+                      if (ASSET_MAP.eventImages[sub] && ASSET_MAP.eventImages[sub][event.title]) {
+                        imgPath = ASSET_MAP.eventImages[sub][event.title];
+                        imgSub = sub;
+                        break;
+                      }
+                    }
+                  }
+                  const sceneCg = document.getElementById('scene-cg');
+                  if (imgPath) {
+                    sceneCg.innerHTML = '<img src="' + imgPath + '" alt="' + (event.title || '') + '" class="cg-enter">';
+                    sceneCg.style.display = 'flex';
+                    sceneCg.style.cursor = 'zoom-in';
+                    sceneCg.title = '点击看大图';
+                    sceneCg.classList.add('has-img');
+                    sceneCg.onclick = () => showCgLightbox(imgPath, event.title);
+                    const w = selectData.weather;
+                    const cls = w === '雨天' ? 'scene-cg-rain' : w === '雪天' ? 'scene-cg-snow' : w === '多云' ? 'scene-cg-cloud' : 'scene-cg-sun';
+                    sceneCg.className = 'scene-cg' + (sceneCg.classList.contains('has-img') ? ' has-img' : '') + ' ' + cls;
+                  } else {
+                    sceneCg.innerHTML = '';
+                    sceneCg.style.display = 'flex';
+                    sceneCg.classList.remove('has-img');
+                    sceneCg.onclick = null;
+                    // 天气粒子占位
+                    const w = selectData.weather;
+                    const cls = w === '雨天' ? 'scene-cg-rain' : w === '雪天' ? 'scene-cg-snow' : w === '多云' ? 'scene-cg-cloud' : 'scene-cg-sun';
+                    sceneCg.className = 'scene-cg ' + (imgPath ? 'has-img ' : '') + cls;
+                    if (!imgPath) renderParticles(sceneCg, w);
+                  }
+                }
+
+                const choicesContainer = document.getElementById('choices');
+                choicesContainer.innerHTML = '';
+                
+                // 确定当前事件哪些选项显示提示
+                let visibleHints = [];
+                if (selectData.weather === '晴天') {
+                    visibleHints = event.choices.map(() => Math.random() < 0.75);
+                } else if (selectData.weather === '多云') {
+                    const isCloudyVisible = gameState.weatherBuffs.cloudyEvents.includes(index);
+                    visibleHints = event.choices.map(() => isCloudyVisible);
+                } else if (selectData.weather === '雨天') {
+                    // 雨天：每个事件仅有一个随机选项显示提示
+                    const randChoiceIdx = Math.floor(Math.random() * event.choices.length);
+                    visibleHints = event.choices.map((_, i) => i === randChoiceIdx);
+                } else if (selectData.weather === '雪天') {
+                    // 雪天：所有提示均不显示
+                    visibleHints = event.choices.map(() => false);
+                } else {
+                    visibleHints = event.choices.map(() => true);
+                }
+
+                // 心花怒放：找出最优选项
+                let bestIdx = -1, bestScore = -Infinity;
+                if (gameState.isHintRevealed) {
+                    event.choices.forEach((c, i) => {
+                        const sc = (c.like || 0) + (c.heart || 0) * 1.5 - Math.abs(c.money || 0) * 0.1;
+                        if (sc > bestScore) { bestScore = sc; bestIdx = i; }
+                    });
+                }
+
+                let optNum = 0;
+                event.choices.forEach((choice, i) => {
+                    if (choice.reqLike != null && gameState.like < choice.reqLike) return;
+                    // requireItem：未持有所需物品时隐藏该选项（如没带充电宝则"拿出充电宝"选项不出现）
+                    if (choice.requireItem && !(gameState.inventory && gameState.inventory[choice.requireItem] > 0)) return;
+
+                    optNum++;
+                    const numSpan = '<span class="choice-num">' + optNum + '</span>';
+                    const btn = document.createElement('button');
+                    btn.className = 'choice-btn';
+                    if (gameState.isHintRevealed && i === bestIdx) btn.classList.add('hint-best');
+
+                    const parts = choice.text.split('\n');
+                    const mainText = parts[0];
+                    const hintText = parts.slice(1).join('\n');
+                    const showHint = visibleHints[i] || gameState.isHintRevealed;
+
+                    if (showHint && hintText) {
+                        const isRainy = selectData.weather === '雨天' && !gameState.isHintRevealed;
+                        const hintClass = isRainy ? 'hint-blur' : '';
+
+                        // 根据情绪结果着色提示
+                        let hintStyle = 'font-size: 11px; opacity: 1; line-height: 1.4; border-top: 1px solid rgba(255,255,255,0.3); padding-top: 6px; margin-top: 4px; background: rgba(0,0,0,0.1); border-radius: 4px; padding: 4px 8px;';
+                        if (choice.emotion === 'happy') hintStyle += ' color: #00ff88; font-weight: bold; text-shadow: 0 1px 3px rgba(0,0,0,0.6);';
+                        else if (choice.emotion === 'angry') hintStyle += ' color: #ff1744; font-weight: 900; text-shadow: 0 0 2px #fff, 0 0 5px rgba(255,23,68,0.3);';
+                        else hintStyle += ' color: #fff;';
+
+                        const hintHtml = `<div class="${hintClass}" style="${hintStyle}">${hintText.replace(/\n/g, '<br>')}</div>`;
+                        btn.innerHTML = numSpan + `<div style="font-weight: bold; margin-bottom: 4px;">${mainText}${hintHtml}</div>`;
+                    } else {
+                        btn.innerHTML = numSpan + mainText;
+                    }
+
+                    btn.onclick = () => makeChoice(choice, event);
+                    choicesContainer.appendChild(btn);
+                });
+
+                // 物品影响：如果背包里有相关道具，额外显示"使用"选项
+                injectItemChoices(event, choicesContainer);
+
+                // 雪天特殊互动
+                const warmthBtn = document.getElementById('warmth-btn');
+                if (selectData.weather === '雪天' && Math.random() < 0.4) {
+                    warmthBtn.style.display = 'inline-flex';
+                } else {
+                    warmthBtn.style.display = 'none';
+                }
+
+                document.getElementById('feedback').classList.remove('show');
+                
+                setTimeout(()=>{const d=document.getElementById('event-description');if(d&&d.scrollHeight>180){let b=document.querySelector('.desc-expand-btn');if(!b){b=document.createElement('span');b.className='desc-expand-btn';b.textContent='展开▼';b.onclick=function(e){e.stopPropagation();if(d.style.maxHeight=='none'){d.style.maxHeight='180px';b.textContent='展开▼'}else{d.style.maxHeight='none';b.textContent='收起▲'}};d.appendChild(b)}}},100);
+gameContent.style.opacity = '1';
+                gameContent.style.transform = 'translateY(0)';
+                gameContent.style.transition = 'all 0.5s ease';
+            }, 300);
+        }
+
+var origShowEvent = showEvent;
+
+showEvent = function(index) {
+            const desc = document.getElementById('event-description');
+            if (desc && gameState && gameState.currentEvent !== undefined && index !== gameState.currentEvent) {
+                desc.classList.remove('flipping');
+                void desc.offsetWidth; // reflow
+                desc.classList.add('flipping');
+                SFX.flip();
+            }
+            origShowEvent(index);
+        };

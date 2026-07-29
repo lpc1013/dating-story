@@ -1,0 +1,57 @@
+{
+  "_comment": "自定义剧情模板 - 恋爱约会模拟器",
+  "_usage": "拖入此JSON到开始屏即可加载。支持两种格式：",
+  "_formatA": "直接以天气为键，值为事件数组",
+  "_formatB": "使用weathers对象包装，值为{name,emoji,events}",
+  "_fields": {
+    "title": "事件标题（显示在事件信息栏）",
+    "description": "事件描述正文",
+    "choices": [
+      {
+        "text": "选项文本（第一行主文本\\n第二行提示）",
+        "money": "金钱变化（正=获得，负=花费，0=不变）",
+        "like": "好感变化",
+        "heart": "心动值变化",
+        "feedback": "选择后的反馈文字",
+        "emotion": "情绪: happy/normal/angry",
+        "photo": "可选：触发的照片ID",
+        "achievement": "可选：解锁的成就ID"
+      }
+    ]
+  },
+  "晴天": [
+    {
+      "title": "示例·公园初遇",
+      "description": "阳光洒在草坪上，她穿着碎花裙站在喷泉旁，回头对你笑了一下。你的心跳漏了一拍。",
+      "choices": [
+        {
+          "text": "走上前打招呼，夸她的裙子好看\n开心\n好感 +3 | 心动 +2",
+          "money": 0,
+          "like": 3,
+          "heart": 2,
+          "feedback": "她的脸微微红了，小声说了句谢谢。",
+          "emotion": "happy"
+        },
+        {
+          "text": "远远地看着，等她先发现你\n一般\n好感不变",
+          "money": 0,
+          "like": 0,
+          "heart": 0,
+          "feedback": "她低头看手机，似乎没注意到你。",
+          "emotion": "normal"
+        },
+        {
+          "text": "买一束路边的花，从背后递给她\n开心\n金钱 -5 | 好感 +5",
+          "money": -5,
+          "like": 5,
+          "heart": 3,
+          "feedback": "她惊喜地转过身，接过花后闻了好几下。",
+          "emotion": "happy"
+        }
+      ]
+    }
+  ],
+  "多云": [],
+  "雨天": [],
+  "雪天": []
+}

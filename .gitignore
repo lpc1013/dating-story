@@ -1,0 +1,20 @@
+# ===== 大音频资源（本地音乐 mp3，体积大，不纳入版本控制）=====
+video/**/*.mp3
+
+# ===== 备份与旧版本 =====
+*.bak
+backup/
+index.html.bak
+
+# ===== 依赖（Playwright 装在 managed workspace，不在项目内）=====
+node_modules/
+
+# ===== 本地工作记忆（不进版本控制）=====
+.workbuddy/
+
+# ===== 日志 =====
+*.log
+
+# ===== 系统文件 =====
+.DS_Store
+Thumbs.db

@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>恋爱约会模拟器</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-theme="parchment">
+    <!-- 加载屏 -->
+    <div id="loading-screen" style="position:fixed;inset:0;z-index:99999;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.5s;">
+        <div style="font-size:48px;margin-bottom:20px;">💘</div>
+        <div style="width:200px;height:4px;background:#f0e0e0;border-radius:2px;overflow:hidden;"><div id="load-bar" style="height:100%;width:0;background:linear-gradient(90deg,#ff8e8e,#ff6b6b);transition:width 0.3s;"></div></div>
+        <div style="margin-top:12px;font-size:12px;color:#999;">正在加载你的约会故事...</div>
+    </div>
+    <div class="ai-float-btn" onclick="toggleAiMenu(event)" title="AI 恋爱顾问">
+        <div class="ai-float-avatar">🤖</div>
+        <div class="ai-float-pulse"></div>
+        <div class="ai-quick-menu" id="ai-quick-menu">
+            <div class="ai-quick-opt" onclick="aiWeather();toggleAiMenu(event)">🌤️ 气象干预 (-20💓)</div>
+            <div class="ai-quick-opt" onclick="aiGiftGen();toggleAiMenu(event)">🎁 生成礼物 (-10💓)</div>
+            <div class="ai-quick-opt" onclick="aiRandomTip();toggleAiMenu(event)">💡 恋爱秘籍 (-15💓)</div>
+            <div class="ai-quick-opt" onclick="showMoodInfo();toggleAiMenu(event)">🔍 心情分析</div>
+        </div>
+    </div>
+    <!-- 天气特效 canvas 已移入 #game-container 内部，限制于手机壳范围 -->
+    <div id="camera-flash" class="camera-flash"></div>
+    <div id="camera-overlay" class="camera-overlay">📸</div>
+    <div id="achievement-toast-container" class="achievement-toast-container"></div>
+    
+    <!-- 天气面板已移入 #game-container（手机壳内，约束宽度，见下方 game-container 开头） -->
+
+    <!-- 开发者面板 -->
+    <div class="dev-panel" id="dev-panel">
+        <div class="dev-content">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+                <h3 style="color:#333;margin:0;">🔧 开发者模式</h3>
+                <button class="back-btn" style="margin:0;padding:5px 15px;" onclick="toggleDevMode()">关闭</button>
+            </div>
+            <div class="dev-body" id="dev-body"></div>
+        </div>
+    </div>
+
+    <!-- 情绪详情弹窗 -->
+    <div class="mood-info-modal" id="mood-info-modal">
+        <div class="mood-info-content">
+            <div class="mood-info-title">💖 她的心声</div>
+            <div class="mood-info-desc" id="mood-info-desc"></div>
+            <button class="modal-close-btn" onclick="hideMoodInfo()">我知道了</button>
+        </div>
+    </div>
+
+    <!-- 恋爱小贴士弹窗 -->
+    <!-- 设置面板 -->
+    <div class="settings-modal" id="settings-modal">
+        <div class="settings-content">
+            <div style="position: absolute; top: 12px; right: 18px; color: #ccc; cursor: pointer; font-size: 22px;" onclick="hideSettings()">×</div>
+            <div class="settings-title">⚙️ 设置</div>
+            <div class="settings-body" id="settings-body">
+                <div class="setting-row"><span>🔊 语音播报</span><label class="toggle-switch"><input type="checkbox" id="setting-tts" onchange="toggleSetting('tts')"><span class="toggle-slider"></span></label></div>
+                <div class="setting-row"><span>🎵 背景音乐</span><label class="toggle-switch"><input type="checkbox" id="setting-music" onchange="toggleSetting('music')"><span class="toggle-slider"></span></label></div>
+                <div class="setting-row"><span>🔔 音效</span><label class="toggle-switch"><input type="checkbox" id="setting-sfx" onchange="toggleSetting('sfx')"><span class="toggle-slider"></span></label></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="love-tips-modal" id="love-tips-modal">
+        <div class="tips-content">
+            <button class="tips-close-btn" onclick="hideLoveTips()" title="关闭">×</button>
+            <div class="tips-title">💖 恋爱进阶手册</div>
+
+            <div class="tips-chat-promo">
+                <div class="chat-promo-text">
+                    <div class="chat-promo-title">💬 在线聊天</div>
+                    <div class="chat-promo-sub">想更了解她吗？试着发个消息吧。</div>
+                </div>
+                <button class="chat-promo-btn" onclick="showChat()">立即开启</button>
+            </div>
+
+            <div class="tips-list" id="tips-list-container">
+                <!-- 动态生成 -->
+            </div>
+            <div class="tips-progress">
+                <span id="tips-progress-text">已解锁 0/22</span>
+                <div class="tips-progress-bar"><div id="tips-progress-fill" style="width:0%"></div></div>
+            </div>
+            <button class="modal-close-btn" onclick="hideLoveTips()">收下手册</button>
+        </div>
+    </div>
+
+
+    <!-- 聊天模态框 -->
+
+    <!-- 导入剧情弹窗 -->
+    <div class="import-modal" id="import-modal">
+        <div class="import-content">
+            <div style="position: absolute; top: 12px; right: 18px; color: #ccc; cursor: pointer; font-size: 22px;" onclick="hideImportModal()">×</div>
+            <div class="import-title">📤 上传剧情</div>
+            <div class="import-help">选择本地 <code>story.json</code> 文件导入自定义剧情。<br>支持结构：<code>{"weathers":{"sunny":{"name":"晴天","events":[...]}}}</code></div>
+            <div class="import-mode">
+                <label><input type="radio" name="import-mode" value="replace" checked> 替换当前</label>
+                <label><input type="radio" name="import-mode" value="merge"> 新增路线</label>
+            </div>
+            <input type="file" accept=".json" id="import-file-input" onchange="handleImportFile(event)" style="display:none">
+            <button class="import-pick-btn" onclick="document.getElementById('import-file-input').click()">📁 选择文件</button>
+            <div id="import-status" style="margin-top: 10px; font-size: 12px;"></div>
+        </div>
+    </div>
+
+    <div class="chat-modal" id="chat-modal">
+        <div class="phone-container">
+            <div class="phone-screen">
+                <!-- 联系人列表视图 -->
+                <div id="chat-contact-view" style="display: flex; flex-direction: column; height: 100%;">
+                    <div class="chat-header" style="justify-content: space-between;">
+                        <span>通讯录 📱</span>
+                        <span style="font-size: 24px; cursor: pointer; padding: 0 10px;" onclick="hideChat()">×</span>
+                    </div>
+                    <div class="contact-list" id="contact-list" style="flex: 1; overflow-y: auto; background: #fff;">
+                        <!-- 联系人动态生成 -->
+                    </div>
+                </div>
+                <!-- 聊天对话视图 -->
+                <div id="chat-message-view" style="display: none; flex-direction: column; height: 100%;">
+                    <div class="chat-header">
+                        <span style="font-size: 24px; cursor: pointer; color: #ff8e8e;" onclick="showContactList()">‹</span>
+                        <div class="chat-header-info">
+                            <div id="chat-contact-avatar" class="chat-header-avatar">👧</div>
+                            <div class="chat-header-text">
+                                <span id="chat-contact-name">我的女孩 💖</span>
+                                <span id="chat-contact-status" style="font-size: 11px; color: #4caf50;">● 在线</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chat-body" id="chat-messages">
+                        <!-- 消息动态生成 -->
+                    </div>
+                    <div id="typing-indicator" class="typing-indicator">
+                        对方正在输入<span class="typing-dots"><span></span><span></span><span></span></span>
+                    </div>
+                    <div class="chat-footer">
+                        <div class="chat-options" id="chat-options">
+                            <!-- 选项动态生成 -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 浏览器视图 -->
+                <div id="browser-view" class="browser-view">
+                    <div class="browser-header">
+                        <span style="cursor: pointer;" onclick="showContactList()">🏠</span>
+                        <div class="browser-address" id="browser-address">about:blank</div>
+                    </div>
+                    <div class="browser-content" id="browser-content">
+                        <!-- 历史记录或页面内容 -->
+                    </div>
+                </div>
+            </div>
+            <div class="phone-footer">
+                <div class="phone-app-icon" onclick="showContactList()">
+                    💬
+                    <span>聊天</span>
+                </div>
+                <div class="phone-app-icon" onclick="showBrowser()">
+                    🌐
+                    <span>浏览器</span>
+                </div>
+            </div>
+            <div class="phone-home-bar" onclick="hideChat()"></div>
+        </div>
+    </div>
+
+    <div class="start-screen" id="start-screen">
+        <div class="start-container">
+            <h1 class="start-title">💘 恋爱约会模拟</h1>
+            <div class="start-intro">
+                欢迎来到这场关于心动的冒险。<br>
+                在这里，每一个选择都可能开启一段全新故事<br>
+                是温馨的午后，还是浪漫的雪夜？<br>
+                请选择你的故事，开启约会之旅吧。
+            </div>
+            
+            <div class="selector-label">天气预报</div>
+            <div class="weather-selector">
+                <button class="weather-btn sunny active" data-weather="晴天" onclick="selectWeather('晴天')">☀️</button>
+                <button class="weather-btn cloudy" data-weather="多云" onclick="selectWeather('多云')">⛅</button>
+                <button class="weather-btn rainy" data-weather="雨天" onclick="selectWeather('雨天')">🌧️</button>
+                <button class="weather-btn snowy" data-weather="雪天" onclick="selectWeather('雪天')">❄️</button>
+            </div>
+            
+            <div class="selector-label">约会难度</div>
+            <div class="diff-selector">
+                <button class="diff-btn easy active" data-diff="简单" onclick="selectDifficulty('简单',30,false)">初级</button>
+                <button class="diff-btn medium" data-diff="中等" onclick="selectDifficulty('中等',20,false)">进阶</button>
+                <button class="diff-btn hard" data-diff="困难" onclick="selectDifficulty('困难',15,false)">专家</button>
+                <button class="diff-btn challenge" data-diff="挑战" onclick="selectDifficulty('挑战',15,true)">挑战</button>
+            </div>
+            
+            <div class="selector-label">约会类型</div>
+            <div class="date-type-selector">
+                <button class="date-type-btn active" data-type="白天" onclick="selectDateType('白天')">🌤️ 约会白天</button>
+                <button class="date-type-btn" data-type="一整天" onclick="selectDateType('一整天')">🌙 约会一整天</button>
+            </div>
+            
+            <div class="start-btn-group">
+                <button class="start-btn" onclick="startGame()">开始约会 💖</button>
+                <button class="start-btn random-btn" onclick="startRandomGame()">🎲 随机</button>
+            </div>
+            <button class="import-bar-btn" onclick="showImportModal()">📤 导入本地剧情 JSON</button>
+            <p class="start-hint">挑战模式：情绪波动大，数值更极端</p>
+        </div>
+    </div>
+
+    <div class="container" id="game-container" style="display: none;">
+        <canvas id="weather-canvas" style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:5;"></canvas>
+        <!-- 天气面板：移入手机壳内，position:absolute 相对 .container，宽度锁定 420px，不再撑出视口 -->
+        <div class="weather-panel" id="weather-panel">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3 style="color: #ff6b6b; margin: 0;">🌤️ 天气与事件</h3>
+                <button class="dev-entry-btn" onclick="toggleDevMode()" title="开发者模式">🔧</button>
+                <button class="back-btn" style="margin: 0; padding: 5px 15px;" onclick="hideWeatherPanel()">关闭</button>
+            </div>
+            <div id="weather-list"></div>
+        </div>
+        <div class="camera-countdown" id="camera-countdown">3</div>
+        <div class="camera-success" id="camera-success">📸 记录成功！</div>
+
+        <div class="header">
+            <div class="top-line">
+                <div class="top-left">
+                    <button class="hdr-ico" onclick="showAchievements()" title="成就">🏆</button>
+                    <button class="hdr-ico" onclick="showLoveTips()" title="贴士">💡</button>
+                    <button class="hdr-ico" onclick="showSettings()" title="设置">⚙️</button>
+                </div>
+                <div class="title" onclick="showWeatherInfo()">恋爱约会 <span id="weather-icon">☀️</span><span id="daytime-indicator"></span></div>
+                <div class="top-right">
+                    <button class="hdr-ico" onclick="showAlbum()" title="相册">📸</button>
+                    <button class="hdr-ico" onclick="showGiftShop()" title="商店">🎁</button>
+                </div>
+            </div>
+            <div class="stat-pills">
+                <div class="stat-pill-item" onclick="showRedeemModal()" title="点击兑换礼包">
+                    <span class="money-icon">🪙</span>
+                    <span id="money-value">30</span>
+                    <span class="stat-plabel">资产</span>
+                </div>
+                <div class="stat-pill-item" id="like-stat-item" onclick="handleLikeClick()">
+                    <span id="like-display"><span class="like-emoji">😐</span><span>一般</span></span>
+                    <span class="stat-plabel">开心</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+            </div>
+            <div id="game-content">
+                <div class="scene-cg" id="scene-cg" style="display:none;"></div>
+                <div class="event-meta">
+                    <span id="event-info">事件 1/16</span>
+                    <span class="meta-dot">·</span>
+                    <span id="event-title"></span>
+                </div>
+                <button id="warmth-btn" class="warmth-btn" onclick="provideWarmth()">🔥 提供温暖 (5元)</button>
+                <div class="her-row">
+                    <div class="her-avatar" id="her-avatar">👧</div>
+                    <div class="her-bub" id="event-description"></div>
+                </div>
+                <div class="feedback" id="feedback"></div>
+                <div class="choices" id="choices"></div>
+            </div>
+            
+            <!-- 正常结局 -->
+            <div class="result" id="result">
+                <div class="result-header">💝 约会圆满结束 💝</div>
+                <div id="rating-stars" style="margin-bottom: 20px;"></div>
+                
+                <div style="background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); border-radius: 25px; padding: 20px; box-shadow: 0 15px 35px rgba(255,107,107,0.15); border: 1px solid white;">
+                    <div class="final-stats">
+                        <div class="stat-card">
+                            <span class="stat-icon">🪙</span>
+                            <span class="stat-label">最终资产</span>
+                            <span id="final-money" class="stat-val">0</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-icon">❤️</span>
+                            <span class="stat-label">最终好感</span>
+                            <span id="final-like" class="stat-val">0</span>
+                        </div>
+                    </div>
+                    
+                    <div class="rating-box" style="background: linear-gradient(135deg, #fff5f5 0%, #fff 100%); border: 2px solid #ffccd5; border-radius: 20px; padding: 20px; margin-top: 10px; position: relative; overflow: hidden;">
+                        <div style="position: absolute; top: -10px; right: -10px; font-size: 40px; opacity: 0.1; transform: rotate(15deg);">💌</div>
+                        <div style="font-weight: bold; color: #ff6b6b; margin-bottom: 10px; font-size: 16px; letter-spacing: 2px; display: flex; align-items: center; gap: 8px;">
+                            <span style="font-size: 20px;">💌</span> 恋爱导师寄语
+                        </div>
+                        <div id="final-rating" class="final-rating-text" style="font-size: 14px; line-height: 1.8; color: #555; text-align: justify; border-top: 1px dashed #ffccd5; padding-top: 10px;">-</div>
+                    </div>
+                </div>
+
+                <div id="result-grade" style="text-align:center;font-size:18px;font-weight:700;color:#ff6b6b;margin:12px 0 4px;"></div>
+                <div id="result-her-quote" style="text-align:center;font-size:14px;color:#888;font-style:italic;margin-bottom:4px;"></div>
+                <div id="result-highlight" style="text-align:center;font-size:13px;color:#666;margin-bottom:12px;"></div>
+                <div id="result-timeline" style="margin-bottom:16px;"></div>
+
+                <div style="margin-top: 30px; display: flex; flex-direction: column; gap: 12px; align-items: center;">
+                    <button class="view-journal-btn" onclick="showJournal('result')">📖 查看约会日记</button>
+                    <button class="restart-btn" onclick="restartGame()">🔄 重新开始</button>
+                    <button class="share-result-btn" onclick="shareStory()">📤 分享这次约会</button>
+                </div>
+            </div>
+
+            <!-- 坏结局 -->
+            <div class="end-screen" id="bad-end">
+                <div class="end-card">
+                    <div class="bad-end-icon">💔</div>
+                    <div class="end-message" id="bad-end-title" style="color:#f44336; font-size:24px; font-weight:bold; margin-bottom: 10px;">约会宣告失败</div>
+                    <div id="bad-end-desc" style="margin:15px 0; line-height:1.6; color: #666; background: #fff5f5; padding: 15px; border-radius: 10px; border: 1px solid #ffa39e;"></div>
+                    <div id="bad-end-recap" style="margin:10px 0;font-size:12px;color:#999;line-height:1.6;"></div>
+                    <div style="display: flex; flex-direction: column; gap: 10px; width: 100%; align-items: center;">
+                        <button class="view-journal-btn" style="width: 100%;" onclick="showJournal('bad-end')">📖 查看约会日记</button>
+                        <button class="restart-btn" style="width: 100%;" onclick="restartGame()">🔄 重新开始</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 挑战失败结局 -->
+            <div class="end-screen" id="mood-end">
+                <div class="end-card" style="border-top: 5px solid #9c27b0;">
+                    <div class="bad-end-icon">🎭</div>
+                    <div class="end-message" style="color:#9c27b0; font-size:24px; font-weight:bold; margin-bottom: 10px;">🌪️ 喜怒无常</div>
+                    <div style="margin:15px 0; line-height:1.6; background: #f3e5f5; padding: 15px; border-radius: 10px; border: 1px solid #ce93d8; color: #666;">挑战模式下，你惹她生气了！约会提前结束...</div>
+                    <div style="display: flex; flex-direction: column; gap: 10px; width: 100%; align-items: center;">
+                        <button class="view-journal-btn" style="width: 100%;" onclick="showJournal('mood-end')">📖 查看约会日记</button>
+                        <button class="restart-btn" style="width: 100%;" onclick="restartGame()">🔄 重新开始</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 约会日记 -->
+            <div class="journal" id="journal">
+                <h4 style="margin-bottom:15px;">约会日记</h4>
+                <div id="journal-entries"></div>
+                <button class="back-btn" onclick="showResultFromJournal()">返回结果</button>
+            </div>
+
+            <!-- 成就面板 -->
+            <div class="achievements-panel" id="achievements-panel">
+                <div class="ach-panel-header">
+                    <h3 class="ach-panel-title"><span class="ach-title-icon">🏆</span>我的成就</h3>
+                    <button class="ach-panel-close" onclick="hideAchievements()">关闭</button>
+                </div>
+                <div class="achievement-tabs">
+                    <button class="tab-btn active" onclick="filterAchievements('all', this)">📋 全部</button>
+                    <button class="tab-btn" onclick="filterAchievements('unlocked', this)">🔓 已解锁</button>
+                    <button class="tab-btn" onclick="filterAchievements('locked', this)">🔒 未解锁</button>
+                </div>
+                <div class="ach-search-wrap">
+                    <input type="search" id="achievement-search" class="ach-search-input" placeholder="🔍 搜索成就..." oninput="searchAchievements(this.value)" />
+                </div>
+                <div class="achievement-list" id="achievement-list"></div>
+                <div class="achievement-foot" id="achievement-foot"></div>
+            </div>
+
+            <!-- 成就详情模态框 -->
+            <div class="achievement-modal" id="achievement-modal">
+                <div class="modal-content">
+                    <span class="modal-icon" id="modal-icon">🏆</span>
+                    <span class="modal-title" id="modal-title">成就名称</span>
+                    <span class="modal-desc" id="modal-desc">成就描述内容</span>
+                    <span class="modal-condition" id="modal-condition">解锁条件: ???</span>
+                    <button class="modal-close-btn" onclick="closeAchievementModal()">太棒了</button>
+                </div>
+            </div>
+
+            <!-- 礼物商店模态框 -->
+            <div class="gift-modal" id="gift-modal">
+                <div class="gift-content">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h3 style="color: #ff6b6b; margin: 0;" id="shop-title">🎁 礼物商店</h3>
+                        <button class="back-btn" style="margin: 0; padding: 5px 15px;" onclick="hideGiftShop()">关闭</button>
+                    </div>
+                    
+                    <div class="shop-tab-container">
+                        <div class="shop-tab active" id="tab-shop" onclick="switchShopTab('shop')">商店</div>
+                        <div class="shop-tab" id="tab-inventory" onclick="switchShopTab('inventory')">我的背包</div>
+                    </div>
+
+                    <div id="gift-list"></div>
+                    <div id="inventory-view" style="display: none;">
+                        <div style="font-size: 12px; color: #999; margin-bottom: 10px; text-align: center;">这里存放着你收集的所有礼物和心意。</div>
+                        <div class="inventory-grid" id="inventory-grid"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 自定义礼物模态框 -->
+            <div class="gift-modal" id="custom-gift-modal">
+                <div class="gift-content">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h3 style="color: #ff6b6b; margin: 0;">🎨 定制礼物</h3>
+                        <button class="back-btn" style="margin: 0; padding: 5px 15px;" onclick="hideCustomGift()">返回</button>
+                    </div>
+                    <div class="gift-preview" id="gift-preview">🎁</div>
+                    <div style="background: #fff5f5; padding: 10px; border-radius: 10px; font-size: 12px; color: #ff6b6b; margin-bottom: 15px; border: 1px dashed #ffc9c9;">
+                        💡 定制说明：消耗 <b>50元</b> 和 <b>30心动值</b>。亲手挑选形状、颜色和装饰，制作一份独一无二的惊喜。
+                    </div>
+                    <div class="custom-gift-options">
+                        <div class="option-group">
+                            <span class="option-label">选择形状</span>
+                            <div class="option-grid" id="shape-options">
+                                <div class="option-item active" data-type="shape" data-val="🎁">盒子</div>
+                                <div class="option-item" data-type="shape" data-val="💝">爱心</div>
+                                <div class="option-item" data-type="shape" data-val="⭐">星星</div>
+                                <div class="option-item" data-type="shape" data-val="🧸">玩偶</div>
+                            </div>
+                        </div>
+                        <div class="option-group">
+                            <span class="option-label">选择颜色</span>
+                            <div class="option-grid" id="color-options">
+                                <div class="option-item active" data-type="color" data-val="🔴">红色</div>
+                                <div class="option-item" data-type="color" data-val="💖">粉色</div>
+                                <div class="option-item" data-type="color" data-val="🔵">蓝色</div>
+                                <div class="option-item" data-type="color" data-val="🟣">紫色</div>
+                            </div>
+                        </div>
+                        <div class="option-group">
+                            <span class="option-label">添加装饰</span>
+                            <div class="option-grid" id="decor-options">
+                                <div class="option-item active" data-type="decor" data-val="🎀">丝带</div>
+                                <div class="option-item" data-type="decor" data-val="✨">闪光</div>
+                                <div class="option-item" data-type="decor" data-val="🌸">花朵</div>
+                                <div class="option-item" data-type="decor" data-val="💌">卡片</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px; font-size: 12px; color: #888;">消耗: 50元 & 30心动值</div>
+                    <button class="start-btn" style="width: 100%; margin-top: 15px;" onclick="createCustomGift()">开始制作</button>
+                </div>
+            </div>
+
+            <!-- 兑换码模态框 -->
+            <div class="gift-modal" id="redeem-modal">
+                <div class="gift-content">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h3 style="color: #ff6b6b; margin: 0;">🪙 兑换码</h3>
+                        <button class="back-btn" style="margin: 0; padding: 5px 15px;" onclick="hideRedeemModal()">关闭</button>
+                    </div>
+                    <div style="margin-bottom: 15px; font-size: 14px; color: #666;">请输入您的兑换码：</div>
+                    <div style="margin-bottom: 10px; font-size: 11px; color: #999; background: #f9f9f9; padding: 8px; border-radius: 8px;">
+                        <p>1. 与君初相识 (输入日期)</p>
+                        <p>2. LQL= (输入数值)</p>
+                        <p>3. 窈窕淑女，君子好逑 (输入数值)</p>
+                    </div>
+                    <input type="text" id="redeem-input" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 10px; margin-bottom: 15px; outline: none;" placeholder="在此输入...">
+                    <button class="start-btn" style="width: 100%;" onclick="redeemCode()">兑换</button>
+                    <div id="redeem-msg" style="margin-top: 10px; font-size: 12px; text-align: center;"></div>
+                </div>
+            </div>
+
+            <!-- 相册模态框（含音乐馆） -->
+            <div class="album-modal" id="album-modal">
+                <div class="album-content">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                        <h3 style="color: #ff6b6b; margin: 0;">📸 回忆收藏</h3>
+                        <button class="back-btn" style="margin: 0; padding: 5px 15px;" onclick="hideAlbum()">关闭</button>
+                    </div>
+
+                    <div class="album-tabs">
+                        <div class="album-tab active" id="tab-photos" onclick="switchAlbumTab('photos')">🖼️ 相册</div>
+                        <div class="album-tab" id="tab-music" onclick="switchAlbumTab('music')">🎵 音乐馆</div>
+                    </div>
+
+                    <div id="album-photos-view">
+                        <div id="album-grid" class="album-grid"></div>
+                    </div>
+
+                    <div id="album-music-view" style="display: none;">
+                        <div class="music-player" id="music-player">
+                            <div class="music-cover" id="music-cover">🎵</div>
+                            <div class="music-meta">
+                                <div class="music-title" id="music-title">—</div>
+                                <div class="music-artist" id="music-artist">—</div>
+                            </div>
+                            <div class="music-progress">
+                                <div class="music-progress-bar" id="music-progress-bar"></div>
+                            </div>
+                            <div class="music-time">
+                                <span id="music-current">0:00</span>
+                                <span id="music-duration">0:00</span>
+                            </div>
+                            <div class="music-controls">
+                                <button class="music-btn" id="music-prev" title="上一首">⏮</button>
+                                <button class="music-btn music-play" id="music-toggle" title="播放/暂停">▶</button>
+                                <button class="music-btn" id="music-next" title="下一首">⏭</button>
+                            </div>
+                            <div class="music-extra">
+                                <button class="music-mode" id="music-mode" title="切换播放模式">🔁 顺序</button>
+                                <button class="music-mode" id="music-bgm" title="纯音乐模式">🎵 纯音</button>
+                                <div class="music-vol">
+                                    <span>🔊</span>
+                                    <input type="range" id="music-volume" min="0" max="100" value="70" title="音量">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="music-search">
+                            <input type="text" id="music-search-input" placeholder="🔍 搜索歌名 / 歌手" autocomplete="off">
+                        </div>
+                        <div class="music-list" id="music-list"></div>
+                        <div class="music-stat" id="music-stat"></div>
+                        <div class="music-hint">歌曲自动扫描 <b>video/</b>（含子目录）生成。重跑 <b>node gen-playlist.mjs</b> 即可收录新歌。🔒 为加密/无法解码的格式，需先转成标准 mp3/flac 再丢进 video/。</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <div id="root"></div>
+    <!-- 主线剧情外部加载框架 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.77/Tone.js"></script>
+    <script src="js/story-loader.js"></script>
+    <script src="js/backpack.js"></script>
+    <script src="assets/asset-map.js"></script>
+    <script>
+        // 全局设置（settings.js + toggleMusic/Sfx 共用）
+        window.AppSettings = (function(){
+            try {
+                var s = JSON.parse(localStorage.getItem('dating-settings'));
+                if (s && typeof s === 'object') return s;
+            } catch(e) {}
+            return { tts: true, music: true, sfx: true };
+        })();
+        var gameData = {}; // 由 bootstrapStoryData 从 story.json 加载
+        // 音效与音乐管理器
+        var SoundManager = {
+            bgm: null,
+            ctx: null,
+            
+            init() {
+                if (this.ctx) return;
+                this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+            },
+
+            playSfx(type) {
+                this.init();
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+
+                const now = this.ctx.currentTime;
+                if (type === 'choice') {
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(440, now);
+                    osc.frequency.exponentialRampToValueAtTime(880, now + 0.1);
+                    gain.gain.setValueAtTime(0.1, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+                    osc.start(now);
+                    osc.stop(now + 0.1);
+                } else if (type === 'achievement') {
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(523.25, now);
+                    osc.frequency.setValueAtTime(659.25, now + 0.1);
+                    osc.frequency.setValueAtTime(783.99, now + 0.2);
+                    gain.gain.setValueAtTime(0.1, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+                    osc.start(now);
+                    osc.stop(now + 0.4);
+                } else if (type === 'buy') {
+                    osc.type = 'square';
+                    osc.frequency.setValueAtTime(200, now);
+                    osc.frequency.exponentialRampToValueAtTime(100, now + 0.2);
+                    gain.gain.setValueAtTime(0.1, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+                    osc.start(now);
+                    osc.stop(now + 0.2);
+                }
+            },
+
+            currentScene: null,
+            _prevScene: null,
+            sting: null,
+
+            playBgm(scene) {
+                if (this.bgm) {
+                    this.bgm.pause();
+                    this.bgm = null;
+                }
+                // 优先用 BGM_PATHS 配置，回退到 playlist 动态匹配
+                var track = null;
+                if (typeof BGM_PATHS !== 'undefined' && BGM_PATHS.defaults && BGM_PATHS.defaults[scene]) {
+                    track = BGM_PATHS.defaults[scene];
+                }
+                if (!track) return;
+                this.currentScene = scene;
+                this.bgm = new Audio(encodeURI(track));
+                this.bgm.loop = true;
+                this.bgm.volume = 0.3;
+                this.bgm.play().catch(function(e) { console.log('BGM play blocked by browser'); });
+            },
+
+            playSting(scene) {
+                var track = null;
+                if (typeof BGM_PATHS !== 'undefined' && BGM_PATHS.stings && BGM_PATHS.stings[scene]) {
+                    track = BGM_PATHS.stings[scene];
+                }
+                if (!track) return;
+                if (this.sting) { try { this.sting.pause(); } catch(e) {} }
+                this.sting = new Audio(encodeURI(track));
+                this.sting.loop = false;
+                this.sting.volume = 0.28;
+                this.sting.play().catch(function(){});
+            },
+
+            // 相册/日记等覆盖层关闭后，还原进入前的场景 BGM
+            restoreScene() {
+                if (this._prevScene) {
+                    const s = this._prevScene;
+                    this._prevScene = null;
+                    this.playBgm(s);
+                }
+            }
+        };
+
+        // 已正式接入 story.json（rich 结构，含 weatherGroups：晴天=sunny/sunny2、多云=cloudy/cloudy2、雨天=rainy/rainy2、雪天=snowy）
+        var MAINLINE_URL = 'data/story.json';
+        // 记录外部数据是否就绪；未就绪时以内置回退运行
+        var storyDataReady = false;
+
+        async function bootstrapStoryData() {
+            if (!window.StoryLoader) return; // 加载器缺失则直接用内置数据
+            const embedded = gameData; // 内置回退
+            const loaded = await StoryLoader.load(MAINLINE_URL, { fallback: embedded });
+            if (loaded && Object.keys(loaded).length) {
+                gameData = loaded;
+                storyDataReady = true;
+            }
+        }
+
+        function showFileProtocolWarning() {
+            if (document.getElementById('file-warn')) return;
+            const d = document.createElement('div');
+            d.id = 'file-warn';
+            d.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:9999;background:#ff5252;color:#fff;font-size:13px;padding:9px 14px;text-align:center;line-height:1.5;box-shadow:0 2px 8px rgba(0,0,0,.25)';
+            d.innerHTML = '⚠ 检测到以 <b>file://</b> 方式打开：外部剧情 <b>story.json</b> 与<b>大批成就无法加载</b>（只显示内置 41 个）。请改用 http 打开本目录，例如在项目根目录运行 <code>python -m http.server 8088</code> 后访问 http://localhost:8088 ，或用 WorkBuddy 预览的 http 地址。';
+            document.body.appendChild(d);
+        }
+
+        window.onload = async () => {
+            await bootstrapStoryData();
+            if (location.protocol === 'file:') showFileProtocolWarning();
+            updateDifficultyColors();
+        };
+        // 天气特效系统
+        var weatherCanvas = document.getElementById('weather-canvas');
+        var ctx = weatherCanvas.getContext('2d');
+        var particles = [];
+        var animationId = null;
+
+        function resizeCanvas() {
+            // 优先按手机壳（#game-container）尺寸，未开局/隐藏时回退视口
+            var gc = document.getElementById('game-container');
+            if (gc && gc.clientWidth && gc.clientHeight) {
+                weatherCanvas.width = gc.clientWidth;
+                weatherCanvas.height = gc.clientHeight;
+            } else {
+                weatherCanvas.width = window.innerWidth;
+                weatherCanvas.height = window.innerHeight;
+            }
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor(type) {
+                this.type = type;
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * weatherCanvas.width;
+                this.y = Math.random() * weatherCanvas.height - weatherCanvas.height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = Math.random() * 2 + 1;
+                this.size = Math.random() * 2 + 1;
+                this.opacity = Math.random() * 0.5 + 0.2;
+
+                if (this.type === '雨天') {
+                    this.vy = Math.random() * 12 + 15; // 增加速度
+                    this.vx = -3; // 增加倾斜
+                    this.size = Math.random() * 1.5 + 1;
+                } else if (this.type === '雪天') {
+                    this.vy = Math.random() * 1 + 1;
+                    this.vx = (Math.random() - 0.5) * 1;
+                    this.size = Math.random() * 3 + 2;
+                } else if (this.type === '多云') {
+                    this.y = Math.random() * weatherCanvas.height;
+                    this.vx = Math.random() * 0.5 + 0.2;
+                    this.vy = 0;
+                    this.size = Math.random() * 100 + 50;
+                    this.opacity = Math.random() * 0.1 + 0.05;
+                }
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.y > weatherCanvas.height || this.x > weatherCanvas.width || this.x < 0) {
+                    this.reset();
+                    this.y = -20;
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                if (this.type === '雨天') {
+                    ctx.strokeStyle = `rgba(174, 194, 224, ${this.opacity * 1.5})`; // 增加可见度
+                    ctx.lineWidth = this.size;
+                    ctx.lineCap = 'round';
+                    ctx.moveTo(this.x, this.y);
+                    ctx.lineTo(this.x + this.vx * 2, this.y + this.vy * 0.5); // 拉长雨滴
+                    ctx.stroke();
+                } else if (this.type === '雪天') {
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                } else if (this.type === '多云') {
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+        }
+
+        function initWeatherEffects(type) {
+            cancelAnimationFrame(animationId);
+            resizeCanvas();
+            particles = [];
+            let count = 0;
+            if (type === '雨天') count = 250; // 增加雨滴数量
+            else if (type === '雪天') count = 100;
+            else if (type === '多云') count = 20;
+            else return;
+
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle(type));
+            }
+            animate();
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, weatherCanvas.width, weatherCanvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            animationId = requestAnimationFrame(animate);
+        }
+
+        function gfPhoneCheck(){var gf=document.getElementById("her-avatar");if(gf){gf.style.transform="scale(1.1)";gf.style.transition="transform .2s";setTimeout(function(){gf.style.transform="scale(1)"},400);}showAchievementToast("📱 她看了一眼手机，似乎在等谁的消息...");}
+        function updateSettingsUI(){
+          var b=document.getElementById("settings-body");if(!b)return;
+          var html="";
+             }
+        function toggleMusic(on){ if(!window.AppSettings)window.AppSettings={};AppSettings.music=on;if(on&&typeof SoundManager!="undefined"&&!SoundManager.bgm)SoundManager.playBgm("start");else if(!on&&typeof SoundManager!="undefined"&&SoundManager.bgm){SoundManager.bgm.pause();SoundManager.bgm=null;} }
+        function toggleSfx(on){ if(!window.AppSettings)window.AppSettings={};AppSettings.sfx=on; }
+        function setThemeDirect(v){ document.body.setAttribute("data-theme",v); try{localStorage.setItem("theme",v)}catch(e){} updateSettingsUI(); }
+function hideLoveTips() {
+            document.getElementById('love-tips-modal').classList.remove('show');
+        }
+        function showImportModal(){ var m=document.getElementById('import-modal'); m.style.display='flex'; m.classList.add('show'); }
+        function hideImportModal(){ var m=document.getElementById('import-modal'); m.style.display='none'; m.classList.remove('show'); var st=document.getElementById('import-status'); if(st)st.textContent=''; }
+        function handleImportFile(e){
+          var file=e.target.files[0]; if(!file)return;
+          var st=document.getElementById('import-status');
+          st.textContent='⏳ 读取中...'; st.style.color='#666';
+          var reader=new FileReader();
+          reader.onload=function(ev){
+            try{
+              var data=JSON.parse(ev.target.result);
+              if(!data.weathers) throw new Error('缺少 weathers 字段');
+              var mode=document.querySelector('input[name="import-mode"]:checked').value;
+              var existing={};
+              try{ existing=JSON.parse(localStorage.getItem('custom-routes')||'{}'); }catch(e){}
+              var merged=mode==='replace'?data.weathers:Object.assign(existing, data.weathers);
+              localStorage.setItem('custom-routes',JSON.stringify(merged));
+              var cnt=Object.keys(data.weathers).length;
+              st.textContent='✅ 成功导入 '+cnt+' 条路线('+(mode==='replace'?'覆盖':'新增')+')！';
+              st.style.color='#4ade80';
+              if(typeof showWeatherInfo==='function') showWeatherInfo();
+            }catch(err){
+              st.textContent='❌ '+err.message; st.style.color='#ff6b6b';
+            }
+          };
+          reader.readAsText(file);
+        }
+
+        function loadSavedTheme(){ var t=localStorage.getItem("theme");if(t)document.body.setAttribute("data-theme",t); }
+
+        // 浮动数值标签（金钱/好感/心情变化反馈）
+        function spawnFloatLabel(containerId, text, color){
+          var c = document.getElementById(containerId) || document.body;
+          var el = document.createElement('div');
+          el.textContent = text;
+          el.style.position = 'fixed';
+          el.style.left = '50%';
+          el.style.top = '32%';
+          el.style.transform = 'translateX(-50%)';
+          el.style.color = color || '#fff';
+          el.style.fontWeight = '800';
+          el.style.fontSize = '24px';
+          el.style.textShadow = '0 2px 8px rgba(0,0,0,.4)';
+          el.style.pointerEvents = 'none';
+          el.style.zIndex = '9999';
+          c.appendChild(el);
+          if(el.animate){
+            var a = el.animate([
+              {transform:'translateX(-50%) translateY(0)', opacity:1},
+              {transform:'translateX(-50%) translateY(-64px)', opacity:0}
+            ], {duration:1200, easing:'ease-out'});
+            a.onfinish = function(){ if(el.parentNode) el.parentNode.removeChild(el); };
+          } else {
+            setTimeout(function(){ if(el.parentNode) el.parentNode.removeChild(el); }, 1200);
+          }
+        }
+
+        // 拍照闪光效果
+        function cameraFlash(){
+          var f = document.createElement('div');
+          f.style.position = 'fixed';
+          f.style.inset = '0';
+          f.style.background = '#fff';
+          f.style.zIndex = '9998';
+          f.style.pointerEvents = 'none';
+          f.style.opacity = '0.9';
+          document.body.appendChild(f);
+          if(f.animate){
+            var a = f.animate([{opacity:0.9},{opacity:0}], {duration:260, easing:'ease-out'});
+            a.onfinish = function(){ if(f.parentNode) f.parentNode.removeChild(f); };
+          } else {
+            setTimeout(function(){ if(f.parentNode) f.parentNode.removeChild(f); }, 260);
+          }
+        }
+
+        // 启动背景音乐
+        window.addEventListener('click', () => {
+            if (!SoundManager.bgm) SoundManager.playBgm('start');
+        }, { once: true });
+    </script>
+    <!-- 主题切换器 -->
+    <div id="theme-switcher" class="theme-switcher">
+        <span class="theme-switcher-title">主题</span>
+        <button class="theme-dot t-parchment active" data-set-theme="parchment" title="羊皮古卷">羊</button>
+        <button class="theme-dot t-cinnabar" data-set-theme="cinnabar" title="朱砂古卷">砂</button>
+        <button class="theme-dot t-rosegold" data-set-theme="rosegold" title="柔粉暖金">粉</button>
+        <button class="theme-dot t-dusk" data-set-theme="dusk" title="暮色梦境">暮</button>
+    </div>
+    <script>
+    (function () {
+        var KEY = 'dating-theme';
+        var sw = document.getElementById('theme-switcher');
+        var dots = sw ? sw.querySelectorAll('.theme-dot') : [];
+        function applyTheme(t) {
+            document.body.setAttribute('data-theme', t);
+            for (var i = 0; i < dots.length; i++) {
+                dots[i].classList.toggle('active', dots[i].getAttribute('data-set-theme') === t);
+            }
+            try { localStorage.setItem(KEY, t); } catch (e) {}
+        }
+        for (var i = 0; i < dots.length; i++) {
+            dots[i].addEventListener('click', function () {
+                applyTheme(this.getAttribute('data-set-theme'));
+            });
+        }
+        var saved = null;
+        try { saved = localStorage.getItem(KEY); } catch (e) {}
+        applyTheme(saved || 'parchment');
+    })();
+    </script>
+
+    <script src="js/bgm-paths.js"></script>
+    <script src="js/dev-panel.js"></script>
+    <script src="js/achievements.js"></script>
+    <!-- 从 achievements.js 拆分出的功能模块（按依赖顺序加载，bootstrap 须最后） -->
+    <script src="js/sfx.js"></script>
+    <script src="js/util.js"></script>
+    <script src="js/start-screen.js"></script>
+    <script src="js/chat.js"></script>
+    <script src="js/stats.js"></script>
+    <script src="js/redeem.js"></script>
+    <script src="js/game-init.js"></script>
+    <script src="js/inventory.js"></script>
+    <script src="js/mood.js"></script>
+    <script src="js/media.js"></script>
+    <script src="js/event-render.js"></script>
+    <script src="js/choice.js"></script>
+    <script src="js/gift.js"></script>
+    <script src="js/result.js"></script>
+    <script src="js/endings.js"></script>
+    <script src="js/journal.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/weather-panel.js"></script>
+    <script src="js/music-gallery.js"></script>
+    <script src="js/settings.js"></script>
+    <script src="js/game-rules.js"></script>
+    <script src="js/shop.js"></script>
+    <script src="js/tips.js"></script>
+    <script src="js/album.js"></script>
+    <script>
+    // 指针涟漪：中心从点击位置扩散
+    (function(){
+        var s='.choice-btn,.start-btn,.restart-btn,.modal-close-btn';
+        document.addEventListener('pointerdown',function(e){
+            var b=e.target.closest(s);if(!b)return;
+            var r=document.createElement('span');r.className='ripple';
+            var rect=b.getBoundingClientRect();
+            r.style.left=(e.clientX-rect.left)+'px';r.style.top=(e.clientY-rect.top)+'px';
+            b.appendChild(r);setTimeout(function(){r.remove()},600);
+        });
+        // Tone.js 轻触音效
+        var hoverSynth=null;
+        function hoverBeep(){
+            if(!hoverSynth)hoverSynth=new Tone.Synth({oscillator:{type:'sine'},envelope:{attack:0.001,decay:0.04,sustain:0,release:0.01}}).toDestination();
+            hoverSynth.triggerAttackRelease('E6','0.03');
+        }
+        var hb='.choice-btn,.start-btn,.hdr-ico,.tab-btn,.shop-tab,.restart-btn,.back-btn,.buy-gift-btn,.import-bar-btn';
+        function bindBeep(){document.querySelectorAll(hb).forEach(function(e){e.removeEventListener('mouseenter',hoverBeep);e.addEventListener('mouseenter',hoverBeep)})}
+        bindBeep();new MutationObserver(bindBeep).observe(document.body,{childList:true,subtree:true});
+    })();
+    // AI 快捷菜单
+    function toggleAiMenu(e){e.stopPropagation();document.getElementById('ai-quick-menu').classList.toggle('show')}
+    document.addEventListener('click',function(e){if(!e.target.closest('.ai-float-btn'))document.getElementById('ai-quick-menu')?.classList.remove('show')});
+    function aiWeather(){
+        if(gameState.aiWeatherTriggered){showAchievementToast('⚠️ 气象干预每局仅限一次');return}
+        if(gameState.heart<20){showAchievementToast('💔 心动值不足20，无法气象干预');return}
+        gameState.heart-=20;gameState.aiWeatherTriggered=true;
+        var ws=['晴天','多云','雨天','雪天'].filter(function(w){return w!==selectData.weather});
+        var nw=ws[Math.floor(Math.random()*ws.length)];
+        var old=selectData.weather;selectData.weather=nw;updateStats();
+        initWeatherEffects(nw);
+        showAchievementToast('🌤️ AI气象干预：'+old+' → '+nw+' (-20💓)');
+    }
+    function aiGiftGen(){
+        if(gameState.aiGiftTriggered){showAchievementToast('⚠️ 礼物生成每局仅限一次');return}
+        if(gameState.heart<10){showAchievementToast('💔 心动值不足10，无法生成礼物');return}
+        gameState.heart-=10;gameState.aiGiftTriggered=true;
+        var gifts=[{name:'AI定制巧克力',icon:'🍫',desc:'AI精心调配的可可比例'},{name:'永生玫瑰',icon:'🌹',desc:'纳米保鲜技术，永不凋谢'}];
+        var g=gifts[Math.floor(Math.random()*gifts.length)];
+        if(typeof addToInventory==='function')addToInventory(g.name,g.icon,g.desc);
+        else{if(!gameState.inventory)gameState.inventory={};gameState.inventory[g.name]=1;updateStats();}
+        showAchievementToast('🎁 AI生成了：'+g.name+' (-10💓)');
+    }
+    function aiRandomTip(){
+        if(gameState.heart<15){showAchievementToast('💔 心动值不足15，无法获取秘籍');return}
+        gameState.heart-=15;updateStats();
+        if(typeof unlockLoveTip==='function'){
+            var tips=['rain_romance','warmth_detail','memory_maker','surprise_planner','listen_master','gift_insight','snow_magic','patience_art','humor_cure'];
+            var t=tips[Math.floor(Math.random()*tips.length)];
+            if(gameState.unlockedTips.includes(t)){var ut=tips.filter(function(x){return !gameState.unlockedTips.includes(x)});if(ut.length)t=ut[0]}
+            unlockLoveTip(t);
+        }
+        showAchievementToast('💡 AI传授了一条恋爱秘籍 (-15💓)');
+    }
+    // 相册分类筛选
+    if(typeof filterAlbum==='undefined')
+    function filterAlbum(cat){
+        document.querySelectorAll('.album-filter-chip').forEach(function(c){c.classList.remove('active')});
+        document.querySelector('.album-filter-chip[onclick*="'+cat+'"]')?.classList.add('active');
+        document.querySelectorAll('.photo-card').forEach(function(card){card.style.display=(cat==='all'||card.dataset.category===cat)?'':'none'});
+    }
+    </script>
+</body>
+</html>
