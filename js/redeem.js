@@ -32,7 +32,7 @@ function redeemCode() {
                 msg.style.color = '#4caf50';
                 msg.textContent = `兑换成功！获得 ${amount} 金钱`;
                 SoundManager.playSfx('buy');
-                showAchievementToast(`获得 ${amount} 金钱`);
+                showToast(`获得 ${amount} 金钱`, 'reward');
             } else {
                 msg.style.color = '#f44336';
                 msg.textContent = '无效的兑换码';

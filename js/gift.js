@@ -24,7 +24,7 @@ function triggerRandomDrop() {
                     addToInventory(gift.name, gift.icon, gift.desc, gift.quote);
                     updateStats();
                     
-                    showAchievementToast(`意外惊喜！获得了${gift.icon}${gift.name}`);
+                    showToast(`意外惊喜！获得了${gift.icon}${gift.name}`, 'reward');
                     
                     gameState.journalEntries.push({
                         event: '🎁 意外惊喜',
@@ -81,7 +81,7 @@ function createCustomGift() {
             hideGiftShop();
             
             SoundManager.playSfx('buy');
-            showAchievementToast(`制作成功！她非常喜欢这个${giftName}`);
+            showToast(`制作成功！她非常喜欢这个${giftName}`, 'reward');
             unlockAchievement('custom_creator', '灵魂画师');
             
             // 特殊反馈

@@ -44,6 +44,6 @@ function startRandomGame() {
             selectWeather(randW);
             selectDifficulty(randD.d, randD.m, randD.c);
             selectDateType(randT);
-            showAchievementToast(`🎲 惊喜模式：开局揭晓！`);
+            showToast(`🎲 惊喜模式：开局揭晓！`, 'system');
             startGame();
         }

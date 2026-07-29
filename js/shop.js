@@ -76,7 +76,7 @@ var gifts = [
         function buyGiftFromShop(gift) {
             if (gift.isCustom) {
                 if (gameState.money < gift.price || gameState.heart < 30) {
-                    showAchievementToast("余额或心动值不足 (需50元 & 30心动值)");
+                    showToast("余额或心动值不足 (需50元 & 30心动值)", 'warn');
                     return;
                 }
                 showCustomGiftModal();
@@ -84,7 +84,7 @@ var gifts = [
             }
             
             if (gameState.money < gift.price) {
-                showAchievementToast("余额不足");
+                showToast("余额不足", 'warn');
                 return;
             }
             gameState.money -= gift.price;
@@ -121,11 +121,11 @@ var gifts = [
             if (gift.id === 'milktea') {
                 fb.innerHTML = `“谢谢你的奶茶，味道很不错。” <span class="emotion-icon">🧋</span>`;
                 fb.className = `feedback happy show`;
-                showAchievementToast(`送出了${gift.name}`);
+                showToast(`送出了${gift.name}`, 'reward');
             } else {
                 fb.innerHTML = `“谢谢你的${gift.name}，我很喜欢！” <span class="emotion-icon">😊</span>`;
                 fb.className = `feedback happy show`;
-                showAchievementToast(`送出了${gift.name}`);
+                showToast(`送出了${gift.name}`, 'reward');
             }
             
             // 购买特效 - 简化

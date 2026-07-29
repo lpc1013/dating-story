@@ -20,30 +20,36 @@ function updateInventoryUI() {
             }
             
             items.forEach(name => {
-                const item = gameState.inventory[name];
+                const item = gameState.inventory[name] || {};
+                const def = (window.ITEMS && window.ITEMS[name]) || {};
+                const displayName = def.name || name;
+
                 const div = document.createElement('div');
                 div.className = 'inventory-item';
-                div.onclick = () => showItemDetail(name, item);
+                div.onclick = () => showItemDetail(displayName, item);
                 div.innerHTML = `
-                    <span class="icon">${item.icon}</span>
-                    <span style="font-size: 10px; margin-top: 5px; text-align: center; color: #666;">${name}</span>
-                    <span class="count">${item.count}</span>
+                    <span class="icon">${item.icon || def.icon || '📦'}</span>
+                    <span style="font-size: 10px; margin-top: 5px; text-align: center; color: #666;">${displayName}</span>
+                    <span class="count">${item.count || 0}</span>
                 `;
                 grid.appendChild(div);
             });
         }
 
 function showItemDetail(name, item) {
+            const icon = item.icon || '📦';
+            const description = item.description || '一件充满回忆的小礼物。';
+            const quote = item.quote || '愿这份美好永远留存。';
             const modal = document.createElement('div');
             modal.className = 'achievement-modal show';
             modal.style.zIndex = '1000';
             modal.innerHTML = `
                 <div class="modal-content">
-                    <span class="modal-icon">${item.icon}</span>
+                    <span class="modal-icon">${icon}</span>
                     <span class="modal-title">${name}</span>
-                    <span class="modal-desc">${item.description || '一件充满回忆的小礼物。'}</span>
+                    <span class="modal-desc">${description}</span>
                     <div class="modal-condition" style="margin-top: 10px; font-style: italic; color: #ff8e8e;">
-                        “${item.quote || '愿这份美好永远留存。'}”
+                        “${quote}”
                     </div>
                     <button class="modal-close-btn" onclick="this.parentElement.parentElement.remove()">收起</button>
                 </div>

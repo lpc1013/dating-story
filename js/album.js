@@ -39,7 +39,7 @@ var albumPhotos = [
                                 <div class="photo-info">${photo.title}</div>
                             ` : `
                                 <div class="lock-icon">🔒</div>
-                                <div class="unlock-hint" style="font-size: 10px; color: #999; padding: 5px; text-align: center;">${photo.condition}</div>
+                                <div class="unlock-hint">${photo.condition}</div>
                             `}
                         </div>
                     `;

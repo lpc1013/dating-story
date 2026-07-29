@@ -143,7 +143,7 @@ function hideWeatherPanel() {
         window.jumpToEventFromFlow = function(i) {
             if (i == null || isNaN(i) || i < 0) return;
             if (!window.gameState) return;
-            if (i > gameState.currentEvent) { showAchievementToast('🔒 该事件尚未到达'); return; }
+            if (i > gameState.currentEvent) { showToast('🔒 该事件尚未到达', 'warn'); return; }
             gameState.currentEvent = i;
             hideWeatherPanel();
             if (typeof showEvent === 'function') showEvent(i);

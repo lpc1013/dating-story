@@ -37,7 +37,7 @@ function injectItemChoices(event, container) {
                 btn.onclick = function(){
                     gameState.like = Math.min(100, gameState.like + def.like);
                     updateStats();
-                    showAchievementToast(def.emoji+' 使用了：'+def.displayName);
+                    showToast(def.emoji+' 使用了：'+def.displayName, 'reward');
                     // 消耗物品
                     if (inv[itemName]) { inv[itemName].count--; if (inv[itemName].count <= 0) delete inv[itemName]; }
                     makeChoice({ text: def.text, like: def.like, money: 0, heart: def.like > 10 ? 5 : 2, emotion: 'happy', feedback: def.text, branch: 'good' }, event);
@@ -102,7 +102,7 @@ function showEvent(index) {
                     document.body.style.background = theme.body;
                     document.getElementById('game-container').classList.add('night-mode');
                     updateDaytimeIndicator();
-                    showAchievementToast("🌙 夜幕降临，浪漫升级！好感度与心动值变化翻倍。");
+                    showToast("🌙 夜幕降临，浪漫升级！好感度与心动值变化翻倍。", 'system');
                 }, 2200);
             }
 
@@ -215,6 +215,10 @@ function showEvent(index) {
                 let bestIdx = -1, bestScore = -Infinity;
                 if (gameState.isHintRevealed) {
                     event.choices.forEach((c, i) => {
+                        // 只在“实际会渲染的可选项”内求最优：过滤 reqLike 与 requireItem，
+                        // 这样没有充电宝时“拿出充电宝”不会被选为最优，揭示项永远可选。
+                        if (c.reqLike != null && gameState.like < c.reqLike) return;
+                        if (c.requireItem && !(gameState.inventory && gameState.inventory[c.requireItem] > 0)) return;
                         const sc = (c.like || 0) + (c.heart || 0) * 1.5 - Math.abs(c.money || 0) * 0.1;
                         if (sc > bestScore) { bestScore = sc; bestIdx = i; }
                     });
@@ -235,7 +239,7 @@ function showEvent(index) {
                     const parts = choice.text.split('\n');
                     const mainText = parts[0];
                     const hintText = parts.slice(1).join('\n');
-                    const showHint = visibleHints[i] || gameState.isHintRevealed;
+                    const showHint = visibleHints[i];
 
                     if (showHint && hintText) {
                         const isRainy = selectData.weather === '雨天' && !gameState.isHintRevealed;
@@ -270,7 +274,7 @@ function showEvent(index) {
 
                 document.getElementById('feedback').classList.remove('show');
                 
-                setTimeout(()=>{const d=document.getElementById('event-description');if(d&&d.scrollHeight>180){let b=document.querySelector('.desc-expand-btn');if(!b){b=document.createElement('span');b.className='desc-expand-btn';b.textContent='展开▼';b.onclick=function(e){e.stopPropagation();if(d.style.maxHeight=='none'){d.style.maxHeight='180px';b.textContent='展开▼'}else{d.style.maxHeight='none';b.textContent='收起▲'}};d.appendChild(b)}}},100);
+                setTimeout(()=>{const d=document.getElementById('event-description');if(d&&d.scrollHeight>120){let b=document.querySelector('.desc-expand-btn');if(!b){b=document.createElement('span');b.className='desc-expand-btn';b.textContent='展开▼';b.onclick=function(e){e.stopPropagation();if(d.style.maxHeight=='none'){d.style.maxHeight='120px';b.textContent='展开▼'}else{d.style.maxHeight='none';b.textContent='收起▲'}};d.appendChild(b)}}},100);
 gameContent.style.opacity = '1';
                 gameContent.style.transform = 'translateY(0)';
                 gameContent.style.transition = 'all 0.5s ease';

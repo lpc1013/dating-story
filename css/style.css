@@ -42,6 +42,7 @@
             --glass-bg: rgba(255, 255, 255, 0.85);
             --shadow: 0 8px 32px rgba(255, 142, 142, 0.2);
             --accent-color: #ff6b6b;
+            --primary: var(--accent-color);
         }
 
         body {
@@ -169,14 +170,14 @@
         }
 
         .title {
-            font-size: 20px;
-            font-weight: bold;
+            font-size: 21px;
+            font-weight: 800;
             margin-bottom: 8px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-            background: rgba(255, 255, 255, 0.15);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+            background: rgba(255, 255, 255, 0.12);
             display: inline-block;
-            padding: 2px 12px;
-            border-radius: 20px;
+            padding: 2px 14px;
+            border-radius: 18px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(5px);
         }
@@ -185,9 +186,9 @@
             display: flex;
             justify-content: space-around;
             background: rgba(255, 255, 255, 0.15);
-            padding: 8px;
-            border-radius: 15px;
-            margin-top: 8px;
+            padding: 8px 10px;
+            border-radius: 16px;
+            margin-top: 10px;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.1);
@@ -198,7 +199,7 @@
             flex-direction: column;
             align-items: center;
             min-width: 80px;
-            padding: 8px;
+            padding: 8px 6px;
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             cursor: pointer;
             border-radius: 15px;
@@ -224,7 +225,7 @@
         }
 
         .stat-value {
-            font-size: 16px;
+            font-size: 17px;
             font-weight: 800;
             color: #fff;
             display: flex;
@@ -334,7 +335,7 @@
             flex-direction: column;
             min-height: 0;
             overflow-y: auto;
-            padding: 15px;
+            padding: 16px 18px;
             position: relative;
         }
 
@@ -356,39 +357,44 @@
         }
 
         .event-title {
-            font-size: 20px;
-            font-weight: bold;
+            font-size: 22px;
+            font-weight: 800;
             color: #ff6b6b;
-            margin-bottom: 0px;
+            margin-bottom: 6px;
             text-align: center;
-            line-height: 1.4;
+            line-height: 1.35;
+            letter-spacing: -0.3px;
         }
 
         .event-description {
-            font-size: 14px;
-            color: #666;
-            line-height: 1.6;
-            margin-bottom: 5px;
+            font-size: 18px;
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 18px;
             text-align: justify;
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 10px;
-            border-left: 4px solid #ff6b6b;
+            background: #fafafa;
+            padding: 16px 18px;
+            border-radius: 14px;
+            border-left: 3px solid #ff6b6b;
         }
 
         .choices {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
+            padding-bottom: 64px; /* 底部安全区：避开壳内左下主题条/右下 AI 球，避免遮挡最底选项 */
         }
 
         .choice-btn {
             background: linear-gradient(135deg, #4da6ff, #ff66cc);
             color: white;
             border: none;
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 14px;
+            padding: 14px 18px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 500;
+            line-height: 1.5;
+            letter-spacing: 0.2px;
             cursor: pointer;
             transition: all 0.3s ease;
             text-align: left;
@@ -406,11 +412,11 @@
         }
 
         .feedback {
-            margin-bottom: 5px;
-            padding: 15px;
+            margin-bottom: 14px;
+            padding: 14px 18px;
             border-radius: 10px;
-            font-size: 14px;
-            line-height: 1.5;
+            font-size: 15px;
+            line-height: 1.7;
             display: none;
             color: #333;
             position: relative;
@@ -418,9 +424,9 @@
 
         .emotion-icon {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 24px;
+            top: 12px;
+            right: 12px;
+            font-size: 22px;
         }
 
 /* ═══ MODULE: gift — 礼物系统（礼物商店 / 自定义礼物） ═══ */
@@ -475,42 +481,83 @@
 
         .photo-card {
             aspect-ratio: 3/4;
-            background: #fdfdfd;
-            border-radius: 20px;
+            background: var(--album-card-bg, linear-gradient(160deg, #ffffff, #fff6f0));
+            border-radius: 16px;
             overflow: hidden;
             position: relative;
             cursor: pointer;
-            border: 4px solid white;
-            box-shadow: 0 12px 24px rgba(0,0,0,0.06);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(0,0,0,0.06);
+            box-shadow: 0 6px 18px rgba(180, 140, 120, 0.14);
+            transition: transform .35s cubic-bezier(.2,.8,.3,1), box-shadow .35s, border-color .35s;
             display: flex;
             flex-direction: column;
         }
 
         .photo-card:hover {
-            transform: translateY(-8px) scale(1.03);
-            box-shadow: 0 20px 40px rgba(255, 142, 142, 0.2);
-            border-color: var(--secondary-pink);
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 0 16px 36px rgba(232, 139, 110, 0.24);
+            border-color: rgba(232, 139, 110, 0.4);
         }
 
         .photo-card.locked {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: #eee;
-            font-size: 40px;
-            background: #f9f9f9;
-            border: 2px dashed #ddd;
             cursor: default;
+            background: var(--album-locked-bg, #f1e9e0);
+            border: 1px dashed var(--album-locked-line, rgba(180, 150, 130, 0.5));
+            box-shadow: inset 0 0 24px rgba(120, 90, 70, 0.05);
+            transition: background .3s ease;
         }
-        .photo-card.locked::after {
-            content: '🔒 尚未解锁';
+        .photo-card.locked::before {
+            content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+            background-image: repeating-linear-gradient(45deg, transparent 0 13px, var(--album-locked-line, rgba(180,150,130,.5)) 13px 14px);
+            opacity: 0; transition: opacity .35s ease;
+        }
+        .photo-card.locked:hover::before { opacity: .45; }
+        .photo-card.locked:hover {
+            transform: translateY(1px);
+            box-shadow: inset 0 0 24px rgba(120, 90, 70, 0.05), 0 1px 3px rgba(120, 90, 70, 0.06);
+            border-color: var(--album-locked-line, rgba(180, 150, 130, 0.5));
+        }
+        .photo-card.locked .lock-icon {
+            position: absolute;
+            top: 42%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 64px; height: 64px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 32px;
+            opacity: 0.95;
+            background: rgba(255,255,255,0.92);
+            border: 2px solid var(--album-locked-line, rgba(180,150,130,.5));
+            box-shadow: 0 4px 12px rgba(120,90,70,0.18);
+            z-index: 1;
+        }
+        .photo-card.locked .unlock-hint {
+            position: absolute;
+            left: 50%; bottom: 14px;
+            transform: translateX(-50%);
+            max-width: calc(100% - 16px);
+            text-align: center;
             font-size: 11px;
-            margin-top: 12px;
-            color: #ccc;
-            font-weight: 500;
+            font-weight: 600;
+            color: var(--album-locked-ink, #9a8475);
+            background: rgba(255,255,255,0.85);
+            border: 1px solid var(--album-locked-line, rgba(180,150,130,.5));
+            border-radius: 999px;
+            padding: 5px 12px;
+            line-height: 1.4;
+            box-shadow: 0 2px 6px rgba(120,90,70,0.10);
+            z-index: 1;
         }
+        /* 阴影层级：解锁卡重影+浮起，锁定卡轻影+微沉 */
+        .photo-card:not(.locked) { box-shadow: 0 8px 22px rgba(180,140,120,0.18); }
+        .photo-card:not(.locked):hover {
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(232,139,110,0.30);
+            border-color: rgba(232,139,110,0.45);
+        }
+        .photo-card.locked { box-shadow: inset 0 0 24px rgba(120,90,70,0.05), 0 2px 6px rgba(120,90,70,0.06); }
+        [data-theme="dusk"] .photo-card:not(.locked) { box-shadow: 0 8px 22px rgba(0,0,0,0.35); }
+        [data-theme="dusk"] .photo-card:not(.locked):hover { box-shadow: 0 20px 40px rgba(0,0,0,0.50); }
+        [data-theme="dusk"] .photo-card.locked { box-shadow: inset 0 0 24px rgba(0,0,0,0.25), 0 2px 6px rgba(0,0,0,0.30); }
 
         .photo-viewer {
             position: fixed;
@@ -584,7 +631,7 @@
 
         .photo-card img {
             width: 100%;
-            height: 100%;
+            flex: 1 1 auto; min-height: 0; height: auto;
             object-fit: cover;
             transition: transform 0.6s ease;
         }
@@ -593,21 +640,19 @@
             transform: scale(1.1);
         }
 
-        .photo-card .photo-info {
-            position: absolute;
-            bottom: 0;
-            left: 0;
+        .photo-card:not(.locked) .photo-info {
+            position: static;
+            flex: 0 0 34px;
             width: 100%;
-            background: linear-gradient(transparent, rgba(0,0,0,0.7));
-            color: white;
-            font-size: 11px;
-            padding: 10px 8px 5px;
+            background: var(--paper, #fffaf5);
+            color: var(--ink, #5c4a32);
+            font-family: "Ma Shan Zheng", cursive;
+            font-size: 14px;
+            font-weight: 400;
+            display: flex; align-items: center; justify-content: center;
             text-align: center;
-            font-weight: 500;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        .photo-card:not(.locked):hover .photo-info {
+            padding: 0 6px;
+            letter-spacing: 1px;
             opacity: 1;
         }
 
@@ -1028,16 +1073,16 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             filter: drop-shadow(0 3px 6px rgba(0,0,0,0.15));
-            line-height: 1.2;
+            line-height: 1.18;
         }
 
         .start-intro {
-            font-size: 14px;
-            line-height: 1.75;
-            margin-bottom: 24px;
+            font-size: 14.5px;
+            line-height: 1.8;
+            margin-bottom: 22px;
             color: rgba(255, 255, 255, 0.9);
             background: rgba(0, 0, 0, 0.15);
-            padding: 16px 18px;
+            padding: 16px 20px;
             border-radius: 18px;
             border: 1px solid rgba(255, 255, 255, 0.08);
             box-shadow: inset 0 2px 8px rgba(0,0,0,0.08);
@@ -1067,7 +1112,7 @@
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 3px;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             margin-top: 4px;
             color: rgba(255,255,255,0.55);
             width: 100%;
@@ -2201,6 +2246,13 @@
         }
         .love-tips-btn:hover { background: rgba(255, 255, 255, 0.4); transform: scale(1.05); }
 
+        /* 修复：内容较多时「收下手册」按钮被弹性压缩/被 .tips-content 的 overflow:hidden 裁切。
+           将其移出弹性收缩池（flex-shrink:0），由 .tips-list(min-height:0 + overflow-y:auto) 独占剩余高度并内部滚动，
+           按钮常驻底部且始终完整显示。作用域限定 love-tips 弹窗，不影响成就/礼物/设置等其它弹窗的主题色。 */
+        .love-tips-modal .modal-close-btn {
+            flex-shrink: 0;
+        }
+
         .achievement-list {
             display: block;
             margin-top: 15px;
@@ -2361,7 +2413,7 @@
 
     /* ---------- B 羊皮古卷 parchment（默认） ---------- */
     [data-theme="parchment"] { --ink:#5c4a32; --sub:#6e5a38; --muted:#8a7654; --paper:#faf3e0; --paper2:#fffaf0; --line:#e0cda0; --accent:#a8442a; --gold:#c9a86a; --chip:#f3e8cf; --hdr-bg:linear-gradient(45deg,#b5895a,#8a6d48); --hdr-text:#faf3e0; --choice-text:#faf3e0; --choice-bg:linear-gradient(135deg,#c9a86a,#a8442a); }
-    [data-theme="parchment"] body { background: linear-gradient(135deg,#e8dcc0 0%,#f3e8cf 100%); color:#5c4a32; }
+    body[data-theme="parchment"] { background: linear-gradient(135deg,#e8dcc0 0%,#f3e8cf 100%); color:#5c4a32; }
     [data-theme="parchment"] .container { background:#faf3e0; border-color:#5c4a32; box-shadow:0 8px 32px rgba(92,74,50,0.25), inset 0 0 60px rgba(139,109,72,0.10); }
     [data-theme="parchment"] .header { background: linear-gradient(45deg,#b5895a,#8a6d48); color:#faf3e0; }
     [data-theme="parchment"] .choice-btn { background: linear-gradient(135deg,#c9a86a,#a8442a); color:#faf3e0; }
@@ -2401,7 +2453,7 @@
 
     /* ---------- 朱砂古卷 cinnabar ---------- */
     [data-theme="cinnabar"] { --ink:#5c2a1e; --sub:#7a4030; --muted:#a07a6e; --paper:#fff5ee; --paper2:#fff5ee; --line:#f0c8b8; --accent:#c0392b; --gold:#e8a87c; --chip:#faeae0; --hdr-bg:linear-gradient(45deg,#c0392b,#e74c3c); --hdr-text:#fff5ee; --choice-text:#fff5ee; --choice-bg:linear-gradient(135deg,#e74c3c,#c0392b); }
-    [data-theme="cinnabar"] body { background:linear-gradient(135deg,#f3dcd0 0%,#faeae0 100%); color:#5c2a1e; }
+    body[data-theme="cinnabar"] { background:linear-gradient(135deg,#f3dcd0 0%,#faeae0 100%); color:#5c2a1e; }
     [data-theme="cinnabar"] .container { background:#fff5ee; border-color:#7a2e1e; box-shadow:0 8px 32px rgba(122,46,30,0.25); }
     [data-theme="cinnabar"] .header { background:linear-gradient(45deg,#c0392b,#e74c3c); color:#fff5ee; }
     [data-theme="cinnabar"] .choice-btn { background:linear-gradient(135deg,#e74c3c,#c0392b); color:#fff5ee; }
@@ -2441,7 +2493,7 @@
 
     /* ---------- 柔粉暖金 rosegold ---------- */
     [data-theme="rosegold"] { --ink:#6e4a4a; --sub:#a98a8a; --muted:#c4a0a0; --paper:#fff9fb; --paper2:#ffffff; --line:#f6dbe2; --accent:#d98a9a; --gold:#c9a86a; --chip:#fdf2f5; --hdr-bg:linear-gradient(45deg,#e8a0a8,#d98a9a); --hdr-text:#ffffff; --choice-text:#ffffff; --choice-bg:linear-gradient(135deg,#e8b4a0,#d98a9a); }
-    [data-theme="rosegold"] body { background:linear-gradient(135deg,#fdeef2 0%,#fdf6ee 100%); color:#6e4a4a; }
+    body[data-theme="rosegold"] { background:linear-gradient(135deg,#fdeef2 0%,#fdf6ee 100%); color:#6e4a4a; }
     [data-theme="rosegold"] .container { background:#fff9fb; border-color:#d4a5a5; box-shadow:0 8px 32px rgba(217,138,154,0.25); }
     [data-theme="rosegold"] .header { background:linear-gradient(45deg,#e8a0a8,#d98a9a); color:#ffffff; }
     [data-theme="rosegold"] .choice-btn { background:linear-gradient(135deg,#e8b4a0,#d98a9a); color:#ffffff; }
@@ -2481,7 +2533,7 @@
 
     /* ---------- 暮色梦境 dusk（暗色） ---------- */
     [data-theme="dusk"] { --ink:#ece8ff; --sub:#c9c0e8; --muted:#9b93bd; --paper:#2f2848; --paper2:#2f2848; --line:#4a3f6b; --accent:#9b7fd4; --gold:#c9b8f0; --chip:#38304f; --hdr-bg:linear-gradient(45deg,#4a3f6b,#6b5b95); --hdr-text:#ece8ff; --choice-text:#2a2440; --choice-bg:linear-gradient(135deg,#6b5b95,#9b7fd4); }
-    [data-theme="dusk"] body { background:linear-gradient(135deg,#2a2440 0%,#3d3358 100%); color:#ece8ff; }
+    body[data-theme="dusk"] { background:linear-gradient(135deg,#2a2440 0%,#3d3358 100%); color:#ece8ff; }
     [data-theme="dusk"] .container { background:#2f2848; border-color:#1a1730; box-shadow:0 8px 32px rgba(0,0,0,0.5); }
     [data-theme="dusk"] .header { background:linear-gradient(45deg,#4a3f6b,#6b5b95); color:#ece8ff; }
     [data-theme="dusk"] .choice-btn { background:linear-gradient(135deg,#6b5b95,#9b7fd4); color:#ece8ff; }
@@ -2521,7 +2573,7 @@
 
     /* ===== 主题切换器（中性 UI，不随主题变色） ===== */
     .theme-switcher {
-        position: fixed; right: 14px; bottom: 14px; z-index: 90;
+        position: absolute; left: 14px; bottom: 14px; z-index: 90;
         pointer-events: none;
         display: flex; align-items: center; gap: 7px;
         padding: 8px 12px; border-radius: 30px;
@@ -2540,6 +2592,15 @@
     }
     .theme-dot:hover { transform: scale(1.14); }
     .theme-dot.active { border-color:#fff; box-shadow:0 0 0 2px rgba(255,255,255,0.45); }
+    /* 主题色板：默认藏在背包内，点击 🎨 道具才弹出（1 行 4 色，选完自动收回） */
+    .theme-expand {
+        display: none; position: absolute; left: 50%; transform: translateX(-50%);
+        bottom: calc(100% + 8px); z-index: 95;
+        align-items: center; gap: 7px; padding: 8px 12px; border-radius: 30px;
+        background: rgba(28,26,38,0.9); backdrop-filter: blur(8px);
+        box-shadow: 0 4px 18px rgba(0,0,0,0.35);
+    }
+    .theme-expand.show { display: flex; }
     .t-parchment { background: linear-gradient(135deg,#c9a86a,#a8442a); }
     .t-cinnabar { background: linear-gradient(135deg,#e74c3c,#c0392b); }
     .t-rosegold { background: linear-gradient(135deg,#e8a0a8,#c9a86a); }
@@ -2948,57 +3009,6 @@
 #album-music-view {
     display: none;
 }
-.photo-card {
-    position: relative;
-    border-radius: 12px;
-    overflow: hidden;
-    background: var(--bg-chip, #f0f0f0);
-    aspect-ratio: 3/4;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-.photo-card:hover {
-    transform: scale(1.03);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-}
-.photo-card.locked {
-    cursor: default;
-    opacity: 0.6;
-}
-.photo-card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-.photo-info {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 8px 10px;
-    background: linear-gradient(transparent, rgba(0,0,0,0.7));
-    color: #fff;
-    font-size: 12px;
-    font-weight: 600;
-}
-.lock-icon {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 36px;
-    opacity: 0.3;
-}
-.unlock-hint {
-    position: absolute;
-    bottom: 10px;
-    left: 0;
-    right: 0;
-    text-align: center;
-    font-size: 10px;
-    color: #999;
-}
-
 /* ══════ 聊天 ══════ */
 .chat-messages {
     flex: 1;
@@ -3175,12 +3185,12 @@
 .stat-pill-item {
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 6px;
     background: rgba(255,255,255,0.15);
-    padding: 4px 12px;
+    padding: 5px 14px;
     border-radius: 14px;
     color: #fff;
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 600;
     cursor: pointer;
     backdrop-filter: blur(4px);
@@ -3189,10 +3199,13 @@
 }
 .stat-pill-item:hover { background: rgba(255,255,255,0.25); }
 .stat-plabel { font-size: 10px; opacity: 0.7; font-weight: 500; }
+#money-value, #like-display { font-size: 15px; }
+.money-icon, .like-emoji { font-size: 16px; }
 
 /* ── 事件元信息 ── */
 .event-meta {
     display: flex;
+    justify-content: center;
     align-items: center;
     gap: 8px;
     flex-wrap: wrap;
@@ -3240,17 +3253,34 @@
 .change-item { font-size: 11px; color: var(--sub, #666); }
 
 /* ── 相册 ── */
-.album-tabs { display: flex; gap: 8px; margin-bottom: 12px; }
+.album-tabs { display: flex; gap: 8px; margin-bottom: 14px; }
 .album-tab {
-    padding: 6px 16px; border-radius: 16px; font-size: 12px; cursor: pointer;
-    background: var(--bg-chip, #f0f0f0); color: var(--text-muted, #888);
-    border: none; transition: all 0.2s;
+    padding: 7px 18px; border-radius: 18px; font-size: 12.5px; cursor: pointer;
+    background: rgba(255,255,255,0.6); color: var(--text-muted, #888);
+    border: 1px solid rgba(0,0,0,0.05); transition: all 0.25s; font-weight: 500;
 }
-.album-tab.active { background: var(--primary, #ff6b6b); color: #fff; font-weight: 600; }
-.album-empty {
-    grid-column: span 2; text-align: center; padding: 40px 0;
-    color: var(--text-muted, #999); font-size: 13px;
-}
+.album-tab:hover { background: rgba(255,255,255,0.92); color: var(--text-primary, #555); }
+.album-tab.active { background: var(--primary, #ff6b6b); color: #fff; font-weight: 600; border-color: transparent; box-shadow: 0 4px 12px rgba(255,107,107,0.3); }
+        .album-empty {
+            grid-column: span 2; text-align: center; padding: 40px 0;
+            color: var(--text-muted, #999); font-size: 13px;
+        }
+
+        /* 相册头部关闭按钮：统一走珊瑚红主强调（不影响其他弹窗的 .back-btn） */
+        [data-theme] .album-close-btn {
+            background: var(--accent-color);
+            color: #fff;
+            border-color: transparent;
+            box-shadow: 0 8px 18px rgba(255, 107, 107, 0.28);
+        }
+        [data-theme] .album-close-btn:hover { opacity: 0.92; filter: brightness(1.05); }
+
+        /* 相册主题变量：四主题分别覆盖，dusk 下锁定卡不刺眼 */
+        [data-theme="parchment"] { --album-card-bg: linear-gradient(160deg,#ffffff,#fff6f0); --album-locked-bg: #f1e9e0; --album-locked-line: rgba(180,150,130,.42); --album-locked-ink: #9a8475; }
+        [data-theme="cinnabar"] { --album-card-bg: linear-gradient(160deg,#ffffff,#fff6f0); --album-locked-bg: #f5e7e1; --album-locked-line: rgba(192,90,70,.35); --album-locked-ink: #a07a6e; }
+        [data-theme="rosegold"] { --album-card-bg: linear-gradient(160deg,#ffffff,#fff6f0); --album-locked-bg: #f8eef3; --album-locked-line: rgba(217,138,154,.36); --album-locked-ink: #a98a8a; }
+        [data-theme="dusk"] { --album-card-bg: linear-gradient(160deg,#3a3158,#2f2848); --album-locked-bg: #322b4d; --album-locked-line: rgba(155,127,212,.38); --album-locked-ink: #9b93bd; }
+        [data-theme="dusk"] .photo-card.locked .lock-icon { background: rgba(255,255,255,0.10); border-color: rgba(155,127,212,0.55); box-shadow: 0 4px 12px rgba(0,0,0,0.35); }
 
 /* ── 音乐搜索/模式 ── */
 .music-search {
@@ -3389,7 +3419,7 @@
 /* ══════ 固定高度滚动事件描述 ══════ */
 #event-description {
     display: block;
-    max-height: 130px;
+    max-height: 120px;
     overflow-y: auto;
     font-size: 15px;
     line-height: 1.6;
@@ -3450,9 +3480,11 @@
         padding: 4px 0;
     }
     .stat-pill-item {
-        padding: 3px 10px;
-        font-size: 12px;
+        padding: 4px 12px;
+        font-size: 14px;
     }
+    #money-value, #like-display { font-size: 14px; }
+    .money-icon, .like-emoji { font-size: 15px; }
 
     /* 游戏内容区 */
     #game-content {
@@ -3559,7 +3591,7 @@
 
     /* 主题切换器 */
     .theme-switcher {
-        right: 8px; bottom: 8px;
+        left: 8px; bottom: 8px;
         padding: 6px 10px;
         gap: 5px;
     }
@@ -3598,9 +3630,11 @@
         gap: 3px;
     }
     .stat-pill-item {
-        padding: 3px 8px;
-        font-size: 11px;
+        padding: 4px 10px;
+        font-size: 13px;
     }
+    #money-value, #like-display { font-size: 13px; }
+    .money-icon, .like-emoji { font-size: 14px; }
     .her-bub {
         padding: 8px 12px;
         font-size: 13px;
@@ -3617,14 +3651,19 @@
 
 /* ═══════ 背包系统 ═══════ */
 .backpack-bar {
-    position: relative; display: flex; align-items: center; gap: 8px;
-    padding: 6px 12px; margin: 0 12px 4px;
-    background: rgba(0,0,0,0.04); border-radius: 14px;
+    position: absolute; left: 8px; right: 8px; bottom: 6px; z-index: 60;
+    display: flex; align-items: center; gap: 8px;
+    padding: 6px 10px; margin: 0;
+    background: rgba(0,0,0,0.04); border-radius: 16px;
     font-size: 13px;
 }
 .bp-label { font-size: 16px; flex-shrink: 0; }
-.bp-slots { display: flex; gap: 6px; flex-wrap: wrap; }
+.bp-permanent { display: flex; align-items: center; gap: 6px; flex: 0 0 auto; }
+.bp-slots { display: flex; align-items: center; gap: 6px; flex: 1 1 auto; min-width: 0; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.bp-slots::-webkit-scrollbar { display: none; }
 .bp-item {
+    position: relative;
+    flex: 0 0 auto; scroll-snap-align: start;
     width: 34px; height: 34px; border-radius: 10px;
     display: flex; align-items: center; justify-content: center;
     font-size: 18px; color: #fff;
@@ -3633,6 +3672,8 @@
     transition: transform 0.2s;
 }
 .bp-item:hover { transform: scale(1.15); cursor: pointer; }
+.bp-empty { font-size: 11px; color: #9a8475; opacity: 0.8; }
+.ai-red-dot { position: absolute; top: -3px; right: -3px; width: 9px; height: 9px; border-radius: 50%; background: #ff4757; box-shadow: 0 0 0 2px #fff; }
 @keyframes bpBounceIn {
     0% { transform: scale(0); opacity: 0; }
     60% { transform: scale(1.2); }
@@ -3756,7 +3797,7 @@
 
 /* ═══════ AI 浮动机器人 ═══════ */
 .ai-float-btn {
-    position: fixed; left: 16px; bottom: 24px; z-index: 80;
+    position: absolute; right: 14px; bottom: 14px; z-index: 80;
     cursor: pointer; transition: transform .2s;
 }
 .ai-float-btn:hover { transform: scale(1.12); }
@@ -4065,13 +4106,13 @@ button{outline:none;-webkit-tap-highlight-color:transparent}
 .achievement-card{display:flex;align-items:center;gap:12px;padding:14px 12px;margin-bottom:8px;border-radius:16px;cursor:pointer;background:#fffdf9;border:1px solid #fdf0e4;transition:all .25s cubic-bezier(.175,.885,.32,1.275);position:relative;overflow:hidden}
 .achievement-card.unlocked{background:linear-gradient(135deg,#fff9f0,#fff4e8);border-color:#ffe8cc}
 .achievement-card:hover{transform:translateX(4px);box-shadow:0 4px 16px rgba(255,140,66,.12);border-color:#ffe0c8}
-.achievement-card.locked{opacity:.45;filter:grayscale(.25)}
+.achievement-card.locked{opacity:.62;filter:grayscale(.1);border-style:dashed;border-color:#e6d8c8;background:#fbf7f1}
 .ach-icon{width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#fff2e8,#ffe8d6);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;box-shadow:0 3px 10px rgba(0,0,0,.06)}
 .achievement-card.unlocked .ach-icon{background:linear-gradient(135deg,#fff0e0,#ffe0c8);box-shadow:0 4px 14px rgba(255,140,66,.15)}
 .ach-body{flex:1;min-width:0}
 .ach-name{font-weight:700;font-size:13px;color:#6e4a3a;margin-bottom:2px}
 .ach-desc{font-size:11px;color:#b8956a;line-height:1.4}
-.achievement-card.unlocked .ach-name{color:#d4745a}
+.achievement-card.unlocked .ach-name{color:#b5544e}
 .achievement-card.unlocked .ach-desc{color:#c4956a}
 .ach-rarity{font-size:10px;font-weight:600;padding:3px 10px;border-radius:8px;flex-shrink:0;letter-spacing:.5px}
 .rarity-common{background:#f0f0f0;color:#999}
@@ -4090,13 +4131,13 @@ button{outline:none;-webkit-tap-highlight-color:transparent}
 .achievement-card{display:flex;align-items:center;gap:12px;padding:14px 12px;margin-bottom:8px;border-radius:16px;cursor:pointer;background:#fffdf9;border:1px solid #fdf0e4;transition:all .25s cubic-bezier(.175,.885,.32,1.275);position:relative;overflow:hidden}
 .achievement-card.unlocked{background:linear-gradient(135deg,#fff9f0,#fff4e8);border-color:#ffe8cc}
 .achievement-card:hover{transform:translateX(4px);box-shadow:0 4px 16px rgba(255,140,66,.12);border-color:#ffe0c8}
-.achievement-card.locked{opacity:.45;filter:grayscale(.25)}
+.achievement-card.locked{opacity:.62;filter:grayscale(.1);border-style:dashed;border-color:#e6d8c8;background:#fbf7f1}
 .ach-icon{width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#fff2e8,#ffe8d6);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;box-shadow:0 3px 10px rgba(0,0,0,.06)}
 .achievement-card.unlocked .ach-icon{background:linear-gradient(135deg,#fff0e0,#ffe0c8);box-shadow:0 4px 14px rgba(255,140,66,.15)}
 .ach-body{flex:1;min-width:0}
 .ach-name{font-weight:700;font-size:13px;color:#6e4a3a;margin-bottom:2px}
 .ach-desc{font-size:11px;color:#b8956a;line-height:1.4}
-.achievement-card.unlocked .ach-name{color:#d4745a}
+.achievement-card.unlocked .ach-name{color:#b5544e}
 .achievement-card.unlocked .ach-desc{color:#c4956a}
 .ach-rarity{font-size:10px;font-weight:600;padding:3px 10px;border-radius:8px;flex-shrink:0;letter-spacing:.5px}
 .rarity-common{background:#f0f0f0;color:#999}
@@ -4106,6 +4147,22 @@ button{outline:none;-webkit-tap-highlight-color:transparent}
 .ach-foot-bar{flex:1;height:4px;background:#f0e8e0;border-radius:2px;overflow:hidden}
 .ach-foot-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,#ff8c42,#ffab76);transition:width .4s ease}
 .achievement-toast{background:linear-gradient(135deg,#fff5ee,#ffecd2)!important;color:#d4745a!important;border:1px solid #ffd8b8!important}
+
+/* ══ Toast 类型化（6 类）与结构样式 ══ */
+.achievement-toast .toast-icon{font-size:18px;line-height:1;flex-shrink:0}
+.achievement-toast .toast-body{display:flex;flex-direction:column;line-height:1.3;white-space:normal;min-width:0}
+.achievement-toast .toast-label{font-size:10px;font-weight:700;opacity:.7;letter-spacing:.5px}
+.achievement-toast .toast-title{font-size:13px;font-weight:600}
+.achievement-toast.toast-achievement{background:linear-gradient(135deg,#fff5ee,#ffecd2)!important;color:#b5544e!important;border-left:4px solid #e8a13c!important}
+.achievement-toast.toast-reward{background:linear-gradient(135deg,#fff0f3,#ffd9e2)!important;color:#c0586b!important;border-left:4px solid #e87a98!important}
+.achievement-toast.toast-hint{background:linear-gradient(135deg,#f3f1ff,#e6e0ff)!important;color:#6b5bb0!important;border-left:4px solid #9b7fd4!important}
+.achievement-toast.toast-mood{background:linear-gradient(135deg,#ffe9f0,#ffd0e0)!important;color:#c2456b!important;border-left:4px solid #ff8fae!important}
+.achievement-toast.toast-system{background:linear-gradient(135deg,#eef3f8,#dde8f2)!important;color:#5b7a99!important;border-left:4px solid #6c99c4!important}
+.achievement-toast.toast-warn{background:linear-gradient(135deg,#fff1f0,#ffdcd6)!important;color:#c0392b!important;border-left:4px solid #e74c3c!important}
+
+/* 最优选项高亮（心花怒放揭示） */
+.choice-btn.hint-best{border:2px solid #e8a13c!important;box-shadow:0 0 0 2px rgba(232,161,60,.25),0 4px 14px rgba(232,161,60,.25)!important;position:relative;overflow:visible!important}
+.choice-btn.hint-best::after{content:'✨最佳';position:absolute;top:-10px;right:8px;background:linear-gradient(135deg,#ffd98a,#e8a13c);color:#fff;font-size:10px;font-weight:700;padding:1px 7px;border-radius:8px;box-shadow:0 2px 6px rgba(232,161,60,.4)}
 
 /* ══ 全局排版优化 ══ */
 html{font-size:16px;line-height:1.6;-webkit-text-size-adjust:100%}
@@ -4367,12 +4424,12 @@ body[data-weather=多云] .scene-cg img{filter:saturate(0.95) brightness(1.02)}
 .rarity-legendary{background:linear-gradient(135deg,#fff5cc,#ffe0a0)!important;color:#c9802a!important}
 
 /* ══ AI快捷菜单 ══ */
-.ai-quick-menu{display:none;position:absolute;left:58px;bottom:0;background:#fff;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.15);padding:8px;z-index:90;min-width:140px}
+.ai-quick-menu{display:none;position:absolute;left:8px;bottom:calc(100% + 8px);background:#fff;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.15);padding:8px;z-index:90;min-width:140px}
 .ai-quick-menu.show{display:block}
 .ai-quick-opt{padding:10px 14px;border-radius:10px;font-size:13px;color:#555;cursor:pointer;white-space:nowrap;transition:all .15s;display:flex;align-items:center;gap:8px}
 .ai-quick-opt:hover{background:#faf5f0;color:#d4745a}
 .ai-quick-sep{height:1px;background:#f0efed;margin:4px 8px}
-.ai-quick-menu{display:none;position:absolute;left:58px;bottom:0;background:#fff;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.15);padding:8px;z-index:90;min-width:140px}
+.ai-quick-menu{display:none;position:absolute;left:8px;bottom:calc(100% + 8px);background:#fff;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,.15);padding:8px;z-index:90;min-width:140px}
 .ai-quick-menu.show{display:block}
 .ai-quick-opt{padding:10px 14px;border-radius:10px;font-size:13px;color:#555;cursor:pointer;white-space:nowrap;transition:all .15s;display:flex;align-items:center;gap:8px}
 .ai-quick-opt:hover{background:#faf5f0;color:#d4745a}
@@ -4394,10 +4451,10 @@ body[data-weather=多云] .scene-cg img{filter:saturate(0.95) brightness(1.02)}
 .achievements-panel .ach-ring-wrap { display: flex; align-items: center; justify-content: center; }
 
 /* 3) 四档徽章配色：橙(最高) > 紫 > 蓝 > 绿 */
-.achievements-panel .ach-rarity.rarity-orange { background: linear-gradient(135deg,#ffb15e,#ff7a18) !important; color:#fff !important; }
-.achievements-panel .ach-rarity.rarity-purple { background: linear-gradient(135deg,#c489e0,#9b59b6) !important; color:#fff !important; }
-.achievements-panel .ach-rarity.rarity-blue   { background: linear-gradient(135deg,#6cc4f5,#3498db) !important; color:#fff !important; }
-.achievements-panel .ach-rarity.rarity-green  { background: linear-gradient(135deg,#7ee0a3,#2ecc71) !important; color:#fff !important; }
+.achievements-panel .ach-rarity.rarity-orange { background: linear-gradient(135deg,#ffd98a,#e8a13c) !important; color:#fff !important; }
+.achievements-panel .ach-rarity.rarity-purple { background: linear-gradient(135deg,#d8b8ec,#9b59b6) !important; color:#fff !important; }
+.achievements-panel .ach-rarity.rarity-blue   { background: linear-gradient(135deg,#f3c9bd,#d9866f) !important; color:#fff !important; }
+.achievements-panel .ach-rarity.rarity-green  { background: linear-gradient(135deg,#d9d2ca,#a89e92) !important; color:#fff !important; }
 
 /* 4) 四档颜色微微环绕卡片（方案A）：内嵌细环常驻，外发光仅悬停；不互染、更清爽 */
 .achievements-panel .achievement-card { position: relative; overflow: visible !important; }
@@ -4405,15 +4462,15 @@ body[data-weather=多云] .scene-cg img{filter:saturate(0.95) brightness(1.02)}
     content: ""; position: absolute; inset: 0; border-radius: inherit;
     pointer-events: none; opacity: .55; transition: opacity .2s ease, box-shadow .2s ease;
 }
-.achievements-panel .achievement-card.rarity-orange::after { box-shadow: inset 0 0 0 1.5px rgba(255,122,24,.5); }
+.achievements-panel .achievement-card.rarity-orange::after { box-shadow: inset 0 0 0 1.5px rgba(232,161,60,.5); }
 .achievements-panel .achievement-card.rarity-purple::after { box-shadow: inset 0 0 0 1.5px rgba(155,89,182,.5); }
-.achievements-panel .achievement-card.rarity-blue::after   { box-shadow: inset 0 0 0 1.5px rgba(52,152,219,.5); }
-.achievements-panel .achievement-card.rarity-green::after  { box-shadow: inset 0 0 0 1.5px rgba(46,204,113,.5); }
+.achievements-panel .achievement-card.rarity-blue::after   { box-shadow: inset 0 0 0 1.5px rgba(217,134,111,.5); }
+.achievements-panel .achievement-card.rarity-green::after  { box-shadow: inset 0 0 0 1.5px rgba(168,158,146,.5); }
 .achievements-panel .achievement-card.locked::after { opacity: .25; }
-.achievements-panel .achievement-card.rarity-orange:hover::after { box-shadow: inset 0 0 0 1.5px rgba(255,122,24,.78), 0 0 10px 2px rgba(255,122,24,.35); }
+.achievements-panel .achievement-card.rarity-orange:hover::after { box-shadow: inset 0 0 0 1.5px rgba(232,161,60,.78), 0 0 10px 2px rgba(232,161,60,.35); }
 .achievements-panel .achievement-card.rarity-purple:hover::after { box-shadow: inset 0 0 0 1.5px rgba(155,89,182,.78), 0 0 10px 2px rgba(155,89,182,.35); }
-.achievements-panel .achievement-card.rarity-blue:hover::after   { box-shadow: inset 0 0 0 1.5px rgba(52,152,219,.78), 0 0 10px 2px rgba(52,152,219,.35); }
-.achievements-panel .achievement-card.rarity-green:hover::after  { box-shadow: inset 0 0 0 1.5px rgba(46,204,113,.78), 0 0 10px 2px rgba(46,204,113,.35); }
+.achievements-panel .achievement-card.rarity-blue:hover::after   { box-shadow: inset 0 0 0 1.5px rgba(217,134,111,.78), 0 0 10px 2px rgba(217,134,111,.35); }
+.achievements-panel .achievement-card.rarity-green:hover::after  { box-shadow: inset 0 0 0 1.5px rgba(168,158,146,.78), 0 0 10px 2px rgba(168,158,146,.35); }
 .achievements-panel .achievement-card:hover::after { opacity: .95; }
 
 /* 5) 锁定态明显区分：灰度 + 半透明 + 虚线边框；与解锁态强烈对比 */
@@ -4808,7 +4865,7 @@ body[data-weather=多云] .scene-cg img{filter:saturate(0.95) brightness(1.02)}
     text-overflow: ellipsis !important;
     white-space: nowrap !important;
 }
-#achievements-panel .achievement-card.unlocked .ach-name { color: #d4745a !important; }
+#achievements-panel .achievement-card.unlocked .ach-name { color: #b5544e !important; }
 #achievements-panel .achievement-card.unlocked .ach-desc { color: #c4956a !important; }
 #achievements-panel .achievement-card .ach-meta {
     display: flex !important;
@@ -4833,10 +4890,10 @@ body[data-weather=多云] .scene-cg img{filter:saturate(0.95) brightness(1.02)}
     flex-shrink: 0 !important;
     margin: 0 !important;
 }
-#achievements-panel .ach-rarity.rarity-orange { background: linear-gradient(135deg, #ffb15e, #ff7a18) !important; color: #fff !important; }
-#achievements-panel .ach-rarity.rarity-purple { background: linear-gradient(135deg, #c489e0, #9b59b6) !important; color: #fff !important; }
-#achievements-panel .ach-rarity.rarity-blue   { background: linear-gradient(135deg, #6cc4f5, #3498db) !important; color: #fff !important; }
-#achievements-panel .ach-rarity.rarity-green  { background: linear-gradient(135deg, #7ee0a3, #2ecc71) !important; color: #fff !important; }
+#achievements-panel .ach-rarity.rarity-orange { background: linear-gradient(135deg, #ffd98a, #e8a13c) !important; color: #fff !important; }
+#achievements-panel .ach-rarity.rarity-purple { background: linear-gradient(135deg, #d8b8ec, #9b59b6) !important; color: #fff !important; }
+#achievements-panel .ach-rarity.rarity-blue   { background: linear-gradient(135deg, #f3c9bd, #d9866f) !important; color: #fff !important; }
+#achievements-panel .ach-rarity.rarity-green  { background: linear-gradient(135deg, #d9d2ca, #a89e92) !important; color: #fff !important; }
 
 /* 空状态 */
 #achievements-panel .ach-empty {

@@ -41,13 +41,13 @@ function handleChoiceAchievements(choice, event) {
 
 function makeChoice(choice, event) {
             // —— 回放中禁止手动交互 ——
-            if (gameState.isReplaying) { showAchievementToast('⏯️ 回放中，请等待自动播放'); return; }
+            if (gameState.isReplaying) { showToast('⏯️ 回放中，请等待自动播放', 'system'); return; }
 
             SoundManager.playSfx('choice');
 
             // —— 好感度锁拦截（防御：正常情况选项已被隐藏，这里兜底）——
             if (choice.reqLike != null && gameState.like < choice.reqLike) {
-                showAchievementToast(`🔒 好感度达到 ${choice.reqLike} 才能解锁这个选择`);
+                showToast(`🔒 好感度达到 ${choice.reqLike} 才能解锁这个选择`, 'warn');
                 return;
             }
 

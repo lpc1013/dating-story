@@ -1,10 +1,17 @@
 // js/achievements.js — 成就本体（已从原"挂羊头"大文件拆分，其余功能见各 js/ 模块）
 
+// 跨周目持久化：读取已获得的独特道具 id 集合（localStorage 'collected-items'）
+// 与 backpack.js 内的同名助手相互独立、不共享，避免跨文件依赖；各自 try/catch 兜底。
+function getCollectedItems() {
+  try { return new Set(JSON.parse(localStorage.getItem('collected-items') || '[]')); }
+  catch (e) { return new Set(); }
+}
+
 var achievementsList = [
             { id: 'mom_care_3', title: '妈妈的牵挂', description: '在同一场约会中被妈妈关心了3次', icon: '💌', rarity: 'legendary', isHidden: true, condition: (state) => (state.momCareCount || 0) >= 3 },
             { id: 'bro_tips_3', title: '死党助攻', description: '死党给了你3条以上的建议', icon: '🤝', rarity: 'rare', isHidden: true, condition: (state) => (state.broTipCount || 0) >= 3 },
             { id: 'all_weather', title: '四季恋人', description: '在四种天气下都完成过约会', icon: '🌈', rarity: 'legendary', isHidden: true, condition: (state) => { try { const h = JSON.parse(localStorage.getItem('dating-history')||'[]'); const ws = new Set(h.map(x=>x.weather)); return ws.size >= 4; } catch(e) { return false; } } },
-            { id: 'collector', title: '收藏家', description: '收集齐所有11种独特的小礼物', icon: '🎒', rarity: 'legendary', condition: (state) => Object.keys(state.inventory || {}).length >= 11, progress: (state) => ({ current: Object.keys(state.inventory || {}).length, max: 11 }) },
+            { id: 'collector', title: '收藏家', description: '在多次约会里，攒齐 9 种独特的小信物', icon: '🎒', rarity: 'legendary', condition: (state) => getCollectedItems().size >= 9, progress: () => ({ current: getCollectedItems().size, max: 9 }) },
             { id: 'first_date', title: '初入情网', description: '完成第一次约会事件', icon: '💌', rarity: 'common', condition: (state) => state.currentEvent > 0 },
             { id: 'rich_boy', title: '腰缠万贯', description: '金钱达到50元以上', icon: '💰', rarity: 'common', condition: (state) => state.money >= 50, progress: (state) => ({ current: Math.min(state.money, 50), max: 50 }) },
             { id: 'poor_boy', title: '穷困潦倒', description: '金钱低于5元', icon: '💸', rarity: 'common', condition: (state) => state.money < 5 },
@@ -49,18 +56,30 @@ var achievementsList = [
             { id: 'night_risk', title: '暗夜危机', description: '在黑夜模式下好感度跌至冰点', icon: '🌑', rarity: 'common', condition: (state) => state.isNight && state.like <= 10 }
         ];
 
-function showAchievementToast(message) {
+function showToast(message, type) {
+            const TYPES = {
+                achievement: { label: '成就', icon: '🏆' },
+                reward:      { label: '奖励', icon: '🎁' },
+                hint:        { label: '提示', icon: '💡' },
+                mood:        { label: '好感', icon: '💖' },
+                system:      { label: '系统', icon: '🌙' },
+                warn:        { label: '注意', icon: '⚠️' }
+            };
+            const t = TYPES[type] || TYPES.achievement;
             const container = document.getElementById('achievement-toast-container');
+            if (!container) return;
             const toast = document.createElement('div');
-            toast.className = 'achievement-toast';
-            toast.innerHTML = `<span class="toast-icon">✨</span><div class="toast-body"><span class="toast-label">通知</span><span class="toast-title">${message}</span></div>`;
+            toast.className = 'achievement-toast toast-' + (type || 'achievement');
+            toast.innerHTML = '<span class="toast-icon">' + t.icon + '</span><div class="toast-body"><span class="toast-label">' + t.label + '</span><span class="toast-title">' + message + '</span></div>';
             container.appendChild(toast);
-            
+
             setTimeout(() => {
                 toast.classList.add('hide');
                 setTimeout(() => toast.remove(), 500);
             }, 3000);
         }
+
+        function showAchievementToast(message) { showToast(message, 'achievement'); }
 
 function unlockAchievement(id, title) {
             if (gameState.unlockedAchievements.includes(id)) return;

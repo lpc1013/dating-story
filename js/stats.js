@@ -2,7 +2,7 @@
 
 function provideWarmth() {
             if (gameState.money < 5) {
-                showAchievementToast("❌ 余额不足，无法提供温暖...");
+                showToast("❌ 余额不足，无法提供温暖...", 'warn');
                 return;
             }
             
@@ -13,7 +13,7 @@ function provideWarmth() {
             updateMood('happy');
             
             document.getElementById('warmth-btn').style.display = 'none';
-            showAchievementToast("🔥 你的温暖让她感到无比安心");
+            showToast("🔥 你的温暖让她感到无比安心", 'mood');
             unlockAchievement('warm_heart', '暖心守护');
 
             // 温馨反馈动画
@@ -122,7 +122,7 @@ function handleLikeClick() {
             if (gameState.like >= 80 && !selectData.isChallenge) {
                 if (!gameState.isHintRevealed) {
                     gameState.isHintRevealed = true;
-                    showAchievementToast("✨ 你的真诚让她彻底敞开了心扉！");
+                    showToast("✨ 你的真诚让她彻底敞开了心扉！", 'mood');
                     SoundManager.playSting('peak');
                     SFX.heart();
                     const fb = document.getElementById('feedback');
@@ -135,7 +135,7 @@ function handleLikeClick() {
                     showMoodInfo();
                 }
             } else if (gameState.like >= 80 && selectData.isChallenge) {
-                showAchievementToast("🌪️ 挑战模式下，即使她再开心，你也很难完全猜透她的心思...");
+                showToast("🌪️ 挑战模式下，即使她再开心，你也很难完全猜透她的心思...", 'hint');
                 SFX.pop();
                 showMoodInfo();
             } else {

@@ -103,7 +103,7 @@ var chatData = {
                         gameState.heart += 1;
                         gameState.claimedRewards.push('sunny_picnic_reward');
                         updateStats();
-                        showAchievementToast("获得初次野餐奖励！💖");
+                        showToast("获得初次野餐奖励！💖", 'reward');
                     }
                 }
             },
@@ -306,7 +306,7 @@ var chatData = {
                 messages: ["唔... 你的手好暖和呀。", "其实比起雪，我更喜欢这种被你照顾的感觉。"],
                 options: [{ text: "我会一直照顾你的。", next: 'gf_snow_warm_2' }],
                 onEnter: () => {
-                    showAchievementToast("获得提示：雪天她最需要的是实实在在的温暖");
+                    showToast("获得提示：雪天她最需要的是实实在在的温暖", 'hint');
                     unlockLoveTip('warmth_snow');
                 }
             },
@@ -454,10 +454,10 @@ var chatData = {
                         const amount = Math.max(5, base + Math.floor(Math.random() * 6));
                         gameState.money += amount;
                         gameState.momMoneyTriggered = true;
-                        showAchievementToast(`💰 收到妈妈的红包：${amount}元`);
+                        showToast(`💰 收到妈妈的红包：${amount}元`, 'reward');
                         updateStats();
                     } else {
-                        showAchievementToast("💡 妈妈说：省着点花，下次再给你。");
+                        showToast("💡 妈妈说：省着点花，下次再给你。", 'hint');
                     }
                     unlockLoveTip('mom_love');
                     unlockLoveTip('timing');
@@ -527,10 +527,10 @@ var chatData = {
                             unlockLoveTip(randomTip.id);
                             updateStats();
                         } else {
-                            showAchievementToast("💡 AI提示：所有词条已解锁。");
+                            showToast("💡 AI提示：所有词条已解锁。", 'hint');
                         }
                     } else {
-                        showAchievementToast("❌ 心动值不足");
+                        showToast("❌ 心动值不足", 'warn');
                     }
                 },
                 messages: ["秘籍已解锁，请在‘恋爱手册’中查看。"],
@@ -546,7 +546,7 @@ var chatData = {
             'ai_gift_confirm': {
                 onEnter: () => {
                     if (gameState.aiGiftTriggered) {
-                        showAchievementToast("💡 AI提示：今日生成额度已用完。");
+                        showToast("💡 AI提示：今日生成额度已用完。", 'hint');
                         return;
                     }
                     if (gameState.heart >= 10) {
@@ -559,9 +559,9 @@ var chatData = {
                         addToInventory(gift.name, gift.icon, gift.desc, gift.quote);
                         gameState.aiGiftTriggered = true;
                         updateStats();
-                        showAchievementToast(`🎁 获得：${gift.name}`);
+                        showToast(`🎁 获得：${gift.name}`, 'reward');
                     } else {
-                        showAchievementToast("❌ 心动值不足");
+                        showToast("❌ 心动值不足", 'warn');
                     }
                 },
                 messages: ["礼物已存入您的背包。祝您约会愉快！"],
@@ -577,7 +577,7 @@ var chatData = {
             'ai_weather_confirm': {
                 onEnter: () => {
                     if (gameState.aiWeatherTriggered) {
-                        showAchievementToast("💡 AI提示：气象干预系统正在冷却中。");
+                        showToast("💡 AI提示：气象干预系统正在冷却中。", 'hint');
                         return;
                     }
                     if (gameState.heart >= 20) {
@@ -588,26 +588,43 @@ var chatData = {
                         selectData.weather = newWeather;
                         gameState.aiWeatherTriggered = true;
                         gameState.weatherBuffs = null; // 重置天气Buff，确保新天气逻辑生效
-                        
+
+                        // 关键修复：重新抽取新天气的剧情变体线，否则 gameData[newWeather] 为空，事件不跟随天气变化
+                        if (window.StoryLoader && StoryLoader.variants && StoryLoader.variants[newWeather]) {
+                            const picked = StoryLoader.pickWeather(newWeather);
+                            if (picked) gameData[newWeather] = picked;
+                            selectData.variantKey = (window.StoryLoader.getVariantKey) ? StoryLoader.getVariantKey(newWeather) : null;
+                        }
+
                         // 更新UI和效果
-                        document.getElementById('weather-icon').textContent = 
-                            newWeather === '晴天' ? '☀️' : 
-                            newWeather === '多云' ? '⛅' : 
+                        document.getElementById('weather-icon').textContent =
+                            newWeather === '晴天' ? '☀️' :
+                            newWeather === '多云' ? '⛅' :
                             newWeather === '雨天' ? '🌧️' : '❄️';
-                        
+
                         const theme = weatherThemes[newWeather] || weatherThemes['晴天'];
                         document.documentElement.style.setProperty('--header-bg', theme.header);
+                        // 天气视觉叙事：CSS 变量按天气微调（与开局 game-init.js 一致，避免只换粒子不换底色）
+                        const weatherVars = {
+                            '晴天': { '--bg-page': 'linear-gradient(135deg, #fff5e6, #fff0e0, #ffe9d0)', '--primary': '#ff8c42' },
+                            '多云': { '--bg-page': 'linear-gradient(135deg, #eef0f5, #e8ecf2, #dfe4ed)', '--primary': '#7b8ca0' },
+                            '雨天': { '--bg-page': 'linear-gradient(135deg, #e8f0f8, #dce8f4, #cfe0f0)', '--primary': '#5b8cb8' },
+                            '雪天': { '--bg-page': 'linear-gradient(135deg, #edf4fa, #e0ecf6, #d4e4f2)', '--primary': '#8ba4c0' }
+                        };
+                        const wv = weatherVars[newWeather] || weatherVars['晴天'];
+                        Object.entries(wv).forEach(([k, v]) => document.documentElement.style.setProperty(k, v));
+                        document.body.setAttribute('data-weather', newWeather);
+                        if (window.updateGfAvatar) updateGfAvatar();
                         initWeatherEffects(newWeather);
-                        
+
                         updateStats();
-                        showAchievementToast(`🌀 AI干预：天气已变为 ${newWeather}`);
-                        
-                        // 重新显示当前索引的事件（切到更短线时钳制索引，防止越界跳残缺结局）
-                        const _line = (typeof gameData !== 'undefined' && gameData[newWeather]) ? gameData[newWeather] : [];
-                        if (gameState.currentEvent > _line.length - 1) gameState.currentEvent = Math.max(0, _line.length - 1);
-                        showEvent(gameState.currentEvent);
+                        showToast(`🌀 AI干预：天气已变为 ${newWeather}`, 'system');
+
+                        // 扭转乾坤：从新天气线的第一幕重新体验（事件流按天气分线，重置索引避免跨线错位）
+                        gameState.currentEvent = 0;
+                        showEvent(0);
                     } else {
-                        showAchievementToast("❌ 心动值不足");
+                        showToast("❌ 心动值不足", 'warn');
                     }
                 },
                 messages: ["气象干预已完成。请继续您的约会。"],
@@ -625,7 +642,7 @@ var chatData = {
                 messages: ["她呀，典型的嘴硬心软。", "平时最喜欢收集吉伊小八的周边了，桌子上摆得满满当当的。"],
                 options: [{ text: "原来如此，谢了！", next: 'roommate_end' }],
                 onEnter: () => {
-                    showAchievementToast("获得情报：她对吉伊小八毫无抵抗力");
+                    showToast("获得情报：她对吉伊小八毫无抵抗力", 'hint');
                     unlockLoveTip('details');
                     unlockLoveTip('observation');
                 }
@@ -637,7 +654,7 @@ var chatData = {
                     { text: "她还喜欢别的吗？", next: 'roommate_more' }
                 ],
                 onEnter: () => {
-                    showAchievementToast("获得情报：她其实非常渴望收到一份定制礼物");
+                    showToast("获得情报：她其实非常渴望收到一份定制礼物", 'hint');
                 }
             },
             'roommate_more': {
@@ -735,7 +752,7 @@ var chatData = {
                 messages: ["她最讨厌吵闹的地方了。", "地铁挤的时候她心情会很差，如果能带她去安静浪漫的地方，她会瞬间变温柔。"],
                 options: [{ text: "好兄弟，够意思！", next: 'friend_end' }],
                 onEnter: () => {
-                    showAchievementToast("获得情报：安静浪漫的环境能平复她的情绪");
+                    showToast("获得情报：安静浪漫的环境能平复她的情绪", 'hint');
                     unlockLoveTip('quiet_romance');
                     unlockLoveTip('intimacy');
                 }
@@ -909,7 +926,7 @@ function renderContactList() {
             visibleContacts.forEach(c => {
                 const item = document.createElement('div');
                 item.className = 'contact-item';
-                item.onclick = () => { if (c.status === '离线') { showAchievementToast('💤 ' + c.name + ' 当前离线'); return; } startChat(c); };
+                item.onclick = () => { if (c.status === '离线') { showToast('💤 ' + c.name + ' 当前离线', 'warn'); return; } startChat(c); };
                 const statusColor = c.status === '在线' ? '#4caf50' : c.status === '离线' ? '#999' : '#ff9800';
                 item.innerHTML = `
                     <div class="contact-avatar" style="position:relative">${c.avatarImg ? '<img src="'+c.avatarImg+'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;" onerror="this.outerHTML=\''+(c.avatar||'👤')+'\'">' : c.avatar}${c.unread ? '<span class="contact-unread"></span>' : ''}</div>

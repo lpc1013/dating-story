@@ -13,5 +13,5 @@ function feedbackDwell(text) {
 function shareStory(){
             var w = selectData.weather, d = selectData.difficulty;
             var text = '💖 恋爱约会·'+w+'·'+d+'模式\n💛 好感:'+gameState.like+'  💓 心动:'+gameState.heart+'  🪙 资产:'+gameState.money+'\n——来自「恋爱约会模拟器」';
-            if(navigator.clipboard){navigator.clipboard.writeText(text).then(function(){showAchievementToast('📋 约会故事已复制到剪贴板！');});}else{showAchievementToast(text);}
+            if(navigator.clipboard){navigator.clipboard.writeText(text).then(function(){showToast('📋 约会故事已复制到剪贴板！', 'system');});}else{showToast(text, 'system');}
         }

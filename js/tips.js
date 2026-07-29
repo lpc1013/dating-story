@@ -22,21 +22,21 @@ var loveTipsData = [
             { id: 'outfit_style', title: '👗 穿搭偏好', body: '她其实很在意约会时的穿搭。虽然她嘴上不说，但如果你能夸夸她的搭配，她会开心很久。', lockedBody: '🔒 [已锁定] 通过浏览器搜索"约会穿搭"解锁：了解她的审美偏好。' }
         ];
 
-        var difficultyModifiers = {
+        window.difficultyModifiers = {
             '简单': { pos: 1.0, neg: 0.9 },
             '中等': { pos: 0.8, neg: 1.0 },
             '困难': { pos: 0.6, neg: 1.2 },
             '挑战': { pos: 0.4, neg: 1.5 }
         };
 
-        var difficultyColors = {
+        window.difficultyColors = {
             '晴天': { '简单': '#ffcc80', '中等': '#ffb74d', '困难': '#f57c00', '挑战': '#e65100' },
             '多云': { '简单': '#cfd8dc', '中等': '#90a4ae', '困难': '#607d8b', '挑战': '#37474f' },
             '雨天': { '简单': '#90caf9', '中等': '#64b5f6', '困难': '#1e88e5', '挑战': '#0d47a1' },
             '雪天': { '简单': '#e0f2f1', '中等': '#80cbc4', '困难': '#26a69a', '挑战': '#00695c' }
         };
 
-        var weatherModifiers = {
+        window.weatherModifiers = {
             '晴天': { pos: 1.1, neg: 0.9 },
             '多云': { pos: 1.0, neg: 1.0 },
             '雨天': { pos: 0.9, neg: 1.1 },
@@ -116,7 +116,7 @@ function unlockLoveTip(tipId) {
                 gameState.unlockedTips.push(tipId);
                 const tip = loveTipsData.find(t => t.id === tipId);
                 if (tip) {
-                    showAchievementToast(`📖 恋爱手册更新：${tip.title}`);
+                    showToast(`📖 恋爱手册更新：${tip.title}`, 'hint');
                 }
                 if (gameState.unlockedTips.length >= loveTipsData.length) {
                     unlockPhoto('all_tips');

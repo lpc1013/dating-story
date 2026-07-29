@@ -33,6 +33,7 @@ const report = {
   B: { title: '(B) data/story.json 结构/事件完整性', pass: 0, fail: 0, items: [] },
   C: { title: '(C) assets/asset-map.js 一致性/图片资源存在性', pass: 0, fail: 0, items: [] },
   D: { title: '(D) video/playlist.json 结构/mp3 资源存在性', pass: 0, fail: 0, items: [] },
+  E: { title: '(E) 道具 reward/useItem/requireItem 引用一致性', pass: 0, fail: 0, items: [] },
 };
 const eventNames = new Set();
 
@@ -294,6 +295,107 @@ function blockD() {
 }
 
 // =============================================================================
+// (E) 道具 reward/useItem/requireItem 引用一致性
+//     校验 story.json 中引用的道具 id 是否都在 js/backpack.js 的 ITEMS 中登记，
+//     防止新增文案/道具时漏登记导致“静默”缺失（配合 backpack.js 的兜底，虽不崩但图标/描述会缺）。
+//     兼容 options/choices 两套字段名；事件级 giveItem 一并纳入。
+// =============================================================================
+function blockE() {
+  // 1) 读取 story.json，复用 blockB 的解析方式（name||title / prompt||description / options||choices）
+  const storyPath = path.join(ROOT, 'data', 'story.json');
+  let data;
+  try {
+    data = JSON.parse(fs.readFileSync(storyPath, 'utf8'));
+    rec('E', 'JSON.parse', true, 'OK');
+  } catch (e) {
+    rec('E', 'data/story.json', false, '读取/解析失败: ' + e.message);
+    return;
+  }
+
+  const wg = data.meta && data.meta.weatherGroups;
+  const weathers = data.weathers;
+  if (!wg || typeof wg !== 'object' || !weathers || typeof weathers !== 'object') {
+    rec('E', 'weathers/meta.weatherGroups', false, 'story.json 结构异常（缺 weatherGroups/weathers）');
+    return;
+  }
+
+  // 递归遍历：天气→变体子键→事件→options，收集所有引用 id（去重）
+  const refIds = new Set();
+  const collectStr = (v) => {
+    if (typeof v === 'string' && v.trim()) refIds.add(v.trim());
+  };
+
+  for (const subKeys of Object.values(wg)) {
+    if (!Array.isArray(subKeys)) continue;
+    for (const sub of subKeys) {
+      const variant = weathers[sub];
+      if (!variant || !Array.isArray(variant.events)) continue;
+      for (const ev of variant.events) {
+        if (!ev || typeof ev !== 'object') continue;
+        if (ev.giveItem) collectStr(ev.giveItem); // 事件级 giveItem
+        const opts = ev.options != null ? ev.options : ev.choices; // 兼容 options/choices
+        if (!Array.isArray(opts)) continue;
+        for (const o of opts) {
+          if (!o || typeof o !== 'object') continue;
+          if (o.reward) collectStr(o.reward);
+          if (o.useItem) collectStr(o.useItem);
+          if (o.requireItem) collectStr(o.requireItem);
+        }
+      }
+    }
+  }
+
+  // 2) 读取 js/backpack.js 文本，提取 ITEMS 注册表里的所有键
+  const bpPath = path.join(ROOT, 'js', 'backpack.js');
+  let bpCode;
+  try {
+    bpCode = fs.readFileSync(bpPath, 'utf8');
+  } catch (e) {
+    rec('E', 'js/backpack.js', false, '读取失败: ' + e.message);
+    return;
+  }
+  const startIdx = bpCode.indexOf('var ITEMS = {');
+  if (startIdx < 0) {
+    rec('E', 'ITEMS 注册表', false, '未在 js/backpack.js 找到 "var ITEMS = {"');
+    return;
+  }
+  // 从起始位置向后，截取第一个 2 空格缩进闭合的 "};" 之间的内容
+  const afterStart = bpCode.slice(startIdx);
+  const closeMatch = afterStart.match(/\n\s{2}\};/);
+  if (!closeMatch) {
+    rec('E', 'ITEMS 注册表闭合', false, '未找到 ITEMS 的 "};" 闭合');
+    return;
+  }
+  const itemsBlock = afterStart.slice(0, closeMatch.index + closeMatch[0].length);
+
+  const registeredIds = new Set();
+  const keyRe = /\n\s{4}([a-zA-Z_]\w*):/g;
+  let m;
+  while ((m = keyRe.exec(itemsBlock)) !== null) {
+    registeredIds.add(m[1]);
+  }
+  rec('E', 'ITEMS 注册表键提取', true, [...registeredIds].sort().join(',') + ` (共 ${registeredIds.size} 个)`);
+
+  // 3) 对 refIds 中每个 id 校验是否在 registeredIds 中
+  let allPass = true;
+  for (const id of refIds) {
+    if (!registeredIds.has(id)) {
+      rec('E', 'reward 引用缺失: ' + id, false, 'story.json 引用了未注册的道具，请在 js/backpack.js 的 ITEMS 补登记');
+      allPass = false;
+    } else {
+      rec('E', 'reward 引用 ' + id, true, 'OK');
+    }
+  }
+
+  // 4) 额外一条：仅当全部通过
+  if (refIds.size === 0) {
+    rec('E', '引用总数', true, 'story.json 未引用任何道具');
+  } else if (allPass) {
+    rec('E', '引用总数', true, refIds.size + ' 个均已在 ITEMS 注册');
+  }
+}
+
+// =============================================================================
 // 主流程
 // =============================================================================
 function main() {
@@ -306,9 +408,10 @@ function main() {
   blockB();
   blockC();
   blockD();
+  blockE();
 
   let totalPass = 0, totalFail = 0;
-  for (const k of ['A', 'B', 'C', 'D']) {
+  for (const k of ['A', 'B', 'C', 'D', 'E']) {
     const b = report[k];
     console.log('\n' + b.title);
     console.log('-'.repeat(60));

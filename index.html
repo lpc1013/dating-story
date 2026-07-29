@@ -13,16 +13,6 @@
         <div style="width:200px;height:4px;background:#f0e0e0;border-radius:2px;overflow:hidden;"><div id="load-bar" style="height:100%;width:0;background:linear-gradient(90deg,#ff8e8e,#ff6b6b);transition:width 0.3s;"></div></div>
         <div style="margin-top:12px;font-size:12px;color:#999;">正在加载你的约会故事...</div>
     </div>
-    <div class="ai-float-btn" onclick="toggleAiMenu(event)" title="AI 恋爱顾问">
-        <div class="ai-float-avatar">🤖</div>
-        <div class="ai-float-pulse"></div>
-        <div class="ai-quick-menu" id="ai-quick-menu">
-            <div class="ai-quick-opt" onclick="aiWeather();toggleAiMenu(event)">🌤️ 气象干预 (-20💓)</div>
-            <div class="ai-quick-opt" onclick="aiGiftGen();toggleAiMenu(event)">🎁 生成礼物 (-10💓)</div>
-            <div class="ai-quick-opt" onclick="aiRandomTip();toggleAiMenu(event)">💡 恋爱秘籍 (-15💓)</div>
-            <div class="ai-quick-opt" onclick="showMoodInfo();toggleAiMenu(event)">🔍 心情分析</div>
-        </div>
-    </div>
     <!-- 天气特效 canvas 已移入 #game-container 内部，限制于手机壳范围 -->
     <div id="camera-flash" class="camera-flash"></div>
     <div id="camera-overlay" class="camera-overlay">📸</div>
@@ -213,6 +203,8 @@
 
     <div class="container" id="game-container" style="display: none;">
         <canvas id="weather-canvas" style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:5;"></canvas>
+
+        <!-- 底部背包栏(slim)由 js/backpack.js 动态生成并钉在壳底；AI/主题已降级为背包内常驻道具 -->
         <!-- 天气面板：移入手机壳内，position:absolute 相对 .container，宽度锁定 420px，不再撑出视口 -->
         <div class="weather-panel" id="weather-panel">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
@@ -242,11 +234,9 @@
                 <div class="stat-pill-item" onclick="showRedeemModal()" title="点击兑换礼包">
                     <span class="money-icon">🪙</span>
                     <span id="money-value">30</span>
-                    <span class="stat-plabel">资产</span>
                 </div>
                 <div class="stat-pill-item" id="like-stat-item" onclick="handleLikeClick()">
                     <span id="like-display"><span class="like-emoji">😐</span><span>一般</span></span>
-                    <span class="stat-plabel">开心</span>
                 </div>
             </div>
         </div>
@@ -464,7 +454,7 @@
                 <div class="album-content">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                         <h3 style="color: #ff6b6b; margin: 0;">📸 回忆收藏</h3>
-                        <button class="back-btn" style="margin: 0; padding: 5px 15px;" onclick="hideAlbum()">关闭</button>
+                        <button class="back-btn album-close-btn" style="margin: 0; padding: 5px 15px;" onclick="hideAlbum()">关闭</button>
                     </div>
 
                     <div class="album-tabs">
@@ -848,19 +838,11 @@ function hideLoveTips() {
             if (!SoundManager.bgm) SoundManager.playBgm('start');
         }, { once: true });
     </script>
-    <!-- 主题切换器 -->
-    <div id="theme-switcher" class="theme-switcher">
-        <span class="theme-switcher-title">主题</span>
-        <button class="theme-dot t-parchment active" data-set-theme="parchment" title="羊皮古卷">羊</button>
-        <button class="theme-dot t-cinnabar" data-set-theme="cinnabar" title="朱砂古卷">砂</button>
-        <button class="theme-dot t-rosegold" data-set-theme="rosegold" title="柔粉暖金">粉</button>
-        <button class="theme-dot t-dusk" data-set-theme="dusk" title="暮色梦境">暮</button>
-    </div>
     <script>
     (function () {
         var KEY = 'dating-theme';
-        var sw = document.getElementById('theme-switcher');
-        var dots = sw ? sw.querySelectorAll('.theme-dot') : [];
+        var expand = document.getElementById('theme-expand');
+        var dots = expand ? expand.querySelectorAll('.theme-dot') : [];
         function applyTheme(t) {
             document.body.setAttribute('data-theme', t);
             for (var i = 0; i < dots.length; i++) {
@@ -871,6 +853,7 @@ function hideLoveTips() {
         for (var i = 0; i < dots.length; i++) {
             dots[i].addEventListener('click', function () {
                 applyTheme(this.getAttribute('data-set-theme'));
+                toggleThemeExpand(false);
             });
         }
         var saved = null;
@@ -928,9 +911,14 @@ function hideLoveTips() {
         function bindBeep(){document.querySelectorAll(hb).forEach(function(e){e.removeEventListener('mouseenter',hoverBeep);e.addEventListener('mouseenter',hoverBeep)})}
         bindBeep();new MutationObserver(bindBeep).observe(document.body,{childList:true,subtree:true});
     })();
-    // AI 快捷菜单
-    function toggleAiMenu(e){e.stopPropagation();document.getElementById('ai-quick-menu').classList.toggle('show')}
-    document.addEventListener('click',function(e){if(!e.target.closest('.ai-float-btn'))document.getElementById('ai-quick-menu')?.classList.remove('show')});
+    // AI 快捷菜单（入口已降级为背包内 🤖 道具）
+    function toggleAiMenu(e){e.stopPropagation();var m=document.getElementById('ai-quick-menu');if(!m)return;m.classList.toggle('show');if(m.classList.contains('show')){try{localStorage.setItem('ai-hint-seen','1')}catch(_){}var d=document.getElementById('ai-red-dot');if(d)d.remove();}}
+    // 主题色板展开/收起（入口为背包内 🎨 道具；force 为布尔时强制开/关）
+    function toggleThemeExpand(force){var x=document.getElementById('theme-expand');if(!x)return;if(typeof force==='boolean')x.classList.toggle('show',force);else x.classList.toggle('show');}
+    document.addEventListener('click',function(e){
+      if(!e.target.closest('.bp-ai')&&!e.target.closest('.ai-quick-menu'))document.getElementById('ai-quick-menu')?.classList.remove('show');
+      if(!e.target.closest('.bp-theme')&&!e.target.closest('.theme-expand'))document.getElementById('theme-expand')?.classList.remove('show');
+    });
     function aiWeather(){
         if(gameState.aiWeatherTriggered){showAchievementToast('⚠️ 气象干预每局仅限一次');return}
         if(gameState.heart<20){showAchievementToast('💔 心动值不足20，无法气象干预');return}

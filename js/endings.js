@@ -143,7 +143,7 @@ function spawnEndingParticles(type) {
 function showEndingGallery() {
             let history = [];
             try { const raw = localStorage.getItem('dating-history'); if(raw) history = JSON.parse(raw); } catch(e) {}
-            if(!history.length) { showAchievementToast('📭 还没有完成过任何约会'); return; }
+            if(!history.length) { showToast('📭 还没有完成过任何约会', 'warn'); return; }
             hideAllPanels();
             const panel = document.getElementById('journal');
             panel.style.display = 'flex'; panel.style.flexDirection='column'; panel.classList.add('show');

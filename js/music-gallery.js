@@ -120,7 +120,7 @@ var MusicGallery = {
 
     load(idx, play) {
         if (idx < 0 || idx >= this.songs.length) return;
-        var s = this.songs[idx]; if (!s.playable) { showAchievementToast('🔒 此文件无法播放'); return; }
+        var s = this.songs[idx]; if (!s.playable) { showToast('🔒 此文件无法播放', 'warn'); return; }
         this.index = idx;
         this.audio.src = encodeURI(s.file);
         if (this.elTitle) this.elTitle.textContent = s.title;
@@ -140,7 +140,7 @@ var MusicGallery = {
     step(dir) { this.load(this.index+dir, !this.audio.paused); },
     onTime() { if (this.elBar) this.elBar.style.width = (this.audio.duration?(this.audio.currentTime/this.audio.duration*100):0)+'%'; if(this.elCur)this.elCur.textContent=fmtTime(this.audio.currentTime); },
     onEnded() { if (this.mode==='single') { this.audio.currentTime=0; this.audio.play(); } else { this.step(1); } },
-    onError() { showAchievementToast('❌ 播放失败'); },
+    onError() { showToast('❌ 播放失败', 'warn'); },
     cycleMode() { var m=['order','shuffle','single']; this.mode=m[(m.indexOf(this.mode)+1)%3]; this.elMode.textContent={order:'🔁',shuffle:'🔀',single:'🔂'}[this.mode]; },
     toggleBgm() { /* hook for bgm mode */ },
 };

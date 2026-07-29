@@ -36,7 +36,7 @@ async function triggerCamera(photoId) {
                     successEl.classList.add('active');
                     setTimeout(() => successEl.classList.remove('active'), 1000);
                     
-                    showAchievementToast(`📸 记录瞬间: ${photo ? photo.title : '新照片'}`);
+                    showToast(`📸 记录瞬间: ${photo ? photo.title : '新照片'}`, 'reward');
                 }
             }, 100);
         }
