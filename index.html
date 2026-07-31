@@ -936,7 +936,7 @@ function hideLoveTips() {
         var gifts=[{name:'AI定制巧克力',icon:'🍫',desc:'AI精心调配的可可比例'},{name:'永生玫瑰',icon:'🌹',desc:'纳米保鲜技术，永不凋谢'}];
         var g=gifts[Math.floor(Math.random()*gifts.length)];
         if(typeof addToInventory==='function')addToInventory(g.name,g.icon,g.desc);
-        else{if(!gameState.inventory)gameState.inventory={};gameState.inventory[g.name]=1;updateStats();}
+        else{if(!gameState.inventory)gameState.inventory={};gameState.inventory[g.name]={icon:g.icon,count:1,description:g.desc,quote:''};updateStats();}
         showAchievementToast('🎁 AI生成了：'+g.name+' (-10💓)');
     }
     function aiRandomTip(){

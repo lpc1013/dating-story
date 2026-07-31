@@ -22,7 +22,7 @@ var achievementsList = [
             { id: '及时雨', title: '及时雨', description: '在迷路时迅速找到她', icon: '☔', rarity: 'common', isEvent: true },
             { id: '细节狂魔', title: '细节狂魔', description: '展现出极致的细心', icon: '🔍', rarity: 'rare', isEvent: true },
             { id: '绅士手', title: '绅士手', description: '展现绅士风度', icon: '🤝', rarity: 'common', isEvent: true },
-            { id: '欧皇附体', title: '欧皇附体', description: '一发入魂抽中隐藏款', icon: '🍀', rarity: 'legendary', isEvent: true },
+            { id: '欧皇附体', title: '欧皇附体', description: '在抽奖奇遇中好运爆棚，抽中心仪限定款', icon: '🍀', rarity: 'legendary', isEvent: true },
             { id: '最佳倾听者', title: '最佳倾听者', description: '耐心倾听她的分享', icon: '👂', rarity: 'common', isEvent: true },
             { id: '心动摄影师', title: '心动摄影师', description: '拍下让她心动的照片', icon: '📸', rarity: 'common', isEvent: true },
             { id: '导航专家', title: '导航专家', description: '在复杂的巷子里精准带路', icon: '🧭', rarity: 'common', isEvent: true },
@@ -53,7 +53,8 @@ var achievementsList = [
             { id: 'starlight_lover', title: '星月交辉', description: '夜幕后全程保持好感度80以上', icon: '🌠', rarity: 'rare', condition: (state, isEnd) => isEnd && selectData.dateType === '一整天' && state.isNight && state.like >= 80 },
             { id: 'midnight_poet', title: '午夜诗人', description: '夜幕后选了所有浪漫选项', icon: '🌃', rarity: 'legendary', condition: (state, isEnd) => isEnd && selectData.dateType === '一整天' && state.isNight && (state.journalEntries || []).filter(function(e){return (e.likeChange||0) >= 8;}).length >= 5 },
             { id: 'midnight_romance', title: '午夜浪漫', description: '在黑夜模式下获得极高好感度', icon: '🎆', rarity: 'rare', condition: (state) => state.isNight && state.like >= 90 },
-            { id: 'night_risk', title: '暗夜危机', description: '在黑夜模式下好感度跌至冰点', icon: '🌑', rarity: 'common', condition: (state) => state.isNight && state.like <= 10 }
+            { id: 'night_risk', title: '暗夜危机', description: '在黑夜模式下好感度跌至冰点', icon: '🌑', rarity: 'common', condition: (state) => state.isNight && state.like <= 10 },
+            { id: 'photo_archive', title: '时光集锦', description: '集齐相册里的每一张回忆', icon: '📔', rarity: 'legendary', condition: (state) => (state.unlockedPhotos || []).length >= 25, progress: (state) => ({ current: (state.unlockedPhotos || []).length, max: 25 }) }
         ];
 
 function showToast(message, type) {

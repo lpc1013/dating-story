@@ -1,44 +1,17 @@
 // js/media.js — 从 achievements.js 拆分（功能：相机/CG）
 
 async function triggerCamera(photoId) {
+            if (!photoId) return;
             const flash = document.getElementById('camera-flash');
-            const overlay = document.getElementById('camera-overlay');
-            const countdownEl = document.getElementById('camera-countdown');
-            const successEl = document.getElementById('camera-success');
-            
-            // 倒计时提示
-            countdownEl.style.display = 'flex';countdownEl.style.alignItems='center';countdownEl.style.justifyContent='center';
-            for (let i = 3; i > 0; i--) {
-                countdownEl.textContent = i;
-                countdownEl.style.transform = 'translate(-50%, -50%) scale(1.5)';
-                countdownEl.style.opacity = '1';
-                await new Promise(r => setTimeout(r, 100));
-                countdownEl.style.transform = 'translate(-50%, -50%) scale(1)';
-                countdownEl.style.opacity = '0.5';
-                await new Promise(r => setTimeout(r, 700));
+            // 轻量快门：仅一瞬白闪，不再弹全屏倒计时/成功层，避免打断游戏节奏
+            if (flash) {
+                flash.classList.add('active');
+                setTimeout(() => flash.classList.remove('active'), 160);
             }
-            countdownEl.style.display = 'none';
-
-            // 拍照瞬间
-            flash.classList.add('active');
-            overlay.classList.add('active');
-            SoundManager.playSfx('choice'); 
-            
-            setTimeout(() => {
-                flash.classList.remove('active');
-                setTimeout(() => overlay.classList.remove('active'), 500);
-                
-                if (photoId) {
-                    unlockPhoto(photoId);
-                    const photo = albumPhotos.find(p => p.id === photoId);
-                    
-                    // 成功提示动画
-                    successEl.classList.add('active');
-                    setTimeout(() => successEl.classList.remove('active'), 1000);
-                    
-                    showToast(`📸 记录瞬间: ${photo ? photo.title : '新照片'}`, 'reward');
-                }
-            }, 100);
+            if (typeof SFX !== 'undefined' && SFX.click) SFX.click(); // 咔嚓一声轻反馈
+            unlockPhoto(photoId);
+            const photo = albumPhotos.find(p => p.id === photoId);
+            showToast(`📸 记录瞬间: ${photo ? photo.title : '新照片'}`, 'reward');
         }
 
 var cgLightboxEl = null;

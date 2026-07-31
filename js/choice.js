@@ -170,7 +170,6 @@ function makeChoice(choice, event) {
 
             updateMood(choice.emotion);
             checkStatsAchievements();
-            triggerRandomDrop();
 
             const fb = document.getElementById('feedback');
             const eIcons = { happy: '😊', normal: '😐', angry: '💢' };

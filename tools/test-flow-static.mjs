@@ -33,7 +33,9 @@ const report = {
   B: { title: '(B) data/story.json 结构/事件完整性', pass: 0, fail: 0, items: [] },
   C: { title: '(C) assets/asset-map.js 一致性/图片资源存在性', pass: 0, fail: 0, items: [] },
   D: { title: '(D) video/playlist.json 结构/mp3 资源存在性', pass: 0, fail: 0, items: [] },
-  E: { title: '(E) 道具 reward/useItem/requireItem 引用一致性', pass: 0, fail: 0, items: [] },
+  E: { title: '(E) 道具 reward/useItem/requireItem/photo 引用一致性', pass: 0, fail: 0, items: [] },
+  F: { title: '(F) requireItem 门控行为回归（hasItem 语义）', pass: 0, fail: 0, items: [] },
+  G: { title: '(G) 商店礼物 → 事件内赠予入口连通性（injectItemChoices）', pass: 0, fail: 0, items: [] },
 };
 const eventNames = new Set();
 
@@ -321,9 +323,18 @@ function blockE() {
 
   // 递归遍历：天气→变体子键→事件→options，收集所有引用 id（去重）
   const refIds = new Set();
-  const collectStr = (v) => {
-    if (typeof v === 'string' && v.trim()) refIds.add(v.trim());
+  const photoRefs = new Set();
+  // id → 该 id 出现过的字段类型集合（reward/useItem/requireItem/giveItem），用于精准报错
+  const refKinds = new Map();
+  const collectStr = (v, kind) => {
+    if (typeof v === 'string' && v.trim()) {
+      const id = v.trim();
+      refIds.add(id);
+      if (!refKinds.has(id)) refKinds.set(id, new Set());
+      refKinds.get(id).add(kind || 'reward');
+    }
   };
+  const kindOf = (id) => [...(refKinds.get(id) || ['reward'])].sort().join('/');
 
   for (const subKeys of Object.values(wg)) {
     if (!Array.isArray(subKeys)) continue;
@@ -332,14 +343,15 @@ function blockE() {
       if (!variant || !Array.isArray(variant.events)) continue;
       for (const ev of variant.events) {
         if (!ev || typeof ev !== 'object') continue;
-        if (ev.giveItem) collectStr(ev.giveItem); // 事件级 giveItem
+        if (ev.giveItem) collectStr(ev.giveItem, 'giveItem'); // 事件级 giveItem
         const opts = ev.options != null ? ev.options : ev.choices; // 兼容 options/choices
         if (!Array.isArray(opts)) continue;
         for (const o of opts) {
           if (!o || typeof o !== 'object') continue;
-          if (o.reward) collectStr(o.reward);
-          if (o.useItem) collectStr(o.useItem);
-          if (o.requireItem) collectStr(o.requireItem);
+          if (o.reward) collectStr(o.reward, 'reward');
+          if (o.useItem) collectStr(o.useItem, 'useItem');
+          if (o.requireItem) collectStr(o.requireItem, 'requireItem');
+          if (o.photo) photoRefs.add(o.photo);
         }
       }
     }
@@ -379,11 +391,14 @@ function blockE() {
   // 3) 对 refIds 中每个 id 校验是否在 registeredIds 中
   let allPass = true;
   for (const id of refIds) {
+    const kind = kindOf(id);
     if (!registeredIds.has(id)) {
-      rec('E', 'reward 引用缺失: ' + id, false, 'story.json 引用了未注册的道具，请在 js/backpack.js 的 ITEMS 补登记');
+      rec('E', kind + ' 引用缺失: ' + id, false,
+        'story.json 的 ' + kind + ' 引用了未注册的道具，请在 js/backpack.js 的 ITEMS 补登记。' +
+        '（运行时静默无报错：requireItem 拼错 → 选项永远不出现；useItem 拼错 → 道具消耗不掉）');
       allPass = false;
     } else {
-      rec('E', 'reward 引用 ' + id, true, 'OK');
+      rec('E', kind + ' 引用 ' + id, true, 'OK');
     }
   }
 
@@ -392,6 +407,213 @@ function blockE() {
     rec('E', '引用总数', true, 'story.json 未引用任何道具');
   } else if (allPass) {
     rec('E', '引用总数', true, refIds.size + ' 个均已在 ITEMS 注册');
+  }
+
+  // 5) 校验 choice.photo 引用是否都在 albumPhotos 注册
+  const albumPath = path.join(ROOT, 'js', 'album.js');
+  let albumCode;
+  try {
+    albumCode = fs.readFileSync(albumPath, 'utf8');
+  } catch (e) {
+    rec('E', 'js/album.js', false, '读取失败: ' + e.message);
+    return;
+  }
+  const albumIds = new Set();
+  const idRe = /id:\s*'([^']+)'/g;
+  let m2;
+  while ((m2 = idRe.exec(albumCode)) !== null) albumIds.add(m2[1]);
+  rec('E', 'albumPhotos id 提取', true, [...albumIds].sort().join(',') + ` (共 ${albumIds.size} 个)`);
+  let photoAllPass = true;
+  for (const id of photoRefs) {
+    if (!albumIds.has(id)) {
+      rec('E', 'photo 引用缺失: ' + id, false, 'story.json 的 choice.photo 指向了 album.js 未登记的相册照');
+      photoAllPass = false;
+    } else {
+      rec('E', 'photo 引用 ' + id, true, 'OK');
+    }
+  }
+  if (photoRefs.size === 0) {
+    rec('E', 'photo 引用总数', true, 'story.json 未引用任何 choice.photo');
+  } else if (photoAllPass) {
+    rec('E', 'photo 引用总数', true, photoRefs.size + ' 个均已在 albumPhotos 注册');
+  }
+}
+
+// =============================================================================
+// (F) requireItem 门控行为回归（hasItem 语义）
+//     背景：gameState.inventory[id] 存的是**对象** { icon, count, ... }（见 backpack.js
+//     acquireItem / inventory.js addToInventory）。历史缺陷是 event-render.js 写成
+//     `inventory[id] > 0` —— 对象与数字比较恒为 false，导致所有带 requireItem 的选项
+//     被永久隐藏，且运行时静默无任何报错。
+//     本块把 js/event-render.js 真实加载进沙箱、调用真实的 hasItem 做行为断言，
+//     而不是靠"看代码觉得对"。同时锁死两处调用点必须共用同一判定，防止再次漂移。
+// =============================================================================
+function blockF() {
+  const erPath = path.join(ROOT, 'js', 'event-render.js');
+  let code;
+  try {
+    code = fs.readFileSync(erPath, 'utf8');
+  } catch (e) {
+    rec('F', 'js/event-render.js', false, '读取失败: ' + e.message);
+    return;
+  }
+
+  // --- F1. 源码层：禁止回退到"对象与数字比较"的错误写法 ---
+  const badPattern = /inventory\s*\[[^\]]*requireItem[^\]]*\]\s*>\s*0/;
+  rec('F', '未回退到 inventory[requireItem] > 0 的错误比较', !badPattern.test(code),
+    badPattern.test(code) ? '检测到对象与数字直接比较，requireItem 门控会恒判为"未持有"' : 'OK');
+
+  // --- F2. 源码层：两处门控必须共用 hasItem（求解最优项 / 实际渲染） ---
+  const gateCalls = (code.match(/requireItem\s*&&\s*!hasItem\(/g) || []).length;
+  rec('F', '两处 requireItem 门控共用 hasItem', gateCalls === 2,
+    gateCalls === 2 ? '找到 2 处（bestIdx 求解 + 实际渲染），判定一致'
+                    : `期望 2 处，实际 ${gateCalls} 处 —— 判定不一致会导致"提示指向一个看不见的选项"`);
+
+  // --- F3. 行为层：在沙箱中加载真实源码并调用真实的 hasItem ---
+  let hasItem;
+  const sandboxState = { inventory: null };
+  try {
+    // event-render.js 顶层只有函数声明与一次函数引用赋值，加载时不触碰 DOM。
+    // 用 new Function 注入 gameState 桩，把 hasItem 取出来。
+    const factory = new Function('gameState', 'document', 'window', code + '\n;return hasItem;');
+    hasItem = factory(sandboxState, undefined, {});
+    rec('F', '沙箱加载 event-render.js 并取出 hasItem', typeof hasItem === 'function',
+      typeof hasItem === 'function' ? 'OK' : '未导出 hasItem 函数');
+  } catch (e) {
+    rec('F', '沙箱加载 event-render.js', false, e.message);
+    return;
+  }
+  if (typeof hasItem !== 'function') return;
+
+  // 用例表：[说明, inventory 值, 期望判定]
+  const cases = [
+    ['inventory 未初始化(null) → 未持有',            null,                                     false],
+    ['inventory 为空对象 → 未持有',                  {},                                       false],
+    ['条目不存在（只有别的道具）→ 未持有',            { scarf: { icon: '🧣', count: 1 } },       false],
+    ['对象 {icon,count:1} → 已持有（核心回归）',      { powerbank: { icon: '🔋', count: 1 } },   true],
+    ['对象 count:0 → 未持有',                        { powerbank: { icon: '🔋', count: 0 } },   false],
+    ['对象 count 为 undefined → 未持有（安全兜底）',  { powerbank: { icon: '🔋' } },             false],
+    ['对象 count 为 NaN → 未持有（安全兜底）',        { powerbank: { icon: '🔋', count: NaN } }, false],
+    ['条目为 null → 未持有',                         { powerbank: null },                      false],
+    ['遗留数字格式 1 → 已持有（兼容 aiGiftGen 兜底）', { powerbank: 1 },                        true],
+    ['遗留数字格式 0 → 未持有',                      { powerbank: 0 },                         false],
+  ];
+
+  for (const [label, invValue, expected] of cases) {
+    sandboxState.inventory = invValue;
+    let actual;
+    try { actual = hasItem('powerbank'); } catch (e) { actual = 'THROW: ' + e.message; }
+    rec('F', label, actual === expected, `hasItem('powerbank') = ${actual}（期望 ${expected}）`);
+  }
+
+  // --- F4. 对照：证明旧写法在同一份数据上确实判错（缺陷复现，锁死不可回退） ---
+  const legacyInv = { powerbank: { icon: '🔋', count: 1 } };
+  const legacyVerdict = !!(legacyInv && legacyInv['powerbank'] > 0); // 旧代码的判定表达式
+  sandboxState.inventory = legacyInv;
+  const fixedVerdict = hasItem('powerbank');
+  rec('F', '缺陷复现对照：旧写法误判 / 新写法正确',
+    legacyVerdict === false && fixedVerdict === true,
+    `同一条目 {icon:'🔋',count:1} → 旧 inventory[id]>0 判定=${legacyVerdict}（错，选项被隐藏）` +
+    ` / 新 hasItem 判定=${fixedVerdict}（对，选项可渲染）`);
+}
+
+// =============================================================================
+// (G) 商店礼物 → 事件内赠予入口连通性
+//     背景：玩家在商店买到的礼物以**中文名**为键写进 inventory（inventory.js addToInventory），
+//     injectItemChoices 需要靠"中文名 → 礼物 id"反查表才能注入赠予按钮。历史缺陷是该反查表
+//     用了 shop.js 顶层的**遗留** gifts（8 件旧商品），与实际在售的 shopGifts（6 件）商品名
+//     几乎零重叠 → 反查恒失败 → 赠予按钮从不出现，且运行时无任何报错。
+//     本块把 shop.js + event-render.js 一起加载进沙箱，用假 DOM 真实调用 injectItemChoices，
+//     断言"买得到的礼物一定给得出去"。
+// =============================================================================
+function blockG() {
+  let shopCode, erCode;
+  try {
+    shopCode = fs.readFileSync(path.join(ROOT, 'js', 'shop.js'), 'utf8');
+    erCode = fs.readFileSync(path.join(ROOT, 'js', 'event-render.js'), 'utf8');
+  } catch (e) {
+    rec('G', '读取 js/shop.js + js/event-render.js', false, e.message);
+    return;
+  }
+
+  // --- 极简 DOM 桩：只实现 injectItemChoices 用到的那几个方法 ---
+  function makeEl() {
+    return {
+      className: '', innerHTML: '', onclick: null,
+      style: {}, _attrs: {}, children: [],
+      setAttribute(k, v) { this._attrs[k] = v; },
+      getAttribute(k) { return this._attrs[k]; },
+      appendChild(c) { this.children.push(c); },
+      querySelector(sel) {
+        const m = /\[data-item="([^"]+)"\]/.exec(sel);
+        if (!m) return null;
+        return this.children.find(c => c._attrs && c._attrs['data-item'] === m[1]) || null;
+      },
+    };
+  }
+  const documentStub = { createElement: () => makeEl() };
+
+  let api;
+  try {
+    // shop.js 在前（提供 shopGifts / gifts / selectData / gameState），event-render.js 在后。
+    // 两者顶层均无 DOM 副作用，可安全加载。
+    api = new Function('document', 'window', 'showToast', 'updateStats', 'makeChoice',
+      shopCode + '\n' + erCode +
+      '\n;return { inject: injectItemChoices, setInv: function(i){ gameState.inventory = i; },' +
+      ' shopGifts: (typeof shopGifts !== "undefined" ? shopGifts : null),' +
+      ' legacyGifts: (typeof gifts !== "undefined" ? gifts : null) };'
+    )(documentStub, {}, () => {}, () => {}, () => {});
+    rec('G', '沙箱加载 shop.js + event-render.js', true, 'OK');
+  } catch (e) {
+    rec('G', '沙箱加载 shop.js + event-render.js', false, e.message);
+    return;
+  }
+
+  // --- G1. shopGifts 必须是顶层可见的数组（曾被困在 renderShopList() 内部） ---
+  const sg = api.shopGifts;
+  rec('G', 'shopGifts 已提升为 shop.js 顶层变量', Array.isArray(sg) && sg.length > 0,
+    Array.isArray(sg) ? `${sg.length} 件商品，外部可读` : '顶层不可见 —— 事件内赠予反查将退回遗留表');
+  if (!Array.isArray(sg)) return;
+
+  // --- G2. 每件"可入包"的在售礼物，都必须能在事件中注入赠予按钮 ---
+  const givable = sg.filter(g => g && g.name && !g.isCustom);
+  for (const g of givable) {
+    // 模拟：玩家买下该礼物 → addToInventory 以**中文名**为键写入
+    api.setInv({ [g.name]: { icon: g.icon, count: 1, description: g.desc, quote: g.quote } });
+    const container = makeEl();
+    let err = null;
+    try { api.inject({ title: 'T', choices: [] }, container); } catch (e) { err = e.message; }
+    const btn = container.children.find(c => c._attrs && c._attrs['data-item'] === g.id);
+    rec('G', `在售礼物「${g.name}」可在事件中赠予`, !err && !!btn,
+      err ? 'inject 抛错: ' + err
+          : btn ? `已注入按钮 data-item="${g.id}"`
+                : `未注入任何按钮 —— 中文名「${g.name}」反查不到礼物 id，赠予入口是死链`);
+  }
+
+  // --- G3. 定制礼物入包名是动态的（定制的🎁），不应误注入 ---
+  api.setInv({ '定制的🎁': { icon: '🎁', count: 1 } });
+  const c3 = makeEl();
+  try { api.inject({ title: 'T', choices: [] }, c3); } catch (e) { /* ignore */ }
+  rec('G', '动态命名的定制礼物不产生赠予按钮', c3.children.length === 0,
+    c3.children.length === 0 ? 'OK（按预期跳过）' : `意外注入 ${c3.children.length} 个按钮`);
+
+  // --- G4. 剧情道具（backpack.js 以 id 为键）不应出现在商店赠予入口 ---
+  api.setInv({ powerbank: { icon: '🔋', count: 1 } });
+  const c4 = makeEl();
+  try { api.inject({ title: 'T', choices: [] }, c4); } catch (e) { /* ignore */ }
+  rec('G', '剧情道具(powerbank)不混入商店赠予入口', c4.children.length === 0,
+    c4.children.length === 0 ? 'OK（剧情道具走 requireItem/useItem 通道）' : `意外注入 ${c4.children.length} 个按钮`);
+
+  // --- G5. 覆盖文案不得张冠李戴：necklace 在新旧两表同 id 不同名 ---
+  const nk = sg.find(g => g.id === 'necklace');
+  if (nk) {
+    api.setInv({ [nk.name]: { icon: nk.icon, count: 1 } });
+    const c5 = makeEl();
+    try { api.inject({ title: 'T', choices: [] }, c5); } catch (e) { /* ignore */ }
+    const b5 = c5.children[0];
+    const usesWrongName = !!(b5 && /纯银项链/.test(b5.innerHTML));
+    rec('G', `同 id 不同名时不套用旧文案（${nk.name}）`, !usesWrongName,
+      usesWrongName ? '按钮文案仍是遗留的「纯银项链」，与在售商品名不符' : `按钮文案取自在售商品「${nk.name}」`);
   }
 }
 
@@ -409,9 +631,11 @@ function main() {
   blockC();
   blockD();
   blockE();
+  blockF();
+  blockG();
 
   let totalPass = 0, totalFail = 0;
-  for (const k of ['A', 'B', 'C', 'D', 'E']) {
+  for (const k of ['A', 'B', 'C', 'D', 'E', 'F', 'G']) {
     const b = report[k];
     console.log('\n' + b.title);
     console.log('-'.repeat(60));

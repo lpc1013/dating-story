@@ -1,3 +1,7 @@
+// 【遗留数据·当前不上架】早期礼物列表（8 件）。现行商店实际售卖的是下方顶层的
+// shopGifts（6 件）。本表与 shopGifts 的商品名几乎零重叠，历史上 event-render.js
+// 曾误用本表建"背包中文名 → 礼物 id"反查表，导致事件内赠予选项永远注入不出来。
+// 现已改为以 shopGifts 为唯一反查来源。本表暂不删除（属内容层，待策划决定复活或清理）。
 var gifts = [
             { id: 'flower', name: '红玫瑰', price: 15, like: 10, heart: 5, icon: '🌹', desc: '经典浪漫，没人能拒绝。' },
             { id: 'chocolate', name: '手工巧克力', price: 20, like: 8, heart: 12, icon: '🍫', desc: '甜到心里，心跳加速。' },
@@ -39,11 +43,12 @@ var gifts = [
             }
         }
 
-        function renderShopList() {
-            const list = document.getElementById('gift-list');
-            list.innerHTML = '';
-            
-            const shopGifts = [
+// 【现行商店商品·唯一数据源】原先定义在 renderShopList() 函数内部，外部（尤其是
+// js/event-render.js 的 injectItemChoices）无法读取，只能退而使用上方的遗留 gifts 表，
+// 造成"背包中文名 → 礼物 id"反查恒失败。现提升为顶层变量，供商店渲染与事件内赠予共用。
+// 铁律：顶层模块变量用 var（不可用 const），否则外部脚本无法 override 且重复声明会抛错。
+// 商品构成/价格/数值保持原样，未作任何改动。
+var shopGifts = [
                 { id: 'milktea', name: '奶茶', price: 15, like: 2, heart: 1, icon: '🧋', desc: '全糖去冰，她的最爱', longDesc: '一杯温热的奶茶，是冬日里最简单的幸福。', quote: '手心的温度，刚刚好。' },
                 { id: 'rose', name: '永生玫瑰', price: 120, like: 20, heart: 10, icon: '🌹', desc: '永不凋谢的爱', longDesc: '这朵玫瑰，象征着我对你永恒的爱意。', quote: '爱，永不凋零。' },
                 { id: 'doll', name: '毛绒玩偶', price: 35, like: 5, heart: 2, icon: '🧸', desc: '软绵绵的，治愈心情', longDesc: '一只憨态可掬的玩偶，希望能代替我陪伴你。', quote: '它会替我守护你的梦。' },
@@ -51,6 +56,10 @@ var gifts = [
                 { id: 'candle', name: '香薰蜡烛', price: 45, like: 8, heart: 4, icon: '🕯️', desc: '淡淡的香气，舒缓身心', longDesc: '点燃这支蜡烛，让宁静的香气弥漫在你们之间。', quote: '愿这香气带走你的疲惫。' },
                 { id: 'custom', name: '定制礼物', price: 50, like: 10, heart: 10, icon: '🎨', desc: '消耗50元 and 30心动值，亲手制作独一无二的礼物', isCustom: true }
             ];
+
+        function renderShopList() {
+            const list = document.getElementById('gift-list');
+            list.innerHTML = '';
 
             shopGifts.forEach(gift => {
                 const canBuy = gift.isCustom ? (gameState.money >= gift.price && gameState.heart >= 30) : (gameState.money >= gift.price);

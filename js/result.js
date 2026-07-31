@@ -24,7 +24,8 @@ function showResult() {
                   const cmp = document.createElement('div');
                   cmp.style.cssText = 'font-size:11px;color:var(--text-muted);text-align:center;padding:8px;margin-top:8px;background:var(--bg-chip);border-radius:8px;';
                   cmp.textContent = '📊 与上次对比：好感' + (diff >= 0 ? '+' : '') + diff + ' · 上次天气：' + (prev.weather || '?');
-                  document.getElementById('result').querySelector('.end-wrap')?.insertBefore(cmp, document.getElementById('result').querySelector('.end-wrap').firstChild);
+                  const resEl = document.getElementById('result');
+                  if (resEl) resEl.insertBefore(cmp, resEl.firstChild);
                 }
               }
             } catch(e) {}
@@ -123,9 +124,32 @@ function showResult() {
                 if (stars >= 3) { grade = '🌅 ' + grade; } // 结局名加日落前缀
             }
 
+            // ── Wave3：信物回响（结局专属尾声，仅对本局持有的重点信物）──
+            try {
+                const echoMap = {
+                    powerbank: '那枚充电宝还余着一点电——你说过，它专门在关键时候给我光。原来你一直把光揣在兜里，等我来取。',
+                    scarf: '围巾绕了两圈，一人一半。你说借一辈子也行，她靠过来：那这一下，抵利息。',
+                    clear_umbrella: '那把透明伞静静立在门边，伞下那个清亮的小世界，是只装得下我们俩的屋顶。'
+                };
+                const hasItemFn = (typeof hasItem === 'function') ? hasItem
+                    : (id) => !!(gameState.inventory && gameState.inventory[id]);
+                const echoes = Object.keys(echoMap).filter(id => hasItemFn(id));
+                if (echoes.length) {
+                    const box = document.createElement('div');
+                    box.style.cssText = 'font-size:11px;color:var(--text-body);text-align:center;padding:10px 12px;margin-top:10px;background:linear-gradient(135deg,rgba(255,200,220,.18),rgba(180,220,255,.18));border:1px solid var(--border-soft);border-radius:10px;line-height:1.65;';
+                    box.innerHTML = '🎁 <b>信物回响</b><br>' + echoes.map(id => '· ' + echoMap[id]).join('<br>');
+                    const endWrap = document.getElementById('result');
+                    if (endWrap) endWrap.appendChild(box);
+                }
+            } catch (e) {}
+
             document.getElementById('result-grade').textContent = grade;
             document.getElementById('result-her-quote').textContent = '"' + herQuote + '"';
-            document.getElementById('final-rating').textContent = commentary;
+            const finalRating = document.getElementById('final-rating');
+            finalRating.textContent = commentary;
+            finalRating.classList.remove('animate');
+            void finalRating.offsetWidth; // 强制重绘
+            finalRating.classList.add('animate');
             document.getElementById('result-highlight').textContent = '💡 ' + highlight;
 
             // 结算时间轴（简约版选项回顾）

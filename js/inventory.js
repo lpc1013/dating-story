@@ -73,12 +73,6 @@ function addToInventory(name, icon, description = '', quote = '') {
                     quote 
                 };
             }
-            
-            // 检查全收集成就
-            const totalUniqueGifts = 8;
-            if (Object.keys(gameState.inventory).length >= totalUniqueGifts) {
-                unlockAchievement('collector');
-            }
-            
+
             updateInventoryUI();
         }

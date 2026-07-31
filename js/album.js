@@ -1,6 +1,6 @@
 var albumPhotos = [
             { id: 'cat_photo', title: '巷弄里的橘猫', url: 'assets/photo/jimeng-2026-07-28-1012-巷弄里的橘猫，唯美氛围感画面，高级质感.png', condition: '在巷子里遇到橘猫解锁' },
-            { id: 'blindbox_photo', title: '欧皇时刻', url: 'assets/photo/jimeng-2026-07-28-3440-欧皇时刻，唯美氛围感画面，高级质感.png', condition: '抽中隐藏款盲盒解锁' },
+            { id: 'blindbox_photo', title: '欧皇时刻', url: 'assets/photo/jimeng-2026-07-28-3440-欧皇时刻，唯美氛围感画面，高级质感.png', condition: '抽奖一发入魂解锁' },
             { id: 'date_photo', title: '文创店合照', url: 'assets/photo/jimeng-2026-07-28-2287-文创店合照，唯美氛围感画面，高级质感.png', condition: '在文创店合照解锁' },
             { id: 'sunset_photo', title: '轨道夕阳', url: 'assets/photo/jimeng-2026-07-28-7320-轨道夕阳，唯美氛围感画面，高级质感.png', condition: '在轨道看夕阳解锁' },
             { id: 'night_photo', title: '秦淮夜色', url: 'assets/photo/jimeng-2026-07-28-7915-秦淮夜色，唯美氛围感画面，高级质感.png', condition: '在秦淮河看夜景解锁' },
@@ -20,7 +20,10 @@ var albumPhotos = [
             { id: 'first_gift', title: '第一份礼物', url: 'assets/photo/jimeng-2026-07-28-4525-第一份礼物，唯美氛围感画面，高级质感.png', condition: '赠送第一份礼物解锁' },
             { id: 'high_heart', title: '心跳加速', url: 'assets/photo/jimeng-2026-07-28-5277-心跳加速，唯美氛围感画面，高级质感.png', condition: '心动值达到90解锁' },
             { id: 'all_tips', title: '恋爱大师', url: 'assets/photo/jimeng-2026-07-28-5651-恋爱大师，唯美氛围感画面，高级质感.png', condition: '解锁所有恋爱词条' },
-            { id: 'conflict_resolved', title: '雨过天晴', url: 'assets/photo/jimeng-2026-07-28-3684-雨过天晴，唯美氛围感画面，高级质感.png', condition: '成功化解一次情感危机' }
+            { id: 'conflict_resolved', title: '雨过天晴', url: 'assets/photo/jimeng-2026-07-28-3684-雨过天晴，唯美氛围感画面，高级质感.png', condition: '成功化解一次情感危机' },
+            { id: 'foggy_ruin', title: '雾中古建筑', url: 'assets/photo/jimeng-2026-07-28-0000-雾中古建筑，唯美氛围感画面，高级质感.png', condition: '在若隐若现的古建筑拍下雾中合影解锁' },
+            { id: 'typhoon_eye', title: '台风之眼', url: 'assets/photo/jimeng-2026-07-28-0000-台风之眼，唯美氛围感画面，高级质感.png', condition: '在台风眼记录下罕见奇景解锁' },
+            { id: 'foggy_shore', title: '雾中海滨', url: 'assets/photo/jimeng-2026-07-28-0000-雾中海滨，唯美氛围感画面，高级质感.png', condition: '在雾中循水声走到海滨公园解锁' }
         ];
 
         function showAlbum() {

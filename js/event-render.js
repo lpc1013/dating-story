@@ -1,8 +1,28 @@
 // js/event-render.js — 从 achievements.js 拆分（功能：事件渲染）
 
+// —— 持有判定的唯一入口 ——
+// gameState.inventory[id] 存的是**对象** { icon, count, description, quote }
+// （见 js/backpack.js 的 acquireItem 与 js/inventory.js 的 addToInventory），
+// 因此绝不能写 inventory[id] > 0 —— 对象与数字比较恒为 false，
+// 会让所有带 requireItem 的选项永久隐藏（历史缺陷，充电宝伏笔从未被玩家看见）。
+// 统一在此判定，避免"最优项求解"与"实际渲染"两处判定漂移。
+function hasItem(id) {
+    if (!id) return true;                       // 无门控要求 → 视为通过
+    var inv = (typeof gameState !== 'undefined' && gameState && gameState.inventory) || null;
+    if (!inv) return false;                     // inventory 未初始化
+    var entry = inv[id];
+    if (entry == null) return false;            // 条目不存在
+    if (typeof entry === 'number') return entry > 0;  // 兼容遗留数字格式（见 index.html aiGiftGen 兜底分支）
+    return (Number(entry.count) || 0) > 0;      // 正常对象格式；count 为 undefined/NaN 时安全取 0
+}
+
 function injectItemChoices(event, container) {
             const inv = gameState.inventory || {};
-            // 用物品ID做精确匹配，不再依赖名称关键词搜索
+            // 赠予文案覆盖表（按礼物 id 索引）。未登记的商店礼物会自动派生一份通用文案。
+            // 【注意】下列条目全部出自 js/shop.js 的**遗留** gifts 表（8 件），现行商店已不售卖，
+            // 玩家无法获得同名物品，因此当前均不可达。按约定保留不删除（属策划内容层）。
+            // 唯一例外是 'necklace'：id 与现行商店重名但商品名不同（纯银项链 vs 精美项链），
+            // 故下方按 displayName 严格校验后才允许覆盖，避免张冠李戴。
             const itemMap = {
                 'flower': { text: '送出红玫瑰 🌹', like: 8, emoji: '🌹', id: 'flower', displayName: '红玫瑰' },
                 'chocolate': { text: '分享手工巧克力 🍫', like: 5, emoji: '🍫', id: 'chocolate', displayName: '手工巧克力' },
@@ -15,16 +35,34 @@ function injectItemChoices(event, container) {
             };
             const w = selectData.weather;
             // 检查背包中实际拥有的物品
-            const owned = Object.keys(inv).filter(k => inv[k] && inv[k].count > 0);
+            const owned = Object.keys(inv).filter(k => hasItem(k));
             if (!owned.length) return;
             // 查找背包物品对应的礼物名（反向匹配：背包键 → gift.name → gift.id）
+            // 数据源必须是**玩家真实能买到**的那份（js/shop.js 顶层 shopGifts）；
+            // 早期误用遗留的 gifts 表，两份列表商品名几乎零重叠 → 反查恒失败 → 赠予选项从不注入。
+            const shopSrc = (typeof shopGifts !== 'undefined' && Array.isArray(shopGifts)) ? shopGifts
+                          : (typeof gifts !== 'undefined' && Array.isArray(gifts)) ? gifts
+                          : [];
             const giftByName = {};
-            gifts.forEach(g => { giftByName[g.name] = g.id; });
-            
+            const giftDefByName = {};
+            shopSrc.forEach(g => {
+                if (!g || !g.name) return;
+                // 定制礼物入包名是「定制的🎁」这类动态名（见 js/gift.js createCustomGift），
+                // 无法按固定名反查，跳过。
+                if (g.isCustom) return;
+                giftByName[g.name] = g.id;
+                // 仅当覆盖表条目确实描述的是同一件商品（displayName 相符）时才采用手写文案，
+                // 否则按商店自身数据派生，绝不擅自套用旧文案/旧数值。
+                const override = itemMap[g.id];
+                giftDefByName[g.name] = (override && override.displayName === g.name)
+                    ? override
+                    : { text: '送出' + g.name + ' ' + g.icon, like: g.like || 0, emoji: g.icon || '🎁', id: g.id, displayName: g.name };
+            });
+
             owned.forEach(itemName => {
                 const giftId = giftByName[itemName];
-                const def = giftId ? itemMap[giftId] : null;
-                if (!def) return; // 自定义物品不在此显示
+                const def = giftId ? giftDefByName[itemName] : null;
+                if (!def) return; // 自定义物品/剧情道具不在此显示
                 // 检查是否已被其他选项使用过
                 if (container.querySelector('[data-item="'+giftId+'"]')) return;
                 
@@ -218,7 +256,7 @@ function showEvent(index) {
                         // 只在“实际会渲染的可选项”内求最优：过滤 reqLike 与 requireItem，
                         // 这样没有充电宝时“拿出充电宝”不会被选为最优，揭示项永远可选。
                         if (c.reqLike != null && gameState.like < c.reqLike) return;
-                        if (c.requireItem && !(gameState.inventory && gameState.inventory[c.requireItem] > 0)) return;
+                        if (c.requireItem && !hasItem(c.requireItem)) return;
                         const sc = (c.like || 0) + (c.heart || 0) * 1.5 - Math.abs(c.money || 0) * 0.1;
                         if (sc > bestScore) { bestScore = sc; bestIdx = i; }
                     });
@@ -228,7 +266,8 @@ function showEvent(index) {
                 event.choices.forEach((choice, i) => {
                     if (choice.reqLike != null && gameState.like < choice.reqLike) return;
                     // requireItem：未持有所需物品时隐藏该选项（如没带充电宝则"拿出充电宝"选项不出现）
-                    if (choice.requireItem && !(gameState.inventory && gameState.inventory[choice.requireItem] > 0)) return;
+                    // 必须与上方 bestIdx 求解使用同一个 hasItem，否则会出现"提示指向一个看不见的选项"。
+                    if (choice.requireItem && !hasItem(choice.requireItem)) return;
 
                     optNum++;
                     const numSpan = '<span class="choice-num">' + optNum + '</span>';

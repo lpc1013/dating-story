@@ -71,6 +71,17 @@ const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 // 启动静态服务器并等待就绪
 // -----------------------------------------------------------------------------
 async function startServer() {
+  // fail-fast：spawn 前探测 PORT 是否已被占用。若此时就能 fetch 到内容，
+  // 说明是别人的/残留的服务器（EADDRINUSE 场景），继续跑会"测错对象"。
+  try {
+    const probe = await fetch(BASE + '/', { signal: AbortSignal.timeout(1500) });
+    if (probe) {
+      throw new Error(`端口 ${PORT} 已被占用（探测到已有 HTTP 响应），请先结束残留 node/serve 进程再重跑`);
+    }
+  } catch (e) {
+    if (/已被占用/.test(String(e && e.message))) throw e;
+    // fetch 失败（连接拒绝/超时）= 端口空闲，正常继续
+  }
   const server = spawn(NODE, ['serve.mjs'], {
     cwd: ROOT,
     env: { ...process.env, PORT: String(PORT) },
@@ -152,11 +163,24 @@ async function pickBestChoiceIndex(page) {
     const ev = evs && evs[i];
     if (!ev) return null;
     const gs = window.gameState;
+    // 持有判定必须复用**游戏自身**的 hasItem（js/event-render.js），不能在测试里
+    // 另写一份。inventory[id] 存的是对象 { icon, count, ... }，历史上这里抄的是
+    // `inventory[id] > 0`（对象与数字比较恒 false）——一旦与游戏侧判定漂移，
+    // filtered 的长度就会与 DOM 中实际渲染的按钮数不一致，导致下方 findIndex
+    // 算出的序号指向**另一个**按钮（静默点错选项，且测试仍然"通过"）。
+    const has = (id) => (typeof window.hasItem === 'function')
+      ? window.hasItem(id)
+      : (function () { // 兜底：游戏侧未导出时按正确语义判定
+          const inv = gs && gs.inventory; if (!inv) return false;
+          const e = inv[id]; if (e == null) return false;
+          if (typeof e === 'number') return e > 0;
+          return (Number(e.count) || 0) > 0;
+        })();
     const filtered = ev.choices
       .map((c, idx) => ({ c, idx }))
       .filter(({ c }) => {
         if (c.reqLike != null && gs.like < c.reqLike) return false;
-        if (c.requireItem && !(gs.inventory && gs.inventory[c.requireItem] > 0)) return false;
+        if (c.requireItem && !has(c.requireItem)) return false;
         return true;
       });
     if (!filtered.length) return null;
@@ -172,7 +196,11 @@ async function pickBestChoiceIndex(page) {
     const pool = safe.length ? safe : scored;
     let best = pool[0];
     for (const x of pool) if (x.score > best.score) best = x;
-    return best.idx;
+    // 返回 best 在「过滤后可见列表 filtered」中的序号（0..filtered.length-1），
+    // 与 DOM 中按可见顺序渲染的 .choice-btn:not([data-item]) 按钮下标一一对应。
+    // 注意不能返回 best.idx（ev.choices 数据层原始索引）：当 requireItem/reqLike
+    // 隐藏了排在前面的选项时，原始索引会相对可见按钮数组错位甚至越界。
+    return filtered.findIndex((f) => f.idx === best.idx);
   });
 }
 
@@ -321,6 +349,174 @@ async function smokeSubsystems(browser) {
 }
 
 // -----------------------------------------------------------------------------
+// 道具联动真实浏览器验证（T2 三处修复的浏览器侧自证）
+// -----------------------------------------------------------------------------
+// 静态测试的 (F)(G) 块用的是沙箱 + DOM 桩；本块在**真实 Chromium + 真实 DOM**里复验：
+//   1. hasItem 对真实 acquireItem 写入格式（对象 {icon,count}）判定正确
+//   2. requireItem 门控：未持有→选项不渲染；持有→选项渲染（真实 #choices DOM）
+//   3. bestIdx 提示与实际渲染一致（不会"提示指向看不见的选项"）
+//   4. 商店礼物买入后，事件内赠予按钮真实注入
+// 用真实剧情内容 sunny2「没电的窘境」（全库唯一 requireItem 事件）。
+// -----------------------------------------------------------------------------
+async function smokeItemLinkage(browser) {
+  const ctx = await browser.newContext();
+  const page = await ctx.newPage();
+  const errors = [];
+  const checks = [];
+  const add = (name, ok, detail) => checks.push({ name, ok, detail: detail || '' });
+
+  await setupPage(page, errors);
+  await page.goto(BASE, { waitUntil: 'load' });
+  await waitGameReady(page);
+
+  // --- 开局并强制切到 sunny2 变体线（全库唯一含 requireItem 的线）---
+  await page.evaluate(() => {
+    if (typeof selectWeather === 'function') selectWeather('晴天');
+    if (typeof selectDifficulty === 'function') selectDifficulty('简单', 30, false);
+    if (typeof startGame === 'function') startGame();
+  });
+  await page.waitForFunction(() => window.gameState && window.gameState.currentEvent === 0, { timeout: 8000 });
+
+  const forced = await page.evaluate(() => {
+    const keys = (window.StoryLoader && StoryLoader.variantKeys && StoryLoader.variantKeys['晴天']) || [];
+    const idx = keys.indexOf('sunny2');
+    if (idx < 0) return { ok: false, keys };
+    window.gameData['晴天'] = StoryLoader.variants['晴天'][idx];
+    window.selectData.variantKey = 'sunny2';
+    // 定位全库唯一的 requireItem 选项所在事件
+    const evs = window.gameData['晴天'];
+    let evIdx = -1, chText = null, reqId = null;
+    for (let i = 0; i < evs.length; i++) {
+      const c = (evs[i].choices || []).find((x) => x.requireItem);
+      if (c) { evIdx = i; chText = (c.text || '').split('\n')[0]; reqId = c.requireItem; break; }
+    }
+    return { ok: true, keys, total: evs.length, evIdx, chText, reqId, evTitle: evIdx >= 0 ? evs[evIdx].title : null };
+  });
+
+  add('强制切换到 sunny2 变体线', forced.ok, forced.ok ? `变体键=[${forced.keys}] 共 ${forced.total} 事件` : `未找到 sunny2，keys=[${forced.keys}]`);
+  if (!forced.ok || forced.evIdx < 0) {
+    add('定位 requireItem 事件', false, '在 sunny2 中未找到任何 requireItem 选项');
+    await ctx.close();
+    return { checks, errors };
+  }
+  add('定位 requireItem 事件', true, `事件[${forced.evIdx}]「${forced.evTitle}」选项「${forced.chText}」requireItem=${forced.reqId}`);
+
+  // --- 1) hasItem 在真实页面存在且语义正确 ---
+  const hasItemProbe = await page.evaluate((reqId) => {
+    if (typeof window.hasItem !== 'function') return { exists: false };
+    const gs = window.gameState;
+    const backup = gs.inventory;
+    const r = {};
+    gs.inventory = null;                                   r.nullInv = window.hasItem(reqId);
+    gs.inventory = {};                                     r.emptyInv = window.hasItem(reqId);
+    gs.inventory = { [reqId]: { icon: '🔋', count: 1 } };   r.objCount1 = window.hasItem(reqId);
+    gs.inventory = { [reqId]: { icon: '🔋', count: 0 } };   r.objCount0 = window.hasItem(reqId);
+    gs.inventory = { [reqId]: { icon: '🔋' } };             r.objNoCount = window.hasItem(reqId);
+    gs.inventory = { [reqId]: 1 };                         r.legacyNum = window.hasItem(reqId);
+    // 旧写法在同一份数据上的判定（缺陷复现对照）
+    r.legacyVerdictOnObj = !!({ [reqId]: { icon: '🔋', count: 1 } }[reqId] > 0);
+    gs.inventory = backup;
+    return { exists: true, ...r };
+  }, forced.reqId);
+
+  add('页面暴露全局 hasItem()', hasItemProbe.exists, hasItemProbe.exists ? 'OK' : 'window.hasItem 不存在');
+  if (hasItemProbe.exists) {
+    const semOk = hasItemProbe.nullInv === false && hasItemProbe.emptyInv === false &&
+      hasItemProbe.objCount1 === true && hasItemProbe.objCount0 === false &&
+      hasItemProbe.objNoCount === false && hasItemProbe.legacyNum === true;
+    add('hasItem 六种形态语义正确（真实浏览器）', semOk,
+      `null=${hasItemProbe.nullInv} 空={${hasItemProbe.emptyInv}} 对象count1=${hasItemProbe.objCount1} ` +
+      `count0=${hasItemProbe.objCount0} 无count=${hasItemProbe.objNoCount} 数字1=${hasItemProbe.legacyNum}`);
+    add('缺陷复现对照：旧写法对同一对象判定为未持有', hasItemProbe.legacyVerdictOnObj === false,
+      `旧 inventory[id]>0 = ${hasItemProbe.legacyVerdictOnObj}（false 即证明旧代码会隐藏该选项）`);
+  }
+
+  // 渲染指定事件并读取真实 DOM 中的选项
+  const renderAndRead = async (evIdx, inventory) => {
+    await page.evaluate(({ evIdx, inventory }) => {
+      window.gameState.inventory = inventory;
+      window.gameState.currentEvent = evIdx;
+      window.gameState.isHintRevealed = true;   // 同时验证 bestIdx 求解与渲染一致
+      showEvent(evIdx);
+    }, { evIdx, inventory });
+    await sleep(600); // showEvent 内有 300ms 淡入 setTimeout
+    return page.evaluate(() => {
+      const btns = [...document.querySelectorAll('#choices .choice-btn')];
+      return {
+        plain: btns.filter((b) => !b.hasAttribute('data-item')).map((b) => b.textContent.trim().slice(0, 40)),
+        items: btns.filter((b) => b.hasAttribute('data-item')).map((b) => b.getAttribute('data-item')),
+        hintBest: btns.findIndex((b) => b.classList.contains('hint-best')),
+        hintBestText: (btns.find((b) => b.classList.contains('hint-best')) || {}).textContent
+          ? btns.find((b) => b.classList.contains('hint-best')).textContent.trim().slice(0, 40) : null,
+      };
+    });
+  };
+
+  // --- 2) 未持有 powerbank → 门控选项必须缺席 ---
+  const without = await renderAndRead(forced.evIdx, {});
+  const key = forced.chText.slice(0, 8);
+  const absentOk = !without.plain.some((t) => t.includes(key));
+  add('未持有道具时门控选项不渲染', absentOk,
+    absentOk ? `渲染 ${without.plain.length} 个选项，均不含「${key}」`
+             : `不该出现却出现了：${JSON.stringify(without.plain)}`);
+
+  // --- 3) 持有 powerbank（真实对象格式）→ 门控选项必须出现 ---
+  const withIt = await renderAndRead(forced.evIdx, { [forced.reqId]: { icon: '🔋', count: 1, description: 'x', quote: '' } });
+  const presentOk = withIt.plain.some((t) => t.includes(key));
+  add('持有道具时门控选项正常渲染（核心回归）', presentOk,
+    presentOk ? `渲染 ${withIt.plain.length} 个选项，含「${key}」—— 修复前此项恒为 false`
+              : `应出现却缺席：${JSON.stringify(withIt.plain)}`);
+  add('持有前后可见选项数量确有变化', withIt.plain.length === without.plain.length + 1,
+    `未持有 ${without.plain.length} 个 → 持有 ${withIt.plain.length} 个`);
+
+  // --- 4) 心花怒放提示指向的选项必须真实可见（两处判定一致性）---
+  const hintOk = withIt.hintBest >= 0 && withIt.hintBest < withIt.plain.length + withIt.items.length;
+  add('hint-best 指向真实存在的按钮', hintOk,
+    hintOk ? `hint-best 位于第 ${withIt.hintBest} 个按钮：「${withIt.hintBestText}」` : '未找到 hint-best 或索引越界');
+
+  // --- 5) 商店礼物 → 事件内赠予按钮真实注入 ---
+  const giftProbe = await page.evaluate(() => {
+    const sg = (typeof shopGifts !== 'undefined') ? shopGifts : null;
+    if (!sg) return { ok: false, reason: 'shopGifts 在页面顶层不可见' };
+    const target = sg.find((g) => !g.isCustom);
+    return { ok: true, name: target.name, id: target.id, icon: target.icon, count: sg.length };
+  });
+  add('shopGifts 在页面运行时顶层可见', giftProbe.ok, giftProbe.ok ? `${giftProbe.count} 件商品，样例「${giftProbe.name}」` : giftProbe.reason);
+
+  if (giftProbe.ok) {
+    // 模拟真实购买路径：addToInventory 以**中文名**为键写入
+    await page.evaluate(({ name, icon }) => {
+      window.gameState.inventory = {};
+      addToInventory(name, icon, 'desc', 'quote');
+      window.gameState.currentEvent = 0;
+      showEvent(0);
+    }, giftProbe);
+    await sleep(600);
+    const injected = await page.evaluate(() => [...document.querySelectorAll('#choices .choice-btn[data-item]')]
+      .map((b) => ({ id: b.getAttribute('data-item'), text: b.textContent.trim().slice(0, 30) })));
+    const hit = injected.find((x) => x.id === giftProbe.id);
+    add(`买入「${giftProbe.name}」后事件内出现赠予按钮`, !!hit,
+      hit ? `data-item="${hit.id}" 文案「${hit.text}」—— 修复前反查失败恒不注入`
+          : `未注入任何匹配按钮，实际注入=${JSON.stringify(injected)}`);
+  }
+
+  // --- 6) 剧情道具不应混入商店赠予入口 ---
+  await page.evaluate((reqId) => {
+    window.gameState.inventory = { [reqId]: { icon: '🔋', count: 1 } };
+    window.gameState.currentEvent = 0;
+    showEvent(0);
+  }, forced.reqId);
+  await sleep(600);
+  const storyItemBtns = await page.evaluate(() =>
+    [...document.querySelectorAll('#choices .choice-btn[data-item]')].map((b) => b.getAttribute('data-item')));
+  add('剧情道具不混入商店赠予入口', storyItemBtns.length === 0,
+    storyItemBtns.length === 0 ? 'OK（powerbank 走 requireItem 通道）' : `意外注入 ${JSON.stringify(storyItemBtns)}`);
+
+  await ctx.close();
+  return { checks, errors };
+}
+
+// -----------------------------------------------------------------------------
 // 主流程
 // -----------------------------------------------------------------------------
 async function main() {
@@ -364,7 +560,7 @@ async function main() {
       weatherResults.push({ weather: w, ok, which, errors: r.errors });
     }
 
-    console.log('[4/4] 子系统冒烟 ...');
+    console.log('[4/5] 子系统冒烟 ...');
     const smoke = await smokeSubsystems(browser);
     console.log('       · 面板打开结果:');
     for (const s of smoke.results) {
@@ -376,12 +572,24 @@ async function main() {
       smoke.errors.forEach((e) => console.log('         ✗ ' + e));
     }
 
+    console.log('[5/5] 道具联动真实浏览器验证 ...');
+    const linkage = await smokeItemLinkage(browser);
+    for (const c of linkage.checks) {
+      console.log(`         ${c.ok ? '✓' : '✗'} ${c.name}${c.detail ? '\n             → ' + c.detail : ''}`);
+    }
+    if (linkage.errors.length) {
+      console.log('       道具联动验证期间未预期报错:');
+      linkage.errors.forEach((e) => console.log('         ✗ ' + e));
+    }
+    const linkageFails = linkage.checks.filter((c) => !c.ok).length;
+
     // 汇总
     console.log('\n' + '='.repeat(60));
     const allWeatherOk = weatherResults.every((r) => r.ok);
     const smokeFails = smoke.results.filter((s) => s.ok === false);
     const anySmokeErr = smoke.errors.length > 0;
-    const totalFail = weatherResults.filter((r) => !r.ok).length + smokeFails.length + (anySmokeErr ? 1 : 0);
+    const totalFail = weatherResults.filter((r) => !r.ok).length + smokeFails.length + (anySmokeErr ? 1 : 0)
+      + linkageFails + (linkage.errors.length ? 1 : 0);
 
     console.log('天气主流程:');
     weatherResults.forEach((r) =>
@@ -389,13 +597,16 @@ async function main() {
     console.log('子系统冒烟:');
     smoke.results.forEach((s) =>
       console.log(`   ${s.ok === true ? '✓' : s.ok === null ? '○' : '✗'} ${s.name}${s.note ? '  (' + s.note + ')' : ''}`));
+    console.log('道具联动验证:');
+    linkage.checks.forEach((c) => console.log(`   ${c.ok ? '✓' : '✗'} ${c.name}`));
 
     console.log('\n汇总: 天气失败 ' + weatherResults.filter((r) => !r.ok).length +
       ' / 子系统失败 ' + smokeFails.length +
+      ' / 道具联动失败 ' + linkageFails + '（共 ' + linkage.checks.length + ' 项）' +
       (anySmokeErr ? ' / 另有未预期报错' : ''));
 
     if (totalFail === 0) {
-      console.log('结论: PASS — 四种天气均能跑通到结局，子系统冒烟无未预期报错。');
+      console.log('结论: PASS — 四种天气均能跑通到结局，子系统冒烟无未预期报错，道具联动在真实浏览器中验证通过。');
       await browser.close();
       server.kill();
       process.exit(0);

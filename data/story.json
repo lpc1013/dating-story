@@ -391,7 +391,8 @@
               "romantic": false,
               "achievement": [],
               "reqLike": null,
-              "result": "IMAX大屏很震撼，她看得津津有味，靠在你肩上说\"好浪漫\"。"
+              "result": "IMAX大屏很震撼，她看得津津有味，靠在你肩上说\"好浪漫\"。散场时你把两张票根小心夹进钱包，说等以后老了还要拉她重看一遍。——电影票根，入背包。",
+              "reward": "ticket_stub"
             },
             {
               "key": "C",
@@ -753,6 +754,31 @@
               "achievement": [],
               "reqLike": null,
               "result": "你低头凑近花香嗅了嗅：\"真花确实留不住，可你站在阳光里挑花的样子，比花还经看。\"她耳尖微红，把脸别过去：\"你这人…怎么连拒绝都带糖。\"你笑着牵起她：\"走，下回挑盆不会谢的，摆你书桌上。\"花没买成，春风却把这句约定稳稳吹进了心里。"
+            },
+            {
+              "key": "E",
+              "label": "不买玫瑰，弯腰从墙角掐了朵野花别上她鬓角",
+              "moneyRaw": "无花费",
+              "money": {
+                "type": "none",
+                "min": 0,
+                "max": 0
+              },
+              "moodRaw": "😊 开心",
+              "mood": "happy",
+              "like": {
+                "type": "fixed",
+                "value": 7
+              },
+              "heart": {
+                "type": "fixed",
+                "value": 7
+              },
+              "romantic": false,
+              "achievement": [],
+              "reqLike": null,
+              "result": "摊主猛推销玫瑰，你却蹲下，从墙根掐了朵不知名的小花，轻轻别进她鬓角：这一朵不花钱，但只开给你看。她摸了摸那朵花，耳尖红了：你呀，总是捡最不起眼的。",
+              "reward": "flower"
             }
           ]
         },
@@ -882,6 +908,56 @@
               "achievement": [],
               "reqLike": null,
               "result": "你抖开野餐垫，把边角仔细压上小石子：\"脏的是草地，又不是你。\"她噗嗤笑出声，乖乖坐下，指尖戳了戳垫子：\"没想到你还挺会照顾人。\"风掠过树梢，这一方小小的布，成了今天最舒服的角落。"
+            },
+            {
+              "key": "F",
+              "label": "趁着野餐气氛，给她拍张照",
+              "moneyRaw": "无花费",
+              "money": {
+                "type": "none",
+                "min": 0,
+                "max": 0
+              },
+              "moodRaw": "😊 开心",
+              "mood": "happy",
+              "like": {
+                "type": "fixed",
+                "value": 6
+              },
+              "heart": {
+                "type": "fixed",
+                "value": 5
+              },
+              "romantic": false,
+              "achievement": [],
+              "reqLike": null,
+              "result": "你举起手机，把这一刻的晴光与她的笑意一起定格。照片里她嘴里还叼着三明治，眼睛弯成月牙，像把整个午后的好天气都收了进去。",
+              "photo": "sunny_park"
+            },
+            {
+              "key": "G",
+              "label": "从兜里摸出颗糖，说野餐得有点甜头",
+              "moneyRaw": "无花费",
+              "money": {
+                "type": "none",
+                "min": 0,
+                "max": 0
+              },
+              "moodRaw": "😊 开心",
+              "mood": "happy",
+              "like": {
+                "type": "fixed",
+                "value": 7
+              },
+              "heart": {
+                "type": "fixed",
+                "value": 5
+              },
+              "romantic": false,
+              "achievement": [],
+              "reqLike": null,
+              "result": "你摊开手心，一颗水果糖静静躺着。她挑眉：你什么时候还藏零嘴？你说野餐不能光啃三明治，得有点甜头。她含住糖，腮帮鼓起来，眯眼笑：好像……比刚才更甜了。",
+              "reward": "candy"
             }
           ]
         },
@@ -915,52 +991,29 @@
               "result": "你们坐在摩天轮上，俯瞰整个城市，她开心地靠在你肩上：\"好美！\""
             },
             {
-              "key": "B",
-              "label": "说太高了，有点害怕",
-              "moneyRaw": "无花费",
-              "money": {
-                "type": "none",
-                "min": 0,
-                "max": 0
-              },
-              "moodRaw": "😐 一般",
-              "mood": "neutral",
-              "like": {
-                "type": "fixed",
-                "value": 1
-              },
-              "heart": {
-                "type": "fixed",
-                "value": 1
-              },
-              "romantic": false,
-              "achievement": [],
-              "reqLike": null,
-              "result": "你小声说有点怕高，她立刻握紧你的手：\"那我们慢慢来。\"摩天轮启动时她一直陪着你，指尖的温度比阳光还暖。"
-            },
-            {
               "key": "C",
-              "label": "说太贵了，不坐",
+              "label": "摩天轮升到高处，她把玩偶往你怀里推了推",
               "moneyRaw": "无花费",
               "money": {
                 "type": "none",
                 "min": 0,
                 "max": 0
               },
-              "moodRaw": "😐 一般",
-              "mood": "neutral",
+              "moodRaw": "😊 开心",
+              "mood": "happy",
               "like": {
                 "type": "fixed",
-                "value": 0
+                "value": 6
               },
               "heart": {
                 "type": "fixed",
-                "value": 1
+                "value": 6
               },
               "romantic": false,
               "achievement": [],
               "reqLike": null,
-              "result": "你算了算票价，觉得不值，说\"太贵了不坐\"。她耸耸肩，两人转身去逛别处，倒也没真失落，只是回头多看了摩天轮一眼。"
+              "result": "舱体轻晃，她把毛绒玩偶塞进你怀里：它说想替你看看风景。你接住，软乎乎一团压在胸口。她说：抽奖抽中的，本来就是给你的。你低头：那我收着，等它替我，陪你坐每一趟。她靠过来：笨，我就在呢。",
+              "requireItem": "plush"
             },
             {
               "key": "D",
@@ -1116,6 +1169,31 @@
               "achievement": [],
               "reqLike": null,
               "result": "她眼睛一亮：\"好主意！\"你们走进照相馆，选了最夸张的道具：你戴了顶滑稽的帽子，她戴了个大眼镜。摄影师给你们拍了一组搞怪照片，她笑得前仰后合：\"哈哈哈哈！这个太搞笑了！\"你们看着照片，一起大笑起来，这一刻，所有的烦恼都烟消云散了..."
+            },
+            {
+              "key": "E",
+              "label": "进照相馆前把她鬓角那朵小花扶正",
+              "moneyRaw": "无花费",
+              "money": {
+                "type": "none",
+                "min": 0,
+                "max": 0
+              },
+              "moodRaw": "😊 开心",
+              "mood": "happy",
+              "like": {
+                "type": "fixed",
+                "value": 6
+              },
+              "heart": {
+                "type": "fixed",
+                "value": 4
+              },
+              "romantic": false,
+              "achievement": [],
+              "reqLike": null,
+              "result": "橱窗前她对着复古道具眼睛发亮。你伸手，把她鬓角那朵小花扶正：比橱窗里任何道具都配你。她愣了下，笑着把脸往你掌心贴了贴：那它今天，就当我的头饰了。",
+              "requireItem": "flower"
             }
           ]
         },
@@ -1337,27 +1415,28 @@
           "options": [
             {
               "key": "A",
-              "label": "订了豪华包厢，还点了酒水",
-              "moneyRaw": "花费 6-4元",
+              "label": "从钱包抽出电影票根，说等老了还要拉她重看一遍",
+              "moneyRaw": "无花费",
               "money": {
-                "type": "spend",
-                "min": -4,
-                "max": 6
+                "type": "none",
+                "min": 0,
+                "max": 0
               },
-              "moodRaw": "😐 一般",
-              "mood": "neutral",
+              "moodRaw": "😊 开心",
+              "mood": "happy",
               "like": {
                 "type": "fixed",
-                "value": 2
+                "value": 6
               },
               "heart": {
                 "type": "fixed",
-                "value": 1
+                "value": 4
               },
               "romantic": false,
               "achievement": [],
               "reqLike": null,
-              "result": "豪华包厢加酒水，但她看起来有点累"
+              "result": "点歌间隙你翻出那两张票根，边角都磨软了。你说：等咱们头发白了，还来这家，重看同一部。她愣了下，接过票根：你连这个都留着。其实你只是不说，留着日子才长得有凭有据。她把票根小心塞回你钱包：那我，也给你留着。",
+              "requireItem": "ticket_stub"
             },
             {
               "key": "B",
@@ -1569,27 +1648,28 @@
             },
             {
               "key": "B",
-              "label": "笑着取笑\"你还会唱这首歌？唱得真好听~\"",
+              "label": "她戴着那顶追回的帽子，跟着街头艺人轻轻哼",
               "moneyRaw": "无花费",
               "money": {
                 "type": "none",
                 "min": 0,
                 "max": 0
               },
-              "moodRaw": "😤 生气",
-              "mood": "angry",
+              "moodRaw": "😊 开心",
+              "mood": "happy",
               "like": {
                 "type": "fixed",
-                "value": -6
+                "value": 8
               },
               "heart": {
                 "type": "fixed",
-                "value": -7
+                "value": 8
               },
               "romantic": false,
               "achievement": [],
               "reqLike": null,
-              "result": "你带着调侃的语气笑着说，她脸瞬间涨红，生气地说\"你懂什么！这首歌对我来说很重要！你根本不懂我！\"她转身就走，留下你一个人在街头，气氛瞬间降至冰点..."
+              "result": "风里她帽檐压得低低的，却还是跟着调子晃脑袋。你想起它曾被风卷走、你追出好几步才捡回。她说：这帽子，有故事。你笑：故事是你追的我，我追的它。她抬手按了按帽檐：那它，算咱俩的证物了。",
+              "requireItem": "hat"
             },
             {
               "key": "C",
@@ -1747,6 +1827,56 @@
               "achievement": [],
               "reqLike": null,
               "result": "她脸色瞬间变得难看：\"你懂什么！这叫浪漫！叫意境！\"她生气地松开你的手，转身就走。你追上去，她冷冷地说：\"你根本不懂我...\"这一刻，你们之间的距离仿佛拉远了..."
+            },
+            {
+              "key": "E",
+              "label": "揽住她的肩，拍下夕阳下的合照",
+              "moneyRaw": "无花费",
+              "money": {
+                "type": "none",
+                "min": 0,
+                "max": 0
+              },
+              "moodRaw": "😊 开心",
+              "mood": "happy",
+              "like": {
+                "type": "fixed",
+                "value": 8
+              },
+              "heart": {
+                "type": "fixed",
+                "value": 10
+              },
+              "romantic": true,
+              "achievement": [],
+              "reqLike": null,
+              "result": "你把她往怀里带了带，趁着天边烧成橘红按下快门。她在余晖里靠着你，笑得比夕阳还暖，说这张要洗出来夹进书里。",
+              "photo": "sunset_photo"
+            },
+            {
+              "key": "F",
+              "label": "夕阳下掏出那颗一直没舍得吃的糖",
+              "moneyRaw": "无花费",
+              "money": {
+                "type": "none",
+                "min": 0,
+                "max": 0
+              },
+              "moodRaw": "😊 开心",
+              "mood": "happy",
+              "like": {
+                "type": "fixed",
+                "value": 7
+              },
+              "heart": {
+                "type": "fixed",
+                "value": 8
+              },
+              "romantic": false,
+              "achievement": [],
+              "reqLike": null,
+              "result": "高地风很轻，她望着橘红的天出神。你忽然把那颗糖递过去——从野餐那天就揣着，一直没舍得吃。她说你怎么这么傻，却接过去含住，靠上你肩：原来甜的留给对的人，才叫甜。",
+              "requireItem": "candy"
             }
           ]
         },
@@ -2092,7 +2222,8 @@
               "romantic": false,
               "achievement": [],
               "reqLike": null,
-              "result": "多云天气在甜品店里，她开心地拍照发朋友圈"
+              "result": "多云天气在甜品店里，她开心地拍照发朋友圈临走她偷偷塞给你一块手作点心，甜得不像话，你说这是今天最划算的\"投资\"。——手作点心，入背包。",
+              "reward": "handmade_snack"
             },
             {
               "key": "B",
@@ -2506,7 +2637,8 @@
                 "书店奇缘"
               ],
               "reqLike": null,
-              "result": "她接过书，眼睛亮晶晶的：\"你也知道我喜欢这本！\""
+              "result": "她接过书，眼睛亮晶晶的：\"你也知道我喜欢这本！\"结账时你顺手捎了枚银杏书签，她说夹在最爱那页，就像把今天的时光也留住了。——银杏书签，入背包。",
+              "reward": "ginkgo_bookmark"
             },
             {
               "key": "B",
@@ -2682,6 +2814,56 @@
               "achievement": [],
               "reqLike": null,
               "result": "她撇撇嘴：\"好吧...我自己拍\""
+            },
+            {
+              "key": "E",
+              "label": "拉着她拐进街角，随手拍几张",
+              "moneyRaw": "无花费",
+              "money": {
+                "type": "none",
+                "min": 0,
+                "max": 0
+              },
+              "moodRaw": "😊 开心",
+              "mood": "happy",
+              "like": {
+                "type": "fixed",
+                "value": 5
+              },
+              "heart": {
+                "type": "fixed",
+                "value": 4
+              },
+              "romantic": false,
+              "achievement": [],
+              "reqLike": null,
+              "result": "你们拐进一条安静的街角，她抱着相机比比划划。你举手机随手帮她拍了几张，她翻着照片笑：原来平平无奇的街，也能被你们拍出味道。",
+              "photo": "cloudy_street"
+            },
+            {
+              "key": "F",
+              "label": "从相机包摸出张贴纸，贴在她手机壳背面",
+              "moneyRaw": "无花费",
+              "money": {
+                "type": "none",
+                "min": 0,
+                "max": 0
+              },
+              "moodRaw": "😊 开心",
+              "mood": "happy",
+              "like": {
+                "type": "fixed",
+                "value": 5
+              },
+              "heart": {
+                "type": "fixed",
+                "value": 5
+              },
+              "romantic": false,
+              "achievement": [],
+              "reqLike": null,
+              "result": "她举着手机等拍照，你从包里摸出张小小贴纸，轻轻贴在她手机壳背面：这样以后你每次看手机，都能想起今天这个街角。她翻过手机看了看，没说话，只是把贴纸按了按，按得很实。",
+              "reward": "sticker"
             }
           ]
         },
@@ -3011,27 +3193,28 @@
           "options": [
             {
               "key": "A",
-              "label": "点马蹄酥，传统甜品",
-              "moneyRaw": "花费 3-1元",
+              "label": "从包里拿出她给的手作点心，说正餐前先尝口甜的",
+              "moneyRaw": "无花费",
               "money": {
-                "type": "spend",
-                "min": -1,
-                "max": 3
+                "type": "none",
+                "min": 0,
+                "max": 0
               },
-              "moodRaw": "😐 一般",
-              "mood": "neutral",
+              "moodRaw": "😊 开心",
+              "mood": "happy",
               "like": {
                 "type": "fixed",
-                "value": 2
+                "value": 7
               },
               "heart": {
                 "type": "fixed",
-                "value": 2
+                "value": 5
               },
               "romantic": false,
               "achievement": [],
               "reqLike": null,
-              "result": "马蹄酥清甜，她吃了几口：\"嗯，还行\""
+              "result": "甜品没上，你先摸出那枚她塞的点心，包装都还软着。你说：先垫垫，你做的，比别人家的甜。她意外：你还留着。你笑：留着呢，怕化了，一路揣着。她低头：那……下次我做新的，旧的你快吃。你：旧的甜在心里，新的甜在嘴上，都不浪费。",
+              "requireItem": "handmade_snack"
             },
             {
               "key": "B",
@@ -3421,6 +3604,56 @@
               "achievement": [],
               "reqLike": null,
               "result": "她看了看菜单，但还是跟着你走了"
+            },
+            {
+              "key": "E",
+              "label": "趁靠窗的光，给她拍张照",
+              "moneyRaw": "无花费",
+              "money": {
+                "type": "none",
+                "min": 0,
+                "max": 0
+              },
+              "moodRaw": "😊 开心",
+              "mood": "happy",
+              "like": {
+                "type": "fixed",
+                "value": 5
+              },
+              "heart": {
+                "type": "fixed",
+                "value": 4
+              },
+              "romantic": false,
+              "achievement": [],
+              "reqLike": null,
+              "result": "窗外车流缓缓，她捧着咖啡发呆。你悄悄举起手机，把这一帧午后的温柔收进相册，她发现后笑着比了个耶。",
+              "photo": "cafe_date"
+            },
+            {
+              "key": "F",
+              "label": "把她手机壳上那张贴纸揭下来，贴在你咖啡杯沿",
+              "moneyRaw": "无花费",
+              "money": {
+                "type": "none",
+                "min": 0,
+                "max": 0
+              },
+              "moodRaw": "😊 开心",
+              "mood": "happy",
+              "like": {
+                "type": "fixed",
+                "value": 6
+              },
+              "heart": {
+                "type": "fixed",
+                "value": 5
+              },
+              "romantic": false,
+              "achievement": [],
+              "reqLike": null,
+              "result": "靠窗坐着，你忽然把她手机壳上那张贴纸揭下来，转手贴在自己咖啡杯沿：一人一半，这下你走到哪都带着我这片街角。她噗嗤笑出声：你这人，连张贴纸都要平分。",
+              "requireItem": "sticker"
             }
           ]
         },
@@ -3559,30 +3792,6 @@
               "result": "你没说话，只是站到她身侧，让她自然靠上你的肩。天边烧成一片橘红，她轻声说：\"原来夕阳每天都落，可和你一起看的，今天是头一回。\"余晖把两个人的影子拉得很长，长过这一整个温柔的傍晚。"
             },
             {
-              "key": "B",
-              "label": "说\"快走吧，天快黑了\"",
-              "moneyRaw": "无花费",
-              "money": {
-                "type": "none",
-                "min": 0,
-                "max": 0
-              },
-              "moodRaw": "😐 一般",
-              "mood": "neutral",
-              "like": {
-                "type": "fixed",
-                "value": 0
-              },
-              "heart": {
-                "type": "fixed",
-                "value": -1
-              },
-              "romantic": false,
-              "achievement": [],
-              "reqLike": null,
-              "result": "她看了看夕阳，又看了看你，眼神里充满了失望：\"再等等嘛...再待一会儿...\"她依依不舍地看着夕阳，但还是跟着你走了..."
-            },
-            {
               "key": "C",
               "label": "拿出手机拍照，说\"拍个照纪念一下\"",
               "moneyRaw": "无花费",
@@ -3608,27 +3817,53 @@
             },
             {
               "key": "D",
-              "label": "说\"太阳快下山了，没什么好看的\"",
+              "label": "她翻书，那枚银杏书签滑出来，正落在夕光里",
               "moneyRaw": "无花费",
               "money": {
                 "type": "none",
                 "min": 0,
                 "max": 0
               },
-              "moodRaw": "😤 生气",
-              "mood": "angry",
+              "moodRaw": "😊 开心",
+              "mood": "happy",
               "like": {
                 "type": "fixed",
-                "value": -8
+                "value": 8
               },
               "heart": {
                 "type": "fixed",
-                "value": -6
+                "value": 9
               },
               "romantic": false,
               "achievement": [],
               "reqLike": null,
-              "result": "她脸色瞬间变得难看：\"你懂什么！这叫浪漫！叫意境！\"她生气地松开你的手，转身就走。你追上去，她冷冷地说：\"你根本不懂我...\"这一刻，你们之间的距离仿佛拉远了..."
+              "result": "云隙漏光，她怀里书滑出银杏书签，金灿灿一小片躺在掌心。你说：它记得书店那天的光。她把书签重新夹好：也记得今天这光。你望着她侧脸：两道光，都归你收着。她轻声：归我，也归你，书是我们俩的。",
+              "requireItem": "ginkgo_bookmark"
+            },
+            {
+              "key": "E",
+              "label": "在云隙漏下的光里，与她拍张合照",
+              "moneyRaw": "无花费",
+              "money": {
+                "type": "none",
+                "min": 0,
+                "max": 0
+              },
+              "moodRaw": "😊 开心",
+              "mood": "happy",
+              "like": {
+                "type": "fixed",
+                "value": 8
+              },
+              "heart": {
+                "type": "fixed",
+                "value": 10
+              },
+              "romantic": true,
+              "achievement": [],
+              "reqLike": null,
+              "result": "多云的天，云缝里忽然漏下一束暖光。你拉她站进那片光里拍了张合照，她说云也懂凑热闹，把这一刻衬得刚好。",
+              "photo": "sunset_photo"
             }
           ]
         },
@@ -4182,8 +4417,7 @@
               "romantic": false,
               "achievement": [],
               "reqLike": null,
-              "result": "你捡起水洼里的钱包，没忍住好奇心翻了翻——里面现金证件俱全。她歪头看你：\"真要据为己有啊？\"你坏笑一声，把钱包揣进背包：\"先当今天的'意外探险纪念品'，回头咱一起找失主，让它物归原主前，先陪咱走一段路。\"她噗嗤笑了：\"你呀，连捡个钱包都要加戏。\"——拾得钱包，暂存背包（待归还）。",
-              "reward": "wallet"
+              "result": "你捡起水洼里的钱包，没忍住好奇心翻了翻——里面现金证件俱全。她歪头看你：\"真要据为己有啊？\"你坏笑一声：\"先当今天的'意外探险纪念品'，回头咱一起找失主，让它物归原主前，先陪咱走一段路。\"她噗嗤笑了：\"你呀，连捡个钱包都要加戏。\""
             },
             {
               "key": "B",
@@ -4286,7 +4520,8 @@
               "romantic": true,
               "achievement": [],
               "reqLike": null,
-              "result": "雨丝斜斜地落，你用外套替那束玫瑰挡了挡，才递给她。她接过花，又伸手把你被雨打湿的鬓角拨开：\"傻瓜，花哪有你重要。\"雨里的玫瑰，倒比晴日更鲜活了几分。"
+              "result": "雨丝斜斜地落，你用外套替那束玫瑰挡了挡，才递给她。她接过花，又伸手把你被雨打湿的鬓角拨开：\"傻瓜，花哪有你重要。\"雨里的玫瑰，倒比晴日更鲜活了几分。你顺手压下一枝玫瑰做成干花书签，她说比鲜花更经放，像你们的日子。——干花书签，入背包。",
+              "reward": "dried_flower"
             },
             {
               "key": "B",
@@ -4359,6 +4594,31 @@
               "achievement": [],
               "reqLike": null,
               "result": "雨丝斜斜扫过来，你不动声色把伞挪到她头顶：\"钱留着给你买热奶茶，头发可不能淋着。\"她抬眼望你，雨水顺着伞骨淌成一道小帘，把你们护在里头。她没说话，只是把伞往你那边推了推——有些温柔，比玫瑰更经淋。"
+            },
+            {
+              "key": "E",
+              "label": "在花摊前，与她合张影",
+              "moneyRaw": "无花费",
+              "money": {
+                "type": "none",
+                "min": 0,
+                "max": 0
+              },
+              "moodRaw": "😊 开心",
+              "mood": "happy",
+              "like": {
+                "type": "fixed",
+                "value": 7
+              },
+              "heart": {
+                "type": "fixed",
+                "value": 6
+              },
+              "romantic": true,
+              "achievement": [],
+              "reqLike": null,
+              "result": "雨里的玫瑰越发红润，她抱着花笑得灿烂。你在花摊前与她合了张影，说这束花和她的笑，是今天最值的收获。",
+              "photo": "rainy_garden"
             }
           ]
         },
@@ -4462,6 +4722,33 @@
               "achievement": [],
               "reqLike": null,
               "result": "她撇撇嘴：\"你真没有爱心...\"她想起了雪天那次，你拒绝给她买烤红薯的冷漠，今天你又拒绝了小猫"
+            },
+            {
+              "key": "E",
+              "label": "蹲下来，和她一起与橘猫合个影",
+              "moneyRaw": "无花费",
+              "money": {
+                "type": "none",
+                "min": 0,
+                "max": 0
+              },
+              "moodRaw": "😊 开心",
+              "mood": "happy",
+              "like": {
+                "type": "fixed",
+                "value": 8
+              },
+              "heart": {
+                "type": "fixed",
+                "value": 5
+              },
+              "romantic": false,
+              "achievement": [
+                "宠物友好"
+              ],
+              "reqLike": null,
+              "result": "小猫蹭了蹭你们的裤脚，她眼睛亮得像盛了星子。你蹲下来，和她一起把这只橘猫收进相册，说往后每次路过都要来看看它。",
+              "photo": "cat_photo"
             }
           ]
         },
@@ -4597,7 +4884,8 @@
                 "雨中守护"
               ],
               "reqLike": null,
-              "result": "你淋湿了半个肩膀，她心疼地擦去你脸上的雨水，说\"傻瓜\""
+              "result": "你淋湿了半个肩膀，她心疼地擦去你脸上的雨水，说\"傻瓜\"你撑开那把透明伞，雨丝落在上面，清亮的小世界里只装得下你们俩。——透明伞，入背包。",
+              "reward": "clear_umbrella"
             },
             {
               "key": "B",
@@ -5021,51 +5309,28 @@
             },
             {
               "key": "B",
-              "label": "说找个地方躲雨，别淋湿了",
+              "label": "撑开透明伞，雨丝落在上面，把你们护在清亮的小世界",
               "moneyRaw": "无花费",
               "money": {
                 "type": "none",
                 "min": 0,
                 "max": 0
               },
-              "moodRaw": "😐 一般",
-              "mood": "neutral",
+              "moodRaw": "😊 开心",
+              "mood": "happy",
               "like": {
                 "type": "fixed",
-                "value": 2
+                "value": 7
               },
               "heart": {
                 "type": "fixed",
-                "value": -1
+                "value": 7
               },
               "romantic": false,
               "achievement": [],
               "reqLike": null,
-              "result": "你们走进咖啡店，她喝了杯热咖啡，但还是有点失望"
-            },
-            {
-              "key": "C",
-              "label": "说太冷了，回家吧",
-              "moneyRaw": "无花费",
-              "money": {
-                "type": "none",
-                "min": 0,
-                "max": 0
-              },
-              "moodRaw": "😐 一般",
-              "mood": "neutral",
-              "like": {
-                "type": "fixed",
-                "value": 0
-              },
-              "heart": {
-                "type": "fixed",
-                "value": -1
-              },
-              "romantic": false,
-              "achievement": [],
-              "reqLike": null,
-              "result": "她看了看雨，但还是跟着你走了"
+              "result": "你举起那把透明伞，雨点敲在塑料上瘾瘾的，伞下却干干爽爽。你说：它从倾斜那回，就一直护着咱俩。她靠过来：那它算咱们的屋顶。你笑：屋顶不大，刚好装下我们。她轻声：那就别换更大的了。",
+              "requireItem": "clear_umbrella"
             },
             {
               "key": "D",
@@ -5116,6 +5381,31 @@
               ],
               "reqLike": 50,
               "result": "你停下脚步，替她把贴在脸颊的湿发拢到耳后，雨水顺着你的指缝滑落。你看着她说：\"别人都盼晴天，可我只想记住，雨里这是谁的模样。\"她眼眶一下子红了，把脸埋进你怀里，声音闷闷的：\"你这张嘴...怎么偏就，最能戳中我。\""
+            },
+            {
+              "key": "F",
+              "label": "并肩走进雨里，拍下这一程",
+              "moneyRaw": "无花费",
+              "money": {
+                "type": "none",
+                "min": 0,
+                "max": 0
+              },
+              "moodRaw": "😊 开心",
+              "mood": "happy",
+              "like": {
+                "type": "fixed",
+                "value": 7
+              },
+              "heart": {
+                "type": "fixed",
+                "value": 6
+              },
+              "romantic": true,
+              "achievement": [],
+              "reqLike": null,
+              "result": "伞下的小世界静悄悄，你们索性并肩走进雨里。你举手机拍下这一程，雨丝、路灯和她的侧脸，都成了镜头里最温柔的注脚。",
+              "photo": "rain_date"
             }
           ]
         },
@@ -5221,6 +5511,56 @@
               "achievement": [],
               "reqLike": null,
               "result": "她愣了一下，然后失望地看着你：\"你根本不懂我...\"她松开了你的手，默默地走在前面"
+            },
+            {
+              "key": "E",
+              "label": "隔着雨窗，与她相视而笑拍一张",
+              "moneyRaw": "无花费",
+              "money": {
+                "type": "none",
+                "min": 0,
+                "max": 0
+              },
+              "moodRaw": "😊 开心",
+              "mood": "happy",
+              "like": {
+                "type": "fixed",
+                "value": 6
+              },
+              "heart": {
+                "type": "fixed",
+                "value": 6
+              },
+              "romantic": true,
+              "achievement": [],
+              "reqLike": null,
+              "result": "雨打在伞面噼啪作响，她靠着你说了好多心里话。你隔着雨窗与她相视而笑，顺手拍下这张，说往后的心事都讲给你听。",
+              "photo": "rainy_window"
+            },
+            {
+              "key": "F",
+              "label": "解下背包上的缎带，把伞柄和她手腕系在一起",
+              "moneyRaw": "无花费",
+              "money": {
+                "type": "none",
+                "min": 0,
+                "max": 0
+              },
+              "moodRaw": "😊 开心",
+              "mood": "happy",
+              "like": {
+                "type": "fixed",
+                "value": 7
+              },
+              "heart": {
+                "type": "fixed",
+                "value": 7
+              },
+              "romantic": false,
+              "achievement": [],
+              "reqLike": null,
+              "result": "伞下的小世界里，你解下背包上那截绸缎，把伞柄和她手腕轻轻系了个结：风再大，咱俩也散不了。她低头看着那截缎带，没挣开，反而往你肩头靠得更紧：那你就别松手。",
+              "reward": "ribbon"
             }
           ]
         },
@@ -5231,27 +5571,28 @@
           "options": [
             {
               "key": "A",
-              "label": "指着彩虹说\"我们有缘分\"",
+              "label": "彩虹下你摸出干花书签，说它比鲜花更经放",
               "moneyRaw": "无花费",
               "money": {
                 "type": "none",
                 "min": 0,
                 "max": 0
               },
-              "moodRaw": "😐 一般",
-              "mood": "neutral",
+              "moodRaw": "😊 开心",
+              "mood": "happy",
               "like": {
                 "type": "fixed",
-                "value": 0
+                "value": 5
               },
               "heart": {
                 "type": "fixed",
-                "value": 1
+                "value": 5
               },
               "romantic": false,
               "achievement": [],
               "reqLike": null,
-              "result": "她笑了笑：\"嗯，也许吧...\"她觉得这个说法有点老套，但还是接受了"
+              "result": "雨停虹出，你从书里抽出那枚干花书签，花瓣薄而韧。你说：当初你说它比鲜花经放，像我们的日子。她接过去对着虹光看：还真被我说中了。你笑：你哪次不说中。她把书签别回你领口：那它，替咱俩晒晒太阳。",
+              "requireItem": "dried_flower"
             },
             {
               "key": "B",
@@ -5432,6 +5773,31 @@
               "achievement": [],
               "reqLike": null,
               "result": "你转身就走，她愣了一下，然后失望地看着你的背影，默默地走进了楼道"
+            },
+            {
+              "key": "E",
+              "label": "分别时把缎带从伞柄解下，系回她手腕",
+              "moneyRaw": "无花费",
+              "money": {
+                "type": "none",
+                "min": 0,
+                "max": 0
+              },
+              "moodRaw": "😊 开心",
+              "mood": "happy",
+              "like": {
+                "type": "fixed",
+                "value": 5
+              },
+              "heart": {
+                "type": "fixed",
+                "value": 5
+              },
+              "romantic": false,
+              "achievement": [],
+              "reqLike": null,
+              "result": "她家楼下，路灯昏黄。你把那截缎带从伞柄解下，重新系回她手腕：带着它，算我陪你走进楼道。她摸了摸缎带，踮脚在你脸颊碰了碰：那它替你，明天还来。",
+              "requireItem": "ribbon"
             }
           ]
         }
@@ -6091,52 +6457,29 @@
               "result": "你们一起堆了一个超大的雪人，她开心地笑了，还给它戴上了你的围巾。雪天堆雪人，是你们共同的回忆..."
             },
             {
-              "key": "B",
-              "label": "说太冷了，找个地方暖和一下",
-              "moneyRaw": "无花费",
-              "money": {
-                "type": "none",
-                "min": 0,
-                "max": 0
-              },
-              "moodRaw": "😐 一般",
-              "mood": "neutral",
-              "like": {
-                "type": "fixed",
-                "value": 1
-              },
-              "heart": {
-                "type": "fixed",
-                "value": 1
-              },
-              "romantic": false,
-              "achievement": [],
-              "reqLike": null,
-              "result": "她有点失望，但还是跟着你走进了温暖的咖啡店。雪天的寒冷，需要温暖的咖啡来驱散..."
-            },
-            {
               "key": "C",
-              "label": "趁她不注意，悄悄往她脖子里面灌雪",
+              "label": "堆雪人时你摸出雪景明信片，背面那句“今年初雪，身边是你”还在",
               "moneyRaw": "无花费",
               "money": {
                 "type": "none",
                 "min": 0,
                 "max": 0
               },
-              "moodRaw": "😤 生气",
-              "mood": "angry",
+              "moodRaw": "😊 开心",
+              "mood": "happy",
               "like": {
                 "type": "fixed",
-                "value": -8
+                "value": 8
               },
               "heart": {
                 "type": "fixed",
-                "value": -6
+                "value": 9
               },
               "romantic": false,
               "achievement": [],
               "reqLike": null,
-              "result": "她尖叫着跳起来，脸都冻红了：\"你太过分了！我再也不理你了！\"雪天的玩笑，有时候会适得其反..."
+              "result": "雪人歪着头，你从口袋抽出那张明信片，背面字迹被你焐得温温的。你说：当初印这句，现在看，一字没差。她凑近读，雪落满肩：那它，算咱俩的证词。你笑：证词属实，今年初雪，身边确是你。她把明信片塞回你：收好，明年还印。",
+              "requireItem": "snow_postcard"
             },
             {
               "key": "D",
@@ -6161,6 +6504,31 @@
               "achievement": [],
               "reqLike": null,
               "result": "你蹲下来，把干净的雪团成花瓣，小心折出一朵雪玫瑰，捧到她面前。她惊喜地睁大眼，接过去对着光看：\"会化掉的呀...\"话是这么说，却把它轻轻拢在手心，像捧着什么易碎的宝贝：\"这是我收过，最舍不得化的礼物。\""
+            },
+            {
+              "key": "E",
+              "label": "在银装素裹里，和她合张影",
+              "moneyRaw": "无花费",
+              "money": {
+                "type": "none",
+                "min": 0,
+                "max": 0
+              },
+              "moodRaw": "😊 开心",
+              "mood": "happy",
+              "like": {
+                "type": "fixed",
+                "value": 8
+              },
+              "heart": {
+                "type": "fixed",
+                "value": 7
+              },
+              "romantic": false,
+              "achievement": [],
+              "reqLike": null,
+              "result": "雪人戴上了你的围巾，她笑得鼻尖通红。你在银装素裹里与她合了张影，说这个冬天，因她而暖。",
+              "photo": "snowy_forest"
             }
           ]
         },
@@ -6217,7 +6585,8 @@
                 "他朝若是同淋雪 也许人间共白头II"
               ],
               "reqLike": null,
-              "result": "你把围巾绕成两圈，一人一半，中间那截正好把你们系在一起。她缩着脖子笑：\"这样，谁也跑不掉啦。\"雪落满肩头，可隔着这一圈毛线，两个人暖得像是共用着同一颗心跳。"
+              "result": "你把围巾绕成两圈，一人一半，中间那截正好把你们系在一起。她缩着脖子笑：\"这样，谁也跑不掉啦。\"雪落满肩头，可隔着这一圈毛线，两个人暖得像是共用着同一颗心跳。她亲手织的小猫围巾，一人一半系在身上，雪天里你们共用着同一颗心跳。——围巾，入背包。",
+              "reward": "scarf"
             },
             {
               "key": "C",
@@ -6322,7 +6691,8 @@
               "romantic": false,
               "achievement": [],
               "reqLike": null,
-              "result": "她把手伸进你的口袋，紧紧挨着你的手，笑着说：\"这样好暖和～\"雪天的浪漫，就在于这份共同的温暖..."
+              "result": "她把手伸进你的口袋，紧紧挨着你的手，笑着说：\"这样好暖和～\"雪天的浪漫，就在于这份共同的温暖...你又从怀里摸出暖手宝塞给她，小小一团，却把冰凉的指尖焐成了春天。——暖手宝，入背包。",
+              "reward": "hand_warmer"
             },
             {
               "key": "C",
@@ -6474,6 +6844,56 @@
               "achievement": [],
               "reqLike": null,
               "result": "你扶着她，小心地走着，她笑着说：\"谢谢你...\""
+            },
+            {
+              "key": "E",
+              "label": "雪地里并肩，拍下这一程",
+              "moneyRaw": "无花费",
+              "money": {
+                "type": "none",
+                "min": 0,
+                "max": 0
+              },
+              "moodRaw": "😊 开心",
+              "mood": "happy",
+              "like": {
+                "type": "fixed",
+                "value": 10
+              },
+              "heart": {
+                "type": "fixed",
+                "value": 12
+              },
+              "romantic": true,
+              "achievement": [],
+              "reqLike": null,
+              "result": "雪落满肩，你们脚印并排延伸。你举起手机拍下这一程，说这条路要是能一直走到白头，该多好。",
+              "photo": "snow_date"
+            },
+            {
+              "key": "F",
+              "label": "边走边折了只千纸鹤，说每个褶子都藏一个愿望",
+              "moneyRaw": "无花费",
+              "money": {
+                "type": "none",
+                "min": 0,
+                "max": 0
+              },
+              "moodRaw": "😊 开心",
+              "mood": "happy",
+              "like": {
+                "type": "fixed",
+                "value": 8
+              },
+              "heart": {
+                "type": "fixed",
+                "value": 10
+              },
+              "romantic": false,
+              "achievement": [],
+              "reqLike": null,
+              "result": "雪落满肩，你放慢脚步，用她手套包装纸折了只小小的千纸鹤：折痕的交点要落在重心上，才立得稳——就像愿望，得用心折才灵。她接过去，哈了口白气：那这只，替我收着一个。",
+              "reward": "origami"
             }
           ]
         },
@@ -6504,7 +6924,8 @@
               "romantic": false,
               "achievement": [],
               "reqLike": null,
-              "result": "你认真地帮她拍照，雪中的她美得像仙女。她开心地说：\"拍得真好！\""
+              "result": "你认真地帮她拍照，雪中的她美得像仙女。她开心地说：\"拍得真好！\"你顺手把这张雪中合影印成明信片，背面写\"今年初雪，身边是你\"。——雪景明信片，入背包。",
+              "reward": "snow_postcard"
             },
             {
               "key": "B",
@@ -6576,7 +6997,8 @@
               "romantic": true,
               "achievement": [],
               "reqLike": null,
-              "result": "快门按下那刻，她忽然踮脚凑近你耳边：\"笑这么好看，可得洗出来夹进书里。\"照片里雪落满头，两个人笑得毫无防备——原来最美好的回忆，从来不是某处风景，是身边这个人。"
+              "result": "快门按下那刻，她忽然踮脚凑近你耳边：\"笑这么好看，可得洗出来夹进书里。\"照片里雪落满头，两个人笑得毫无防备——原来最美好的回忆，从来不是某处风景，是身边这个人。",
+              "photo": "snowy_city"
             }
           ]
         },
@@ -6869,27 +7291,28 @@
             },
             {
               "key": "D",
-              "label": "说\"你怎么这么浪费\"",
+              "label": "红薯摊前你摸出暖手宝，说它和红薯一样，都是把暖递给她",
               "moneyRaw": "无花费",
               "money": {
                 "type": "none",
                 "min": 0,
                 "max": 0
               },
-              "moodRaw": "😤 生气",
-              "mood": "angry",
+              "moodRaw": "😊 开心",
+              "mood": "happy",
               "like": {
                 "type": "fixed",
-                "value": -6
+                "value": 6
               },
               "heart": {
                 "type": "fixed",
-                "value": -7
+                "value": 4
               },
               "romantic": false,
               "achievement": [],
               "reqLike": null,
-              "result": "她生气地看着你：\"我只是吃不下了而已！你至于吗？\"她松开了你的手，独自向前走去。雪天的寒冷，需要温暖来驱散..."
+              "result": "她捧着烤红薯暖手，你从怀里掏出暖手宝也递过去：这个不烫嘴，专门暖你。她说：你倒记得带。你笑：记得，雪地里你手凉，它替我焐过。她把暖手宝和红薯都抱住：那一个暖手，一个暖胃，你倒安排得周全。你：周全不够，得暖到你心里。",
+              "requireItem": "hand_warmer"
             }
           ]
         },
@@ -6953,27 +7376,28 @@
             },
             {
               "key": "C",
-              "label": "亲她的额头",
+              "label": "雪里你把她围巾两圈往紧里收，说一人一半的心跳别冻着",
               "moneyRaw": "无花费",
               "money": {
                 "type": "none",
                 "min": 0,
                 "max": 0
               },
-              "moodRaw": "😐 一般",
-              "mood": "neutral",
+              "moodRaw": "😊 开心",
+              "mood": "happy",
               "like": {
                 "type": "fixed",
-                "value": 2
+                "value": 6
               },
               "heart": {
                 "type": "fixed",
-                "value": 0
+                "value": 5
               },
               "romantic": false,
               "achievement": [],
               "reqLike": null,
-              "result": "你轻轻亲了她的额头，她愣了一下，然后笑了笑：\"你真温柔...\"她握住你的手，继续向前走去..."
+              "result": "她要凑近偷吻，你先把手拢住围巾，把两人脖颈都裹进同一条暖里。你说：它绕两圈，一人一半，谁也别冻着。她轻声：那这一半，算我借你的。你笑：借一辈子也行。她靠过来：那……吻一下，抵利息。",
+              "requireItem": "scarf"
             },
             {
               "key": "D",
@@ -7108,6 +7532,31 @@
               ],
               "reqLike": null,
               "result": "你装作看别处，却悄悄偏头瞥她写的是什么。她发现了，害羞地笑，手却没遮住那行字——\"我喜欢你\"。你心里那点悬了许久的石头，\"咚\"地落了地。原来青春里那场小心翼翼的暗恋，尽头是双向奔赴，谁也没先认输。"
+            },
+            {
+              "key": "E",
+              "label": "把折好的鹤轻轻放进雪地心愿的字迹旁",
+              "moneyRaw": "无花费",
+              "money": {
+                "type": "none",
+                "min": 0,
+                "max": 0
+              },
+              "moodRaw": "😊 开心",
+              "mood": "happy",
+              "like": {
+                "type": "fixed",
+                "value": 9
+              },
+              "heart": {
+                "type": "fixed",
+                "value": 11
+              },
+              "romantic": false,
+              "achievement": [],
+              "reqLike": null,
+              "result": "她蹲在雪地写心愿，你蹲下，把那只千纸鹤轻轻放在她字迹旁边：你的愿望，它替你收着。雪还在落，鹤的影子软软伏在字上。她望着那行字和那只鹤，忽然靠上你：原来心愿，是可以两个人折的。",
+              "requireItem": "origami"
             }
           ]
         }
@@ -7843,6 +8292,34 @@
               "achievement": [],
               "reqLike": null,
               "result": "她生气地看着你：\"你什么意思！是你自己要约会的！\""
+            },
+            {
+              "key": "E",
+              "label": "不辨方向，就辨声音——那边好像有水",
+              "moneyRaw": "无花费",
+              "money": {
+                "type": "none",
+                "min": 0,
+                "max": 0
+              },
+              "moodRaw": "😊 开心",
+              "mood": "happy",
+              "like": {
+                "type": "fixed",
+                "value": 8
+              },
+              "heart": {
+                "type": "fixed",
+                "value": 6
+              },
+              "romantic": true,
+              "achievement": [
+                "雾中听海"
+              ],
+              "reqLike": null,
+              "result": "你让她别说话。雾把所有东西都吃掉了，只剩一种很低的、来回的响，像有人在很远的地方翻书。你们循着它走了大概十分钟，脚下从水泥变成木板，再变成沙。雾散开一个口子，是一片海滨公园的栈道，栏杆湿得发亮，远处水面看不见边。她愣在那里，半天说了一句：「我们怎么走到海边了。」你在栈道缝里摸到一枚海螺，冰的，壳口朝上，盛着一点雾水。你把水倒掉，递给她。她没接，只是把耳朵凑过来。——海螺，入背包。",
+              "reward": "shell",
+              "photo": "foggy_shore"
             }
           ]
         },
@@ -7946,6 +8423,31 @@
               "achievement": [],
               "reqLike": null,
               "result": "她撇撇嘴：\"你真不懂...雾天的公园真的很可怕...\"她松开了你的手，独自向前走去，背影在雾气中显得格外落寞..."
+            },
+            {
+              "key": "E",
+              "label": "雾里远眺，和她合张影",
+              "moneyRaw": "无花费",
+              "money": {
+                "type": "none",
+                "min": 0,
+                "max": 0
+              },
+              "moodRaw": "😊 开心",
+              "mood": "happy",
+              "like": {
+                "type": "fixed",
+                "value": 6
+              },
+              "heart": {
+                "type": "fixed",
+                "value": 5
+              },
+              "romantic": false,
+              "achievement": [],
+              "reqLike": null,
+              "result": "雾散了些，你们站上高处远眺。你把她的手拢进掌心，趁山影朦胧按下快门，她说这雾里的人间，好像只剩你们两个。",
+              "photo": "cloudy_mountain"
             }
           ]
         },
@@ -7976,7 +8478,8 @@
               "romantic": false,
               "achievement": [],
               "reqLike": null,
-              "result": "你拉着她的手，慢慢走近古建筑。雾气中，白墙黛瓦若隐若现，飞檐翘角在雾中勾勒出优美的轮廓。她兴奋地说：\"太美了...像是一幅水墨画...\"你们一起欣赏着古建筑的细节，她靠在你身边，说：\"谢谢你陪我来...\""
+              "result": "你拉着她的手，慢慢走近古建筑。雾气中，白墙黛瓦若隐若现，飞檐翘角在雾中勾勒出优美的轮廓。她兴奋地说：\"太美了...像是一幅水墨画...\"你们一起欣赏着古建筑的细节，她靠在你身边，说：\"谢谢你陪我来...\"离开时她替你收起那把古风折扇，展开是远山，合上是她的笑。——古风折扇，入背包。",
+              "reward": "vintage_fan"
             },
             {
               "key": "B",
@@ -8048,8 +8551,8 @@
               "romantic": false,
               "achievement": [],
               "reqLike": null,
-              "result": "你拿出手机，提议：\"我们拍张合照吧！\"她眼睛一亮，开心地答应了。你们站在雾中的古建筑前，拍了一张合影。她看着照片，笑着说：\"太美了...这是我们最特别的回忆...\"——这张合照，也收进了背包的相册格。",
-              "reward": "photo"
+              "result": "你拿出手机，提议：\"我们拍张合照吧！\"她眼睛一亮，开心地答应了。你们站在雾中的古建筑前，拍了一张合影。她看着照片，笑着说：\"太美了...这是我们最特别的回忆...\"你按下快门，把她和雾中古建筑一起存进了手机相册。",
+              "photo": "foggy_ruin"
             }
           ]
         },
@@ -8297,27 +8800,28 @@
             },
             {
               "key": "B",
-              "label": "说\"你许了什么愿望？\"",
+              "label": "展开古风折扇，在扇面补一句心愿：愿雾散时，你还在",
               "moneyRaw": "无花费",
               "money": {
                 "type": "none",
                 "min": 0,
                 "max": 0
               },
-              "moodRaw": "😐 一般",
-              "mood": "neutral",
+              "moodRaw": "😊 开心",
+              "mood": "happy",
               "like": {
                 "type": "fixed",
-                "value": 0
+                "value": 8
               },
               "heart": {
                 "type": "fixed",
-                "value": 0
+                "value": 9
               },
               "romantic": false,
               "achievement": [],
               "reqLike": null,
-              "result": "她笑了笑：\"这是个秘密...\"她紧紧握着你的手。"
+              "result": "雾里她闭眼许愿，你悄悄展开那把折扇，在背面落笔：愿雾散时，你还在。她睁眼看见，没说话，只把扇子合上轻轻塞回你怀里。你说：它替我收着。她点头：收着，下回雾里，还给你写。",
+              "requireItem": "vintage_fan"
             },
             {
               "key": "C",
@@ -8372,7 +8876,7 @@
         {
           "id": "event13",
           "name": "雾中分别",
-          "prompt": "雾渐渐散去，你们走到她家楼下。路灯昏黄，在雾气中显得格外温暖。空气中还残留着雾气的清新和湿润。她停下脚步，转过身看着你，眼睛在渐散的雾气中闪烁着光芒：\"今天雾天约会，真的好特别...谢谢你陪我。雾中的一切都那么朦胧美好...\"她轻轻握住你的手，似乎不想分开...",
+          "prompt": "雾渐渐散去，你们走到她家楼下。路灯把雾染成暖黄，空气里还残留着雾气的清新与湿润。她停下脚步，转过身，眼睛在渐散的雾气中闪烁着光芒：\"今天雾天约会，真的好特别...\"她轻轻握住你的手，似乎不想分开——而你知道，今天还藏着一件没说出口的东西。",
           "options": [
             {
               "key": "A",
@@ -8469,6 +8973,31 @@
               "achievement": [],
               "reqLike": null,
               "result": "你摇头，指尖蹭了蹭她微凉的脸颊：\"下次还来。晴天的你好看，雾里的你…更让我想看清。\"她愣住，随即弯眼笑了，主动把脸往你掌心贴了贴：\"那说好了，下回雾天，你不准嫌麻烦。\"她没松手，反而把你往楼道灯光外又拉了拉。"
+            },
+            {
+              "key": "E",
+              "label": "把海螺从兜里摸出，塞进她掌心，说这个你替我收着",
+              "moneyRaw": "无花费",
+              "money": {
+                "type": "none",
+                "min": 0,
+                "max": 0
+              },
+              "moodRaw": "😊 开心",
+              "mood": "happy",
+              "like": {
+                "type": "fixed",
+                "value": 7
+              },
+              "heart": {
+                "type": "fixed",
+                "value": 4
+              },
+              "romantic": true,
+              "achievement": [],
+              "reqLike": null,
+              "result": "你从兜里摸出那枚海螺，壳口还留着一点凉。她愣了下：你一直带着？你说嗯，从海滨公园捡到就一直揣着。你把海螺按进她掌心，合上她的手指：替我收着，等我不在的时候，贴着听，里头是今天的海。她低头看着那枚小小的螺，没说话，只把它小心放进外套内袋，拍了两下：那它，就替你陪我回家了。",
+              "requireItem": "shell"
             }
           ]
         },
@@ -8527,27 +9056,28 @@
             },
             {
               "key": "C",
-              "label": "说\"这么多人看着呢\"",
+              "label": "雾里你举起古董小镜，镜面映出相拥的两人",
               "moneyRaw": "无花费",
               "money": {
                 "type": "none",
                 "min": 0,
                 "max": 0
               },
-              "moodRaw": "😐 一般",
-              "mood": "neutral",
+              "moodRaw": "😊 开心",
+              "mood": "happy",
               "like": {
                 "type": "fixed",
-                "value": 1
+                "value": 5
               },
               "heart": {
                 "type": "fixed",
-                "value": -1
+                "value": 4
               },
               "romantic": false,
               "achievement": [],
               "reqLike": null,
-              "result": "她看了看周围，有点不好意思：\"嗯...那算了...\"她失望地看着你。"
+              "result": "你从怀里摸出那面小镜，雾气蒙了边，镜里却清清楚楚映着你们俩。你说：摊主说能照出真心，我信了。她凑近看，镜中两人挨得那样近。她轻声：那它照对了。你收镜：收着，真心不轻易给人看。",
+              "requireItem": "mirror"
             },
             {
               "key": "D",
@@ -8750,8 +9280,7 @@
               "romantic": false,
               "achievement": [],
               "reqLike": null,
-              "result": "你接过她手里那只猫咪钥匙扣，金属凉凉的，却因她攥了许久带着点温度。你顺手把它系在自己包上：\"你的是挂件，我的是护身符。\"她偷瞄了一眼，没拦你：\"随你啦。\"——那只猫咪钥匙扣，就这样住进了你的背包。",
-              "reward": "keychain"
+              "result": "你接过她手里那只猫咪钥匙扣，金属凉凉的，却因她攥了许久带着点温度。你顺手把它系在自己包上：\"你的是挂件，我的是护身符。\"她偷瞄了一眼，没拦你：\"随你啦。\"——那只猫咪钥匙扣，就这样住进了你的背包。"
             },
             {
               "key": "C",
@@ -8833,8 +9362,7 @@
               "romantic": false,
               "achievement": [],
               "reqLike": null,
-              "result": "拆开并非心仪的隐藏款，她耷拉了嘴角，却还是把玩起手里的吉伊小八盲盒舍不得放。你接过那方小小的盒子：\"隐藏款下次再战，这个先归我收藏。\"她眨眨眼：\"你要就送你啦，反正我还有好多想抽的。\"——那只普通款盲盒，躺进了你的背包。",
-              "reward": "blindbox"
+              "result": "拆开并非心仪的隐藏款，她耷拉了嘴角，却还是把玩起手里的盲盒舍不得放。你接过那方小小的盒子：\"隐藏款下次再战，这个先归我收藏。\"她眨眨眼：\"你要就送你啦，反正我还有好多想抽的。\""
             },
             {
               "key": "B",
@@ -8887,8 +9415,9 @@
                 "欧皇附体"
               ],
               "reqLike": null,
-              "result": "拆开的瞬间她惊呼着蹦跳起来，正是心心念念的吉伊小八隐藏款！她把盲盒塞进你怀里：\"快，归你保管，这可是欧皇附体！\"你接过来，沉甸甸的全是她的欢喜。——吉伊小八隐藏款，入背包。",
-              "reward": "blindbox_hidden"
+              "result": "拆开的瞬间她惊呼着蹦跳起来，正是一发入魂抽中的限定明信片！她把明信片塞进你怀里：\"快，归你保管，这可是欧皇附体！\"你接过来，沉甸甸的全是她的欢喜。——限定明信片，入背包。",
+              "reward": "limited_postcard",
+              "photo": "blindbox_photo"
             },
             {
               "key": "D",
@@ -8947,8 +9476,8 @@
                 "最佳听众"
               ],
               "reqLike": null,
-              "result": "她把那枚吉伊小八徽章仔仔细细别在你衣领，还拍了拍：\"以后这就是我的专属标记。\"你低头看着那枚小小的徽章，忽然觉得整件外套都亮了。——专属徽章，已收进背包，成了你身上的常驻印记。",
-              "reward": "badge"
+              "result": "她把那只猫咪钥匙扣仔仔细细系在你包上，还拍了拍：\"以后这就是我的专属标记。\"你低头看着那枚小小的钥匙扣，忽然觉得整件外套都亮了。——猫咪钥匙扣，入背包，成了你身上的常驻印记。",
+              "reward": "keychain"
             },
             {
               "key": "B",
@@ -8973,8 +9502,7 @@
               "romantic": false,
               "achievement": [],
               "reqLike": null,
-              "result": "被夸赞后她傲娇地扬了扬下巴，却悄悄把那枚吉伊小八谷子攥进你手里：\"算你眼光好，这个归你收藏。\"你接过那方小小的谷子，指尖描过熟悉的轮廓，收进背包。——吉伊小八谷子，入背包。",
-              "reward": "guzi"
+              "result": "被夸赞后她傲娇地扬了扬下巴，却悄悄把一个精致的小物件塞进你手里：\"算你眼光好，这个归你收藏。\"你接过那方小小的物件，指尖描过熟悉的轮廓，笑着收好。"
             },
             {
               "key": "C",
@@ -9030,6 +9558,33 @@
               ],
               "reqLike": null,
               "result": "你们对着满墙的谷子拍照，她举着吉伊小八的谷子比耶卖萌，黑色美甲在镜头前格外显眼，拍完反复翻看照片，还把合照设成手机壁纸，开心得不行，拉着你又逛了好久。"
+            },
+            {
+              "key": "E",
+              "label": "在文创店里，和她合张影",
+              "moneyRaw": "金钱 不变",
+              "money": {
+                "type": "none",
+                "min": 0,
+                "max": 0
+              },
+              "moodRaw": "😊 开心",
+              "mood": "happy",
+              "like": {
+                "type": "fixed",
+                "value": 8
+              },
+              "heart": {
+                "type": "fixed",
+                "value": 6
+              },
+              "romantic": false,
+              "achievement": [
+                "摄影师"
+              ],
+              "reqLike": null,
+              "result": "你们对着满墙的谷子比耶，她举着猫咪钥匙扣笑得眉眼弯弯。你趁机拍下这张文创店合照，说这是今天最值的收藏。",
+              "photo": "date_photo"
             }
           ]
         },
@@ -9088,8 +9643,7 @@
                 "导航专家"
               ],
               "reqLike": null,
-              "result": "你搜到路线，带她冲进巷尾的拼豆店。她迫不及待挑了猫咪造型，低头一颗颗拼得认真，末了把做好的小拼豆塞给你：\"这只归你，我的是猫咪，你是我缩小版。\"你接过来，彩珠还沾着她指尖的温度。——猫咪拼豆，入背包。",
-              "reward": "pindou"
+              "result": "你搜到路线，带她冲进巷尾的拼豆店。她迫不及待挑了猫咪造型，低头一颗颗拼得认真，末了把做好的小拼豆塞给你：\"这只归你，我的是猫咪，你是我缩小版。\"你接过来，彩珠还沾着她指尖的温度，小心收好。"
             },
             {
               "key": "C",
@@ -9441,28 +9995,28 @@
             },
             {
               "key": "D",
-              "label": "吐槽地铁人多，抱怨出行麻烦",
-              "moneyRaw": "金钱 不变",
+              "label": "掏出充电宝，把手机续上电，也把你不安的眉头抚平",
+              "moneyRaw": "无花费",
               "money": {
                 "type": "none",
                 "min": 0,
                 "max": 0
               },
-              "moodRaw": "😤 生气",
-              "mood": "angry",
+              "moodRaw": "😊 开心",
+              "mood": "happy",
               "like": {
                 "type": "fixed",
-                "value": -6
+                "value": 5
               },
               "heart": {
-                "type": "random",
-                "min": -6,
-                "max": -1
+                "type": "fixed",
+                "value": 4
               },
               "romantic": false,
               "achievement": [],
               "reqLike": null,
-              "result": "她听到你的抱怨，眉头皱得更紧，小声说\"抱怨也没用呀\"，懒得接你的话，自顾自看向别处，眼底满是不悦，觉得你不仅没考虑她不喜欢吵闹，还传递负能量，刻意与你保持距离。"
+              "result": "地铁提示音里你举着充电宝，线一头连她手机一头连你：刚才迷路靠它，现在赶车也靠它。她看着那枚小方块，忽然笑：你这人，怎么总在关键时候兜里揣着光。",
+              "requireItem": "powerbank"
             }
           ]
         },
@@ -9657,28 +10211,28 @@
             },
             {
               "key": "D",
-              "label": "抱怨坐过站麻烦，吐槽聊天耽误事",
-              "moneyRaw": "金钱 不变",
+              "label": "从包里抽出那张限定明信片，在意外风景里补写一行字",
+              "moneyRaw": "无花费",
               "money": {
                 "type": "none",
                 "min": 0,
                 "max": 0
               },
-              "moodRaw": "😤 生气",
-              "mood": "angry",
+              "moodRaw": "😊 开心",
+              "mood": "happy",
               "like": {
                 "type": "fixed",
-                "value": -10
+                "value": 8
               },
               "heart": {
-                "type": "random",
-                "min": -6,
-                "max": -1
+                "type": "fixed",
+                "value": 8
               },
               "romantic": false,
               "achievement": [],
               "reqLike": null,
-              "result": "她瞬间收住笑容，瞪了你一眼，觉得你不仅不懂得欣赏这意外的浪漫，还抱怨她，之前的烦躁又涌了上来，扭过头不理你，和好的氛围彻底消失，连晚风都显得格外沉闷。"
+              "result": "车窗外是不期而遇的霞光，你摸出抽奖得的限定明信片，在背面添了句：今年误的这一站，刚刚好。她凑过来看，眼眶微热：你这欧皇，连走神都走成了诗。你笑：运气分你一半，惯例。",
+              "requireItem": "limited_postcard"
             }
           ]
         },
@@ -9713,54 +10267,29 @@
               "result": "她接过芋泥麻薯尝了尝，点点头说\"还可以\"，慢慢吃着，一边吃一边蹲下来摸萨摩耶，指尖的黑色美甲轻轻抚摸着狗狗的毛发，眼神温柔，没有惊喜也没有不满，安安静静地享受这片刻的惬意。"
             },
             {
-              "key": "B",
-              "label": "买桂花糕，选经典小吃，催她离开",
-              "moneyRaw": "金钱 -3",
-              "money": {
-                "type": "spend",
-                "min": 3,
-                "max": 3
-              },
-              "moodRaw": "😤 生气",
-              "mood": "angry",
-              "like": {
-                "type": "fixed",
-                "value": -7
-              },
-              "heart": {
-                "type": "random",
-                "min": -6,
-                "max": -1
-              },
-              "romantic": false,
-              "achievement": [],
-              "reqLike": null,
-              "result": "她咬了一口桂花糕，发现是红豆馅，瞬间皱起眉，把桂花糕塞给你，嘟囔着\"不喜欢这个味道\"，还因为你催她离开，没能好好摸萨摩耶而生气，眉头紧紧皱着，眼底满是不悦。"
-            },
-            {
               "key": "C",
-              "label": "两种都买，让她都尝尝，不等她摸萨摩耶",
-              "moneyRaw": "金钱 -6",
+              "label": "她包上那枚吉伊小八，跟着你一起蹲下来摸狗",
+              "moneyRaw": "无花费",
               "money": {
-                "type": "spend",
-                "min": 6,
-                "max": 6
+                "type": "none",
+                "min": 0,
+                "max": 0
               },
-              "moodRaw": "😤 生气",
-              "mood": "angry",
+              "moodRaw": "😊 开心",
+              "mood": "happy",
               "like": {
                 "type": "fixed",
-                "value": -8
+                "value": 6
               },
               "heart": {
-                "type": "random",
-                "min": -6,
-                "max": -1
+                "type": "fixed",
+                "value": 5
               },
               "romantic": false,
               "achievement": [],
               "reqLike": null,
-              "result": "她尝完桂花糕，又咬了一口芋泥麻薯，眉头依旧皱着，既不喜欢桂花糕的味道，又因为你不等她摸萨摩耶而委屈，觉得你不仅浪费钱，还不重视她喜好，情绪蔫蔫的，连芋泥麻薯都没心思再吃。"
+              "result": "她蹲在萨摩耶前，你外套上那枚吉伊小八也跟着晃。她说：它比你还乖。你低头：那当然，它天天跟你学的。她笑，指尖碰了碰小八：那它替我，多陪陪你。",
+              "requireItem": "chick"
             },
             {
               "key": "D",
@@ -9788,6 +10317,31 @@
               ],
               "reqLike": null,
               "result": "你挑了她爱吃的甜点点心，递到她手里，陪着她蹲下来摸萨摩耶，她眼睛一亮，大口吃着点心，一边吃一边温柔地抚摸狗狗，指尖的黑色美甲蹭着狗狗的毛发，笑眯眯地夸你懂她，眼底满是欢喜。"
+            },
+            {
+              "key": "E",
+              "label": "夜色里，和她在秦淮边合张影",
+              "moneyRaw": "金钱 不变",
+              "money": {
+                "type": "none",
+                "min": 0,
+                "max": 0
+              },
+              "moodRaw": "😊 开心",
+              "mood": "happy",
+              "like": {
+                "type": "fixed",
+                "value": 8
+              },
+              "heart": {
+                "type": "fixed",
+                "value": 6
+              },
+              "romantic": false,
+              "achievement": [],
+              "reqLike": null,
+              "result": "夫子庙灯影摇曳，秦淮水映着月色。你和她并肩站在桥边合了张影，说这古色古香的一夜，要好好收进相册。",
+              "photo": "night_photo"
             }
           ]
         },
@@ -9986,28 +10540,28 @@
             },
             {
               "key": "D",
-              "label": "和船上的游客聊天，忽略她拍风景",
-              "moneyRaw": "金钱 不变",
+              "label": "她一眼认出你包上的猫咪钥匙扣，笑你偷偷带着她",
+              "moneyRaw": "无花费",
               "money": {
                 "type": "none",
                 "min": 0,
                 "max": 0
               },
-              "moodRaw": "😤 生气",
-              "mood": "angry",
+              "moodRaw": "😊 开心",
+              "mood": "happy",
               "like": {
                 "type": "fixed",
-                "value": -8
+                "value": 7
               },
               "heart": {
-                "type": "random",
-                "min": -6,
-                "max": -1
+                "type": "fixed",
+                "value": 8
               },
               "romantic": false,
               "achievement": [],
               "reqLike": null,
-              "result": "她转头发现你在和船上的游客聊得热火朝天，完全忽略了她，瞬间收起笑容，赌气把手机收起来，靠在窗边不理你，眉头紧紧皱着，眼底满是被忽视的委屈，觉得你根本不重视她，也不懂得陪她享受这安静的浪漫。"
+              "result": "秦淮灯下她忽然拽你包带：这钥匙扣，是我的吧。你点头。她没再说什么，只把钥匙扣往灯前转了转，像在确认那抹笑还挂在那：带着也好，省得你想我了没处抓。你喉头一热：天天抓，都快抓秃了。",
+              "requireItem": "keychain"
             }
           ]
         },
@@ -10066,8 +10620,8 @@
                 "完美瞬间捕捉"
               ],
               "reqLike": null,
-              "result": "你悄悄站在她身后，背对着她举手机自拍，故意发出拍照的声音，她疑惑地回头看你，刚好被镜头定格，回眸的瞬间，温柔又惊艳，眼底满是惊喜，指尖的黑色美甲还停留在奶茶杯上，这张照片，成为了此次约会唯一的绝美合照，她看完后，脸颊通红，却笑得格外开心。——这张合照，成了你背包里最舍不得删的一张。",
-              "reward": "photo"
+              "result": "你悄悄站在她身后，背对着她举手机自拍，故意发出拍照的声音，她疑惑地回头看你，刚好被镜头定格，回眸的瞬间，温柔又惊艳，眼底满是惊喜，指尖的黑色美甲还停留在奶茶杯上，这张照片，成为了此次约会唯一的绝美合照，她看完后，脸颊通红，却笑得格外开心。你按下保存，把这张合照存进了手机相册。",
+              "photo": "selfie_photo"
             },
             {
               "key": "C",
@@ -10118,6 +10672,31 @@
               "achievement": [],
               "reqLike": null,
               "result": "你看着她害羞的模样，放弃了拍合照，说下次再陪她拍，她轻轻点了点头，嘴上说着\"好呀\"，眼底却满是遗憾，忍不住回头看了看站台的暖光，心里暗暗可惜，没能留下今天的好纪念。"
+            },
+            {
+              "key": "E",
+              "label": "从兜里掏出一枚小钥匙，说这把专门开你那扇总躲镜头的心门",
+              "moneyRaw": "无花费",
+              "money": {
+                "type": "none",
+                "min": 0,
+                "max": 0
+              },
+              "moodRaw": "😊 开心",
+              "mood": "happy",
+              "like": {
+                "type": "fixed",
+                "value": 8
+              },
+              "heart": {
+                "type": "fixed",
+                "value": 10
+              },
+              "romantic": false,
+              "achievement": [],
+              "reqLike": null,
+              "result": "站台暖光里她又偷偷瞟你，却不敢提拍照。你忽然摊开掌心，一枚小钥匙静静躺着：这把，专门开你那扇总躲镜头的心门。她愣住，耳尖一下红了，指尖的黑色美甲松了松奶茶杯：你……怎么连这个都备好了。",
+              "reward": "key"
             }
           ]
         },
@@ -10333,6 +10912,31 @@
               "achievement": [],
               "reqLike": null,
               "result": "她听到你调侃她路痴还骄傲，立刻圆睁双眼，生气地说'你才是路痴，你才骄傲'，转身走进地铁，黑色指甲油的指尖紧紧攥着，显然不想理你，临别气氛瞬间恶化，连她眼中的不舍也变成了愤怒。"
+            },
+            {
+              "key": "E",
+              "label": "临别晃了晃钥匙，说这门我替你开——把「舍不得」说出口",
+              "moneyRaw": "无花费",
+              "money": {
+                "type": "none",
+                "min": 0,
+                "max": 0
+              },
+              "moodRaw": "😊 开心",
+              "mood": "happy",
+              "like": {
+                "type": "fixed",
+                "value": 8
+              },
+              "heart": {
+                "type": "fixed",
+                "value": 8
+              },
+              "romantic": false,
+              "achievement": [],
+              "reqLike": null,
+              "result": "地铁来了，她攥着奶茶杯说不出的舍不得。你晃了晃那枚钥匙：心门我替你开——你想说的那句，我替你说：舍不得。她眼眶一热，把钥匙和你的手一起攥紧：那这门，归你管了。",
+              "requireItem": "key"
             }
           ]
         }
@@ -10442,7 +11046,8 @@
               "romantic": false,
               "achievement": [],
               "reqLike": null,
-              "result": "你凑近她耳边低声：『风再大，也是把我吹向你。』她噗嗤笑了，捶你一下：『贫嘴，但……还挺暖的。』"
+              "result": "你凑近她耳边低声：『风再大，也是把我吹向你。』她噗嗤笑了，捶你一下：『贫嘴，但……还挺暖的。』临出门你把防风披风往她肩上一披，风再大，也被挡在了你们之外。——防风披风，入背包。",
+              "reward": "windproof_cape"
             }
           ]
         },
@@ -10807,7 +11412,8 @@
               "romantic": false,
               "achievement": [],
               "reqLike": null,
-              "result": "你举着手机摸黑翻箱倒柜找出手电，回来见她还缩在沙发角，像只受惊的猫。"
+              "result": "你举着手机摸黑翻箱倒柜找出手电，回来见她还缩在沙发角，像只受惊的猫。你摸到那支应急手电，一束光就把慌乱的她稳住了。——应急手电，入背包。",
+              "reward": "emergency_light"
             },
             {
               "key": "C",
@@ -10942,27 +11548,28 @@
             },
             {
               "key": "D",
-              "label": "只是静静看着她不说话",
-              "moneyRaw": "金钱 不变",
+              "label": "烛光里你把防风披风往她肩头拢了拢，说风再大也挡在外面",
+              "moneyRaw": "无花费",
               "money": {
                 "type": "none",
                 "min": 0,
                 "max": 0
               },
-              "moodRaw": "😐 一般",
-              "mood": "neutral",
+              "moodRaw": "😊 开心",
+              "mood": "happy",
               "like": {
                 "type": "fixed",
-                "value": 5
+                "value": 7
               },
               "heart": {
                 "type": "fixed",
-                "value": 4
+                "value": 9
               },
               "romantic": false,
               "achievement": [],
               "reqLike": null,
-              "result": "你没出声，只是看着她。她也看回来，两人隔着烛光笑了，什么话都多余。"
+              "result": "停电的烛影里，你伸手把她披风领口合紧。你说：台风那天它替你挡风，今儿烛光这么软，更该裹好你。她低头：你总把东西往我身上堆。你笑：堆的是安心，不重。她往你怀里靠：那这件，算你给我的安稳。",
+              "requireItem": "windproof_cape"
             }
           ]
         },
@@ -11227,27 +11834,28 @@
             },
             {
               "key": "C",
-              "label": "逗她『雷公点名了你』",
-              "moneyRaw": "金钱 不变",
+              "label": "雷声里你举起应急手电，一束光把慌乱的她稳住",
+              "moneyRaw": "无花费",
               "money": {
                 "type": "none",
                 "min": 0,
                 "max": 0
               },
-              "moodRaw": "😐 一般",
-              "mood": "neutral",
+              "moodRaw": "😊 开心",
+              "mood": "happy",
               "like": {
                 "type": "fixed",
-                "value": 3
+                "value": 7
               },
               "heart": {
                 "type": "fixed",
-                "value": 1
+                "value": 9
               },
               "romantic": false,
               "achievement": [],
               "reqLike": null,
-              "result": "你坏笑：『雷公喊你名字呢。』她捶你：『这时候还贫！』但紧绷的肩膀松了下来。"
+              "result": "雷滚过，她往你怀里缩，你摸出应急手电按亮，光柱稳稳落她脚下。你说：停那回电它稳你，这回雷它壮你。她攥你袖子：你怎么老在怕的时候，手里有光。你低声：因为光，是给你准备的。她靠紧：那这光，归我管。",
+              "requireItem": "emergency_light"
             },
             {
               "key": "D",
@@ -11482,6 +12090,31 @@
               "achievement": [],
               "reqLike": null,
               "result": "你拍下云裂的奇观发朋友圈。她凑看：『配文写啥？』『写：风眼里，有人在。』"
+            },
+            {
+              "key": "E",
+              "label": "在风眼静谧里，记录这罕见奇景",
+              "moneyRaw": "金钱 不变",
+              "money": {
+                "type": "none",
+                "min": 0,
+                "max": 0
+              },
+              "moodRaw": "😊 开心",
+              "mood": "happy",
+              "like": {
+                "type": "fixed",
+                "value": 7
+              },
+              "heart": {
+                "type": "fixed",
+                "value": 5
+              },
+              "romantic": false,
+              "achievement": [],
+              "reqLike": null,
+              "result": "风忽然停了，世界静得能听见心跳。你举起手机，把云裂的那道光和身边人一起收进相册，说这辈子大概只见这一次。",
+              "photo": "typhoon_eye"
             }
           ]
         },
@@ -11586,6 +12219,56 @@
               "achievement": [],
               "reqLike": null,
               "result": "你数落她囤的辣条和雨靴：『末日生存专家，就这？』她反击：『要不是我，你连蜡烛都没有！』"
+            },
+            {
+              "key": "E",
+              "label": "雨后初晴，和她拍张平安纪念",
+              "moneyRaw": "金钱 不变",
+              "money": {
+                "type": "none",
+                "min": 0,
+                "max": 0
+              },
+              "moodRaw": "😊 开心",
+              "mood": "happy",
+              "like": {
+                "type": "fixed",
+                "value": 7
+              },
+              "heart": {
+                "type": "fixed",
+                "value": 5
+              },
+              "romantic": false,
+              "achievement": [],
+              "reqLike": null,
+              "result": "风停雨歇，阳光重新漏进窗台。你拉她到窗边，拍下这张劫后平安的合照，说以后每次台风，都要一起等到放晴。",
+              "photo": "conflict_resolved"
+            },
+            {
+              "key": "F",
+              "label": "楼下院子里竟揪到一株四叶草，说万分之一的运气留给今天",
+              "moneyRaw": "无花费",
+              "money": {
+                "type": "none",
+                "min": 0,
+                "max": 0
+              },
+              "moodRaw": "😊 开心",
+              "mood": "happy",
+              "like": {
+                "type": "fixed",
+                "value": 6
+              },
+              "heart": {
+                "type": "fixed",
+                "value": 5
+              },
+              "romantic": false,
+              "achievement": [],
+              "reqLike": null,
+              "result": "风停雨歇，你们下楼勘察。她在落叶里忽然蹲下：你看！一株四叶草，从砖缝里钻出来。你蹲下看：万分之一的运气，留给今天这场虚惊。她把它小心掐下，塞进你手心：那归你保管。",
+              "reward": "clover"
             }
           ]
         },
@@ -11692,6 +12375,31 @@
               "achievement": [],
               "reqLike": null,
               "result": "你悄悄握住她的手，十指交扣。她没抽回，只是往你肩头靠得更沉：『……别松手啊。』"
+            },
+            {
+              "key": "E",
+              "label": "把四叶草夹进她随身带的书里，说带着这运气",
+              "moneyRaw": "无花费",
+              "money": {
+                "type": "none",
+                "min": 0,
+                "max": 0
+              },
+              "moodRaw": "😊 开心",
+              "mood": "happy",
+              "like": {
+                "type": "fixed",
+                "value": 7
+              },
+              "heart": {
+                "type": "fixed",
+                "value": 6
+              },
+              "romantic": false,
+              "achievement": [],
+              "reqLike": null,
+              "result": "沙发里她昏昏欲睡，你把她随身那本书抽过来，把四叶草轻轻夹进扉页：带着这运气，下次台风也不怕。她迷迷糊糊蹭你肩：那你……也得在。你说在，运气和我在，都归你。",
+              "requireItem": "clover"
             }
           ]
         }
