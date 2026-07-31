@@ -356,11 +356,15 @@
             transform: translate(-50%, -50%) scale(1);
         }
 
-        .event-title {
+        /* E-2：原选择器 .event-title 在真实 DOM 无对应元素（实际是 <span id="event-title">），
+           规范的 22px/800 从未生效，事件名一直继承 .event-meta 的 13px/400。改挂到 #event-title。
+           色值不沿用规范里的 #ff6b6b —— 实测它在 parchment/cinnabar/rosegold 三主题只有
+           2.51 / 2.58 / 2.67:1，连大字 3:1 都不到；改用主题 --ink，四主题 7.37～11.56:1。
+           margin-bottom 移除：该元素是 .event-meta 的 flex item，底边距会破坏与同行元信息的垂直居中。 */
+        #event-title {
             font-size: 22px;
             font-weight: 800;
-            color: #ff6b6b;
-            margin-bottom: 6px;
+            color: var(--ink, #5c4a32);
             text-align: center;
             line-height: 1.35;
             letter-spacing: -0.3px;
@@ -1944,6 +1948,9 @@
         .choice-hint-normal { color: #666 !important; }
         .choice-hint-angry { color: #d32f2f !important; font-weight: bold; text-shadow: 0 0 1px rgba(255,255,255,0.8); }
 
+/* ═══ MODULE: choice-hint — 选项提示基类（盒子样式） ═══ */
+        .choice-hint{font-size:12px;line-height:1.4;border-top:1px solid rgba(255,255,255,.3);margin-top:4px;padding:4px 8px;background:rgba(0,0,0,.1);border-radius:4px;}
+
         /* 紧凑布局调整 */
         .event-info { margin-bottom: 8px; }
         .event-description { margin-bottom: 12px; font-size: 13.5px; }
@@ -2411,12 +2418,18 @@
        使用 [data-theme] 提高特异性，覆盖内联硬编码配色，无需改动原规则
        ============================================================ */
 
+    /* ═══ MODULE: theme-token-alias（E-3）═══
+       组件层消费的是 --bg-chip / --text-primary / --text-muted，主题层定义的却是
+       --chip / --ink / --muted，两套命名对不上 → 26 处规则恒走 fallback、永远拿不到主题值。
+       在四个主题块各补 3 行别名映射打通。--muted 同步调深，使新接通的次要文本达 AA。 */
+
     /* ---------- B 羊皮古卷 parchment（默认） ---------- */
-    [data-theme="parchment"] { --ink:#5c4a32; --sub:#6e5a38; --muted:#8a7654; --paper:#faf3e0; --paper2:#fffaf0; --line:#e0cda0; --accent:#a8442a; --gold:#c9a86a; --chip:#f3e8cf; --hdr-bg:linear-gradient(45deg,#b5895a,#8a6d48); --hdr-text:#faf3e0; --choice-text:#faf3e0; --choice-bg:linear-gradient(135deg,#c9a86a,#a8442a); }
+    [data-theme="parchment"] { --ink:#5c4a32; --sub:#6e5a38; --muted:#7a6644; --paper:#faf3e0; --paper2:#fffaf0; --line:#e0cda0; --accent:#a8442a; --gold:#c9a86a; --chip:#f3e8cf; --hdr-bg:linear-gradient(45deg,#b5895a,#8a6d48); --hdr-text:#faf3e0; --choice-text:#faf3e0; --choice-bg:linear-gradient(135deg,#8a6529,#a8442a); --bg-chip:var(--chip); --text-primary:var(--ink); --text-muted:var(--muted); --focus-ring:#7a2410; --focus-halo:#ffffff; }
     body[data-theme="parchment"] { background: linear-gradient(135deg,#e8dcc0 0%,#f3e8cf 100%); color:#5c4a32; }
     [data-theme="parchment"] .container { background:#faf3e0; border-color:#5c4a32; box-shadow:0 8px 32px rgba(92,74,50,0.25), inset 0 0 60px rgba(139,109,72,0.10); }
     [data-theme="parchment"] .header { background: linear-gradient(45deg,#b5895a,#8a6d48); color:#faf3e0; }
-    [data-theme="parchment"] .choice-btn { background: linear-gradient(135deg,#c9a86a,#a8442a); color:#faf3e0; }
+    /* E-4：渐变起始端由 #c9a86a(2.04:1) 调深为古铜 #8a6529 → 最差端 4.77:1，保留金→赭的暖色走向 */
+    [data-theme="parchment"] .choice-btn { background: linear-gradient(135deg,#8a6529,#a8442a); color:#faf3e0; }
     [data-theme="parchment"] .choice-btn:hover { box-shadow:0 5px 15px rgba(168,68,42,0.30); }
     [data-theme="parchment"] .gift-name, [data-theme="parchment"] .rating-star { color:#a8442a; }
     [data-theme="parchment"] .buy-gift-btn, [data-theme="parchment"] .tab-btn.active, [data-theme="parchment"] .modal-close-btn, [data-theme="parchment"] .shop-tab.active { background:#a8442a; color:#faf3e0; }
@@ -2452,11 +2465,12 @@
     [data-theme="parchment"] .inventory-item:hover { border-color:#c9a86a; }
 
     /* ---------- 朱砂古卷 cinnabar ---------- */
-    [data-theme="cinnabar"] { --ink:#5c2a1e; --sub:#7a4030; --muted:#a07a6e; --paper:#fff5ee; --paper2:#fff5ee; --line:#f0c8b8; --accent:#c0392b; --gold:#e8a87c; --chip:#faeae0; --hdr-bg:linear-gradient(45deg,#c0392b,#e74c3c); --hdr-text:#fff5ee; --choice-text:#fff5ee; --choice-bg:linear-gradient(135deg,#e74c3c,#c0392b); }
+    [data-theme="cinnabar"] { --ink:#5c2a1e; --sub:#7a4030; --muted:#8a6255; --paper:#fff5ee; --paper2:#fff5ee; --line:#f0c8b8; --accent:#c0392b; --gold:#e8a87c; --chip:#faeae0; --hdr-bg:linear-gradient(45deg,#c0392b,#e74c3c); --hdr-text:#fff5ee; --choice-text:#fff5ee; --choice-bg:linear-gradient(135deg,#cf3323,#b0301f); --bg-chip:var(--chip); --text-primary:var(--ink); --text-muted:var(--muted); --focus-ring:#5c1a0e; --focus-halo:#ffffff; }
     body[data-theme="cinnabar"] { background:linear-gradient(135deg,#f3dcd0 0%,#faeae0 100%); color:#5c2a1e; }
     [data-theme="cinnabar"] .container { background:#fff5ee; border-color:#7a2e1e; box-shadow:0 8px 32px rgba(122,46,30,0.25); }
     [data-theme="cinnabar"] .header { background:linear-gradient(45deg,#c0392b,#e74c3c); color:#fff5ee; }
-    [data-theme="cinnabar"] .choice-btn { background:linear-gradient(135deg,#e74c3c,#c0392b); color:#fff5ee; }
+    /* E-4：渐变整体压深（#e74c3c→#cf3323，#c0392b→#b0301f）→ 最差端 4.71:1，仍是朱砂红 */
+    [data-theme="cinnabar"] .choice-btn { background:linear-gradient(135deg,#cf3323,#b0301f); color:#fff5ee; }
     [data-theme="cinnabar"] .choice-btn:hover { box-shadow:0 5px 15px rgba(192,57,43,0.35); }
     [data-theme="cinnabar"] .gift-name, [data-theme="cinnabar"] .rating-star { color:#c0392b; }
     [data-theme="cinnabar"] .buy-gift-btn, [data-theme="cinnabar"] .tab-btn.active, [data-theme="cinnabar"] .modal-close-btn, [data-theme="cinnabar"] .shop-tab.active { background:#c0392b; color:#fff5ee; }
@@ -2492,11 +2506,13 @@
     [data-theme="cinnabar"] .inventory-item:hover { border-color:#e8a87c; }
 
     /* ---------- 柔粉暖金 rosegold ---------- */
-    [data-theme="rosegold"] { --ink:#6e4a4a; --sub:#a98a8a; --muted:#c4a0a0; --paper:#fff9fb; --paper2:#ffffff; --line:#f6dbe2; --accent:#d98a9a; --gold:#c9a86a; --chip:#fdf2f5; --hdr-bg:linear-gradient(45deg,#e8a0a8,#d98a9a); --hdr-text:#ffffff; --choice-text:#ffffff; --choice-bg:linear-gradient(135deg,#e8b4a0,#d98a9a); }
+    [data-theme="rosegold"] { --ink:#6e4a4a; --sub:#7d5555; --muted:#8d6262; --paper:#fff9fb; --paper2:#ffffff; --line:#f6dbe2; --accent:#d98a9a; --gold:#c9a86a; --chip:#fdf2f5; --hdr-bg:linear-gradient(45deg,#e8a0a8,#d98a9a); --hdr-text:#ffffff; --choice-text:#4a1f28; --choice-bg:linear-gradient(135deg,#e8b4a0,#d98a9a); --bg-chip:var(--chip); --text-primary:var(--ink); --text-muted:var(--muted); --focus-ring:#8f2d4a; --focus-halo:#ffffff; }
     body[data-theme="rosegold"] { background:linear-gradient(135deg,#fdeef2 0%,#fdf6ee 100%); color:#6e4a4a; }
     [data-theme="rosegold"] .container { background:#fff9fb; border-color:#d4a5a5; box-shadow:0 8px 32px rgba(217,138,154,0.25); }
     [data-theme="rosegold"] .header { background:linear-gradient(45deg,#e8a0a8,#d98a9a); color:#ffffff; }
-    [data-theme="rosegold"] .choice-btn { background:linear-gradient(135deg,#e8b4a0,#d98a9a); color:#ffffff; }
+    /* E-4：柔粉渐变是本主题的身份色，故保留渐变不动，改把白字(1.83:1)换成深酒红 #4a1f28 → 最差端 5.31:1 */
+    [data-theme="rosegold"] .choice-btn { background:linear-gradient(135deg,#e8b4a0,#d98a9a); color:#4a1f28; }
+    [data-theme="rosegold"] .choice-num { background:rgba(74,31,40,0.18); color:#4a1f28; }
     [data-theme="rosegold"] .choice-btn:hover { box-shadow:0 5px 15px rgba(217,138,154,0.35); }
     [data-theme="rosegold"] .gift-name, [data-theme="rosegold"] .rating-star { color:#d98a9a; }
     [data-theme="rosegold"] .buy-gift-btn, [data-theme="rosegold"] .tab-btn.active, [data-theme="rosegold"] .modal-close-btn, [data-theme="rosegold"] .shop-tab.active { background:#d98a9a; color:#ffffff; }
@@ -2510,14 +2526,18 @@
     [data-theme="rosegold"] .result-header { background:linear-gradient(45deg,#d98a9a,#c9a86a); }
     [data-theme="rosegold"] .rating-box { background:#fdf2f5; border-color:#f6dbe2; }
     [data-theme="rosegold"] .event-card { background:#fdf2f5; border-left-color:#d98a9a; }
-    [data-theme="rosegold"] .event-info, [data-theme="rosegold"] #event-description { color:#a98a8a; }
+    /* E-3 连带：气泡底由恒定 #fff 改跟 --chip 后，#a98a8a 会跌到 2.87:1；改深为 #7d5555 → 5.81:1 */
+    [data-theme="rosegold"] .event-info, [data-theme="rosegold"] #event-description { color:#7d5555; }
     [data-theme="rosegold"] .achievements-panel, [data-theme="rosegold"] .weather-panel { background:rgba(255,250,252,0.98); }
     [data-theme="rosegold"] .weather-card { background:#fdf2f5; border-color:#f6dbe2; }
     [data-theme="rosegold"] .weather-card.current { border-color:#d98a9a; box-shadow:0 5px 15px rgba(217,138,154,0.12); }
     [data-theme="rosegold"] .weather-card-header { color:#d98a9a; }
     [data-theme="rosegold"] .achievement-card { background:#fbeef2; }
     [data-theme="rosegold"] .achievement-card .name { color:#6e4a4a; }
-    [data-theme="rosegold"] .achievement-card .desc { color:#a98a8a; }
+    /* PH6-B：#a98a8a 在白/近白卡片上仅 3.14:1 FAIL；加深到 --muted 同值 #8d6262 → 5.18:1 达 AA。
+       注：本行当前被 style.css 后方 `.achievement-card .desc{color:#b8956a!important}` 屏蔽（详见回传），
+       该 !important 修掉后本行即生效。 */
+    [data-theme="rosegold"] .achievement-card .desc { color:#8d6262; }
     [data-theme="rosegold"] .achievement-card.unlocked { background:#ffffff; border-color:#d98a9a; box-shadow:0 4px 10px rgba(217,138,154,0.12); }
     [data-theme="rosegold"] .journal { background:#fdf2f5; border-color:#f6dbe2; }
     [data-theme="rosegold"] .journal-entry { background:#ffffff; border-left-color:#f6dbe2; }
@@ -2526,17 +2546,19 @@
     [data-theme="rosegold"] .start-btn.random-btn { background:rgba(255,255,255,0.2); color:#ffffff; border-color:rgba(255,255,255,0.4); }
     [data-theme="rosegold"] .gift-content, [data-theme="rosegold"] .album-content, [data-theme="rosegold"] .mood-info-content, [data-theme="rosegold"] .tips-content, [data-theme="rosegold"] .viewer-content, [data-theme="rosegold"] .browser-content, [data-theme="rosegold"] .end-card, [data-theme="rosegold"] .modal-content { background:#ffffff; color:#6e4a4a; }
     [data-theme="rosegold"] .modal-title { color:#d98a9a; }
-    [data-theme="rosegold"] .modal-desc { color:#a98a8a; }
+    /* PH6-B：模态底色为 #ffffff，#a98a8a 仅 3.14:1 FAIL；加深到 #8d6262 → 5.18:1 达 AA。 */
+    [data-theme="rosegold"] .modal-desc { color:#8d6262; }
     [data-theme="rosegold"] .modal-condition { background:#fdf2f5; color:#d98a9a; border-color:#f6dbe2; }
     [data-theme="rosegold"] .inventory-item .count { background:linear-gradient(135deg,#d98a9a,#e8a0a8); }
     [data-theme="rosegold"] .inventory-item:hover { border-color:#c9a86a; }
 
     /* ---------- 暮色梦境 dusk（暗色） ---------- */
-    [data-theme="dusk"] { --ink:#ece8ff; --sub:#c9c0e8; --muted:#9b93bd; --paper:#2f2848; --paper2:#2f2848; --line:#4a3f6b; --accent:#9b7fd4; --gold:#c9b8f0; --chip:#38304f; --hdr-bg:linear-gradient(45deg,#4a3f6b,#6b5b95); --hdr-text:#ece8ff; --choice-text:#2a2440; --choice-bg:linear-gradient(135deg,#6b5b95,#9b7fd4); }
+    [data-theme="dusk"] { --ink:#ece8ff; --sub:#c9c0e8; --muted:#a9a1cb; --paper:#2f2848; --paper2:#2f2848; --line:#4a3f6b; --accent:#9b7fd4; --gold:#c9b8f0; --chip:#38304f; --hdr-bg:linear-gradient(45deg,#4a3f6b,#6b5b95); --hdr-text:#ece8ff; --choice-text:#ece8ff; --choice-bg:linear-gradient(135deg,#554676,#6e57a3); --bg-chip:var(--chip); --text-primary:var(--ink); --text-muted:var(--muted); --focus-ring:#ffd479; --focus-halo:#171232; }
     body[data-theme="dusk"] { background:linear-gradient(135deg,#2a2440 0%,#3d3358 100%); color:#ece8ff; }
     [data-theme="dusk"] .container { background:#2f2848; border-color:#1a1730; box-shadow:0 8px 32px rgba(0,0,0,0.5); }
     [data-theme="dusk"] .header { background:linear-gradient(45deg,#4a3f6b,#6b5b95); color:#ece8ff; }
-    [data-theme="dusk"] .choice-btn { background:linear-gradient(135deg,#6b5b95,#9b7fd4); color:#ece8ff; }
+    /* E-4：亮端 #9b7fd4(2.75:1) 压深为 #6e57a3、暗端同步到 #554676 → 最差端 4.94:1，紫调层次仍在 */
+    [data-theme="dusk"] .choice-btn { background:linear-gradient(135deg,#554676,#6e57a3); color:#ece8ff; }
     [data-theme="dusk"] .choice-btn:hover { box-shadow:0 5px 15px rgba(155,127,212,0.40); }
     [data-theme="dusk"] .gift-name, [data-theme="dusk"] .rating-star { color:#c9b8f0; }
     [data-theme="dusk"] .buy-gift-btn, [data-theme="dusk"] .tab-btn.active, [data-theme="dusk"] .modal-close-btn, [data-theme="dusk"] .shop-tab.active { background:#9b7fd4; color:#2a2440; }
@@ -2550,7 +2572,8 @@
     [data-theme="dusk"] .result-header { background:linear-gradient(45deg,#9b7fd4,#e0a3c4); }
     [data-theme="dusk"] .rating-box { background:#38304f; border-color:#6b5b95; }
     [data-theme="dusk"] .event-card { background:#38304f; border-left-color:#9b7fd4; }
-    [data-theme="dusk"] .event-info, [data-theme="dusk"] #event-description { color:#9b93bd; }
+    /* E-3 连带：气泡底不再是刺眼白底而是 --chip #38304f；文字提亮到 --sub #c9c0e8 → 7.15:1（原 2.88:1 全表最差） */
+    [data-theme="dusk"] .event-info, [data-theme="dusk"] #event-description { color:#c9c0e8; }
     [data-theme="dusk"] .achievements-panel, [data-theme="dusk"] .weather-panel { background:rgba(40,34,64,0.98); }
     [data-theme="dusk"] .weather-card { background:#38304f; border-color:#4a3f6b; }
     [data-theme="dusk"] .weather-card.current { border-color:#9b7fd4; box-shadow:0 5px 15px rgba(155,127,212,0.18); }
@@ -3212,7 +3235,9 @@
     color: var(--sub, #666);
     font-size: 13px;
 }
-.meta-dot { color: #999; }
+/* E-15：原 #999 在 parchment/cinnabar/rosegold 上仅 2.57~2.74:1 FAIL；
+   改走主题 --muted（E-3 已调深）后四主题 4.94~5.70:1 全部达 AA。 */
+.meta-dot { color: var(--muted, #767676); }
 
 /* ── 结局面板 ── */
 .end-message {
@@ -3411,20 +3436,27 @@
     box-shadow: 0 3px 12px rgba(255,140,66,0.12) !important;
 }
 .achievement-card .name { color: #d4745a !important; }
-.achievement-card .desc { color: #b8956a !important; }
+.achievement-card .desc { color: #8a6a3a !important; }
 .achievement-tabs { border-bottom: 1px solid #ffe0cc !important; }
 .tab-btn { background: #fff5ee; color: #c4956a; }
 .tab-btn.active { background: linear-gradient(135deg,#ff8c42,#ffab76) !important; color: #fff !important; }
 
 /* ══════ 固定高度滚动事件描述 ══════ */
+/* E-2：规范的 18px 原本写在 .event-description 上，但真实 DOM 是 <div class="her-bub" id="event-description">，
+   该 class 全仓无元素 → 规则从未生效。此处（真实 id 选择器）改为规范值 18px；
+   同时把 .her-bub 的 font-size:15px!important 拆掉（见文件尾两处「全局排版优化」块），
+   靠 id 特异性自然胜出，不新增 !important。
+   max-height 保持 120px 不动 —— js/event-render.js:316 硬编码了 120 阈值与展开/收起回填值，改此处会与 JS 打架。 */
 #event-description {
     display: block;
     max-height: 120px;
     overflow-y: auto;
-    font-size: 15px;
+    font-size: 18px;
     line-height: 1.6;
     padding: 2px 0;
 }
+/* 展开/收起按钮由 JS 动态插入且全仓无样式，会跟着继承 18px；锁回 13px 避免喧宾夺主 */
+#event-description .desc-expand-btn { font-size: 13px; cursor: pointer; }
 /* 滚动条美化 - 描述框 */
 #event-description::-webkit-scrollbar { width: 4px; }
 #event-description::-webkit-scrollbar-thumb { background: #ccc; border-radius: 2px; }
@@ -3642,9 +3674,11 @@
     .choices {
         gap: 5px;
     }
+    /* PH6-B：原写 13px，但被文件尾 .choice-btn{font-size:14px} 同权重后置覆盖，实际从未生效（死声明）。
+       13px 已低于移动端可读下限，此处对齐真实生效值 14px，消除"声明与实效不符"的隐患。 */
     .choice-btn {
         padding: 10px 14px;
-        font-size: 13px;
+        font-size: 14px;
         min-height: 44px;
     }
 }
@@ -4042,86 +4076,6 @@ button{outline:none;-webkit-tap-highlight-color:transparent}
 .chat-opt-btn:hover{box-shadow:0 3px 12px rgba(118,75,162,.15);transform:translateY(-2px)}
 .restart-btn,.view-journal-btn,.back-btn,.modal-close-btn,.set-close-btn,.import-close-btn,.buy-gift-btn{transition:transform .3s cubic-bezier(.175,.885,.32,1.275),box-shadow .3s ease!important}
 
-/* ══ 全按钮视觉升级 ══ */
-button{outline:none;-webkit-tap-highlight-color:transparent}
-.weather-btn{box-shadow:0 4px 12px rgba(0,0,0,.1)}
-.weather-btn:hover{box-shadow:0 8px 24px rgba(0,0,0,.2),0 0 0 1px rgba(255,255,255,.3)}
-.weather-btn.active{box-shadow:0 12px 30px rgba(0,0,0,.25),0 0 0 4px rgba(255,255,255,.4)}
-.diff-btn{box-shadow:0 3px 10px rgba(0,0,0,.08)}
-.diff-btn:hover{box-shadow:0 6px 18px rgba(0,0,0,.18)}
-.diff-btn.active{box-shadow:0 10px 24px rgba(0,0,0,.25)}
-.easy.active{background:#4ade80!important;color:#fff!important;border-color:#4ade80!important}
-.medium.active{background:#fbbf24!important;color:#fff!important;border-color:#fbbf24!important}
-.hard.active{background:#fb7185!important;color:#fff!important;border-color:#fb7185!important}
-.challenge.active{background:#a78bfa!important;color:#fff!important;border-color:#a78bfa!important}
-.hdr-ico{width:36px;height:36px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.1)}
-.hdr-ico:hover{box-shadow:0 4px 14px rgba(0,0,0,.2);transform:translateY(-2px)}
-.hdr-ico:active{transform:scale(.93)}
-.stat-pill-item{box-shadow:0 2px 8px rgba(0,0,0,.08)}
-.stat-pill-item:hover{box-shadow:0 4px 12px rgba(0,0,0,.15)}
-.choice-btn{box-shadow:0 3px 10px rgba(0,0,0,.12)}
-.choice-btn:hover{box-shadow:0 6px 20px rgba(255,107,107,.25),0 0 0 2px rgba(255,107,107,.15)}
-.choice-btn:active{box-shadow:0 2px 6px rgba(0,0,0,.1)}
-.choice-num{box-shadow:0 2px 8px rgba(0,0,0,.2);background:rgba(255,255,255,.3);backdrop-filter:blur(2px)}
-.tab-btn{border-radius:10px}.tab-btn:active{transform:scale(.95)}
-.modal-close-btn{box-shadow:0 4px 14px rgba(255,107,107,.3)}
-.modal-close-btn:hover{box-shadow:0 6px 20px rgba(255,107,107,.4);transform:translateY(-2px)}
-.restart-btn{box-shadow:0 6px 20px rgba(255,107,107,.3)}
-.view-journal-btn{box-shadow:0 6px 20px rgba(0,0,0,.2)}
-.back-btn{box-shadow:0 6px 20px rgba(0,0,0,.15)}
-.buy-gift-btn{border-radius:12px;box-shadow:0 3px 12px rgba(0,0,0,.12)}
-.buy-gift-btn:hover{box-shadow:0 6px 20px rgba(0,0,0,.2);transform:translateY(-2px)}
-.album-tab{box-shadow:0 2px 6px rgba(0,0,0,.06)}
-.album-tab:hover{box-shadow:0 4px 12px rgba(0,0,0,.12)}
-.photo-card{box-shadow:0 4px 14px rgba(0,0,0,.1)}
-.photo-card:hover{box-shadow:0 8px 28px rgba(0,0,0,.18)}
-.music-btn{box-shadow:0 3px 10px rgba(0,0,0,.15)}
-.music-btn:hover{box-shadow:0 5px 16px rgba(0,0,0,.25)}
-.music-item:hover{box-shadow:0 3px 12px rgba(118,75,162,.1)}
-.set-btn{box-shadow:0 3px 12px rgba(118,75,162,.3)}
-.set-btn:hover{box-shadow:0 5px 18px rgba(118,75,162,.4);transform:translateY(-2px)}
-.set-close-btn{box-shadow:0 4px 14px rgba(255,107,107,.3)}
-.set-theme-dot{box-shadow:0 2px 6px rgba(0,0,0,.1)}
-.set-theme-dot:hover{box-shadow:0 4px 14px rgba(0,0,0,.18)}
-.set-theme-dot.active{box-shadow:0 4px 16px rgba(255,107,107,.3)}
-.achievement-card{box-shadow:0 2px 8px rgba(0,0,0,.06);border-radius:14px}
-.achievement-card.unlocked{box-shadow:0 4px 16px rgba(255,140,66,.15)}
-.achievement-badge{text-shadow:0 2px 4px rgba(0,0,0,.1)}
-.import-pick-btn{box-shadow:0 2px 10px rgba(155,127,212,.15)}
-.import-pick-btn:hover{box-shadow:0 4px 18px rgba(155,127,212,.25);transform:translateY(-2px)}
-.import-close-btn{box-shadow:0 3px 12px rgba(255,107,107,.25)}
-.theme-dot{box-shadow:0 3px 10px rgba(0,0,0,.25)}
-.theme-dot:hover{transform:scale(1.2);box-shadow:0 6px 18px rgba(0,0,0,.35)}
-.theme-dot.active{box-shadow:0 0 0 3px #fff,0 6px 18px rgba(0,0,0,.3)}
-.ai-float-btn{filter:drop-shadow(0 4px 12px rgba(118,75,162,.3))}
-.ai-float-btn:hover{filter:drop-shadow(0 6px 20px rgba(118,75,162,.45))}
-.chat-opt-btn:hover{box-shadow:0 3px 12px rgba(118,75,162,.15);transform:translateY(-2px)}
-.restart-btn,.view-journal-btn,.back-btn,.modal-close-btn,.set-close-btn,.import-close-btn,.buy-gift-btn{transition:transform .3s cubic-bezier(.175,.885,.32,1.275),box-shadow .3s ease!important}
-.achievements-panel{display:none;flex-direction:column;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:92%;max-width:400px;max-height:78vh;background:linear-gradient(180deg,#fffefc,#fff9f3);border-radius:24px;padding:20px 16px 16px;z-index:150;border:1px solid rgba(255,160,100,.2);box-shadow:0 8px 40px rgba(255,140,66,.12);overflow:hidden}
-.achievements-panel.show{display:flex}
-.achievement-tabs{display:flex;gap:6px;padding:0 0 12px;border-bottom:1px solid #fdf0e4}
-.achievement-tabs .tab-btn{padding:6px 14px;border-radius:14px;border:1px solid #f0e0d0;background:#fffdf9;color:#c4956a;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s}
-.achievement-tabs .tab-btn.active{background:linear-gradient(135deg,#ff8c42,#ffab76);color:#fff;border-color:transparent}
-.achievement-list{overflow-y:auto;flex:1;padding:8px 0}
-.achievement-card{display:flex;align-items:center;gap:12px;padding:14px 12px;margin-bottom:8px;border-radius:16px;cursor:pointer;background:#fffdf9;border:1px solid #fdf0e4;transition:all .25s cubic-bezier(.175,.885,.32,1.275);position:relative;overflow:hidden}
-.achievement-card.unlocked{background:linear-gradient(135deg,#fff9f0,#fff4e8);border-color:#ffe8cc}
-.achievement-card:hover{transform:translateX(4px);box-shadow:0 4px 16px rgba(255,140,66,.12);border-color:#ffe0c8}
-.achievement-card.locked{opacity:.62;filter:grayscale(.1);border-style:dashed;border-color:#e6d8c8;background:#fbf7f1}
-.ach-icon{width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#fff2e8,#ffe8d6);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;box-shadow:0 3px 10px rgba(0,0,0,.06)}
-.achievement-card.unlocked .ach-icon{background:linear-gradient(135deg,#fff0e0,#ffe0c8);box-shadow:0 4px 14px rgba(255,140,66,.15)}
-.ach-body{flex:1;min-width:0}
-.ach-name{font-weight:700;font-size:13px;color:#6e4a3a;margin-bottom:2px}
-.ach-desc{font-size:11px;color:#b8956a;line-height:1.4}
-.achievement-card.unlocked .ach-name{color:#b5544e}
-.achievement-card.unlocked .ach-desc{color:#c4956a}
-.ach-rarity{font-size:10px;font-weight:600;padding:3px 10px;border-radius:8px;flex-shrink:0;letter-spacing:.5px}
-.rarity-common{background:#f0f0f0;color:#999}
-.rarity-rare{background:#e8f0ff;color:#5b8cb8}
-.rarity-legendary{background:linear-gradient(135deg,#fff5cc,#ffe0a0);color:#c9802a}
-.ach-foot-row{display:flex;align-items:center;gap:6px;margin-top:6px}
-.ach-foot-bar{flex:1;height:4px;background:#f0e8e0;border-radius:2px;overflow:hidden}
-.ach-foot-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,#ff8c42,#ffab76);transition:width .4s ease}
-.achievement-toast{background:linear-gradient(135deg,#fff5ee,#ffecd2)!important;color:#d4745a!important;border:1px solid #ffd8b8!important}
 .achievements-panel{display:none;flex-direction:column;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:92%;max-width:400px;max-height:78vh;background:linear-gradient(180deg,#fffefc,#fff9f3);border-radius:24px;padding:20px 16px 16px;z-index:150;border:1px solid rgba(255,160,100,.2);box-shadow:0 8px 40px rgba(255,140,66,.12);overflow:hidden}
 .achievements-panel.show{display:flex}
 .achievement-tabs{display:flex;gap:6px;padding:0 0 12px;border-bottom:1px solid #fdf0e4}
@@ -4167,8 +4121,13 @@ button{outline:none;-webkit-tap-highlight-color:transparent}
 /* ══ 全局排版优化 ══ */
 html{font-size:16px;line-height:1.6;-webkit-text-size-adjust:100%}
 body{letter-spacing:.01em;word-spacing:.02em}
-.her-bub{line-height:1.75!important;font-size:15px!important;letter-spacing:.02em;padding:14px 18px!important}
+.her-bub{line-height:1.75!important;letter-spacing:.02em;padding:14px 18px!important}/* E-2：移除 font-size:15px!important，它把规范的 18px 硬压住了；字号统一由 #event-description 定义 */
 #event-description{line-height:1.7!important}
+/* PH6-B｜与美术规范 15px 的已知偏离，保持 14px。实测依据：420px 壳内 .choice-btn 可用文本宽仅 321px
+   （420 − border 8×2 − #game-content padding 18×2 − btn padding-left 32 − padding-right 15）。
+   403 条去重选项文案中，14px 下 32 条折行；升到 15px 变 43 条，新增的 11 条均为 21~22 全角字，
+   恰好溢出 3~9px，会在第二行留下 1~2 个孤字（"孤行尾字"），且 2 行按钮高度 48→65px，
+   在 852px 壳内会把末位选项挤出首屏。故规范 15px 在 420px 壳下不可达，字号锁定 14px。 */
 .choice-btn{letter-spacing:.03em;font-size:14px}
 .start-intro{line-height:1.9!important;letter-spacing:.03em}
 .start-title{letter-spacing:.05em!important}
@@ -4188,29 +4147,6 @@ body{letter-spacing:.01em;word-spacing:.02em}
 @keyframes cgSkeleton{0%{background-position:200% 0}100%{background-position:-200% 0}}
 .scene-cg.loaded{animation:none;background:transparent}
 
-/* ══ 全局排版优化 ══ */
-html{font-size:16px;line-height:1.6;-webkit-text-size-adjust:100%}
-body{letter-spacing:.01em;word-spacing:.02em}
-.her-bub{line-height:1.75!important;font-size:15px!important;letter-spacing:.02em;padding:14px 18px!important}
-#event-description{line-height:1.7!important}
-.choice-btn{letter-spacing:.03em;font-size:14px}
-.start-intro{line-height:1.9!important;letter-spacing:.03em}
-.start-title{letter-spacing:.05em!important}
-.selector-label{letter-spacing:.12em!important}
-.title{letter-spacing:.06em!important}
-.feedback{line-height:1.65!important;letter-spacing:.02em}
-
-/* ══ 按钮水波涟漪 ══ */
-.choice-btn,.start-btn,.restart-btn,.modal-close-btn{overflow:hidden;position:relative}
-.choice-btn::after,.start-btn::after,.restart-btn::after,.modal-close-btn::after{content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,.35);width:20px;height:20px;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);opacity:0;pointer-events:none;transition:transform .5s,opacity .5s}
-.choice-btn:active::after,.start-btn:active::after,.restart-btn:active::after,.modal-close-btn:active::after{transform:translate(-50%,-50%) scale(20);opacity:1;transition:transform 0s,opacity 0s}
-
-/* ══ 天气标题（已禁用） ══ */
-
-/* ══ 场景图骨架屏 ══ */
-.scene-cg{position:relative;background:linear-gradient(90deg,#f0ebe3 25%,#f5f0eb 50%,#f0ebe3 75%);background-size:200% 100%;animation:cgSkeleton 1.5s ease-in-out infinite}
-@keyframes cgSkeleton{0%{background-position:200% 0}100%{background-position:-200% 0}}
-.scene-cg.loaded{animation:none;background:transparent}
 /* ══ 导入按钮并入开始行 ══ */
 .start-btn-group{gap:8px}
 .start-btn.import-btn-inline{flex:1;background:rgba(255,255,255,.1);color:rgba(255,255,255,.7);border:1px dashed rgba(255,255,255,.25);font-size:13px;height:auto;padding:8px 14px;border-radius:14px;backdrop-filter:blur(6px)}
@@ -4907,6 +4843,39 @@ body[data-weather=多云] .scene-cg img{filter:saturate(0.95) brightness(1.02)}
     margin: 12px 0 !important;
 }
 .achievements-panel .achievement-card.locked::after { opacity: .55 !important; }
+
+/* ═══ MODULE: a11y-focus-ring — 键盘焦点可见（E-1）═══
+   问题：全仓 `button{outline:none}`（PH6-B 已把重复的那份连同整块重复代码一并去重，现仅剩一处），
+   成就搜索框还有 `outline:none!important`，且 0 处 :focus-visible —— 键盘用户全程看不到焦点，
+   违反 WCAG 2.1 SC 2.4.7 (AA)，是可访问性未达 Basic 的阻断项。
+   做法：保留 outline:none（鼠标点击不出环、维持原视觉），只在 :focus-visible 时补焦点环。
+   采用双色环：内圈 --focus-halo 填满 outline-offset 缺口，外圈 --focus-ring 描边，
+   保证焦点元素无论落在纸底、彩色按钮还是深色胶囊上都有一条高对比边缘。
+   环色随主题定义在各 [data-theme] 块（parchment 9.08 / cinnabar 12.15 / rosegold 7.64 / dusk 9.85:1）。
+   外扩总量 ≤7px，小于 #game-content 的 12～18px 内边距，不会被 overflow 裁掉。 */
+:is(button, a[href], input, select, textarea, summary, [tabindex]:not([tabindex="-1"])):focus-visible {
+    outline: 3px solid var(--focus-ring, #7a2410);
+    outline-offset: 3px;
+    box-shadow: 0 0 0 3px var(--focus-halo, #ffffff);
+}
+/* 选项按钮是主交互控件，焦点态额外加一层柔光，让键盘定位一眼可见 */
+.choice-btn:focus-visible {
+    outline: 3px solid var(--focus-ring, #7a2410);
+    outline-offset: 3px;
+    box-shadow: 0 0 0 3px var(--focus-halo, #ffffff), 0 0 0 7px rgba(0, 0, 0, 0.18);
+}
+/* 成就搜索框原有 outline:none!important，需同等权重才能覆盖 */
+#achievements-panel .ach-search-input:focus-visible {
+    outline: 3px solid var(--focus-ring, #7a2410) !important;
+    outline-offset: 2px !important;
+}
+/* 不支持 :focus-visible 的老浏览器降级为 :focus，宁可鼠标点击也出环，也不要键盘用户丢焦点 */
+@supports not selector(:focus-visible) {
+    :is(button, a[href], input, select, textarea, summary, [tabindex]:not([tabindex="-1"])):focus {
+        outline: 3px solid var(--focus-ring, #7a2410);
+        outline-offset: 3px;
+    }
+}
 
 /* ═══ MODULE: global-fix — 通用隐藏类 ═══
    修复：#loading-screen 用 classList.add('hidden') 隐藏，但此前无任何 .hidden 规则，

@@ -206,7 +206,15 @@ function showEvent(index) {
                   }
                   const sceneCg = document.getElementById('scene-cg');
                   if (imgPath) {
-                    sceneCg.innerHTML = '<img src="' + imgPath + '" alt="' + (event.title || '') + '" class="cg-enter">';
+                    // E-6：事件名可能含半角双引号（rainy2 的「邻居的"米"字」是全 109 事件里唯一一个），
+                    // 用字符串拼 alt="" 会让属性提前闭合 —— alt 只剩「邻居的」，「米」被当成伪属性。
+                    // 改走 DOM + 属性赋值，从根上免疫引号/尖括号，不再依赖手写转义。
+                    sceneCg.innerHTML = '';
+                    const cgImg = document.createElement('img');
+                    cgImg.src = imgPath;
+                    cgImg.alt = event.title || '';
+                    cgImg.className = 'cg-enter';
+                    sceneCg.appendChild(cgImg);
                     sceneCg.style.display = 'flex';
                     sceneCg.style.cursor = 'zoom-in';
                     sceneCg.title = '点击看大图';
@@ -282,15 +290,17 @@ function showEvent(index) {
 
                     if (showHint && hintText) {
                         const isRainy = selectData.weather === '雨天' && !gameState.isHintRevealed;
-                        const hintClass = isRainy ? 'hint-blur' : '';
 
-                        // 根据情绪结果着色提示
-                        let hintStyle = 'font-size: 11px; opacity: 1; line-height: 1.4; border-top: 1px solid rgba(255,255,255,0.3); padding-top: 6px; margin-top: 4px; background: rgba(0,0,0,0.1); border-radius: 4px; padding: 4px 8px;';
-                        if (choice.emotion === 'happy') hintStyle += ' color: #00ff88; font-weight: bold; text-shadow: 0 1px 3px rgba(0,0,0,0.6);';
-                        else if (choice.emotion === 'angry') hintStyle += ' color: #ff1744; font-weight: 900; text-shadow: 0 0 2px #fff, 0 0 5px rgba(255,23,68,0.3);';
-                        else hintStyle += ' color: #fff;';
+                        // E-8：原来这里内联写死 font-size:11px + #00ff88/#ff1744/#fff，
+                        // 在浅色主题按钮上最差只有 1.01:1 对比度、字号也低于移动端下限。
+                        // 样式全部交回 CSS（.choice-hint 盒子 + .choice-hint-happy/normal/angry 配色，
+                        // 后三者已存在且对比度 4.77–5.50:1），JS 只负责挂类名，不再写 style。
+                        const emo = choice.emotion === 'happy' ? 'happy'
+                                  : choice.emotion === 'angry' ? 'angry'
+                                  : 'normal';
+                        const hintClass = 'choice-hint choice-hint-' + emo + (isRainy ? ' hint-blur' : '');
 
-                        const hintHtml = `<div class="${hintClass}" style="${hintStyle}">${hintText.replace(/\n/g, '<br>')}</div>`;
+                        const hintHtml = `<div class="${hintClass}">${hintText.replace(/\n/g, '<br>')}</div>`;
                         btn.innerHTML = numSpan + `<div style="font-weight: bold; margin-bottom: 4px;">${mainText}${hintHtml}</div>`;
                     } else {
                         btn.innerHTML = numSpan + mainText;

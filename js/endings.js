@@ -2,6 +2,8 @@
 
 function showBadEnd() {
             SoundManager.playBgm('bad-end');
+            // A-07：接上此前零调用的 SFX.bad（下行低音），给坏结局一个收尾定音
+            if (typeof SFX !== 'undefined' && SFX.bad) SFX.bad();
             hideAllPanels();
             document.getElementById('game-content').style.display = 'none';
             const badEnd = document.getElementById('bad-end');

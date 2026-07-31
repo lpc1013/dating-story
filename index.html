@@ -490,7 +490,7 @@
                                 <button class="music-mode" id="music-bgm" title="纯音乐模式">🎵 纯音</button>
                                 <div class="music-vol">
                                     <span>🔊</span>
-                                    <input type="range" id="music-volume" min="0" max="100" value="70" title="音量">
+                                    <input type="range" id="music-volume" min="0" max="100" value="55" title="音量">
                                 </div>
                             </div>
                         </div>
@@ -508,7 +508,7 @@
 
         <div id="root"></div>
     <!-- 主线剧情外部加载框架 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.77/Tone.js"></script>
+    <!-- A-01：已移除 Tone.js CDN 外链（仅用于一个 hover 单音，离线/被墙时会持续抛 ReferenceError） -->
     <script src="js/story-loader.js"></script>
     <script src="js/backpack.js"></script>
     <script src="assets/asset-map.js"></script>
@@ -528,12 +528,29 @@
             ctx: null,
             
             init() {
-                if (this.ctx) return;
-                this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+                if (!this.ctx) {
+                    try {
+                        this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+                    } catch (e) { this.ctx = null; return; }
+                }
+                // A-06：移动端 AudioContext 在用户手势前创建会永久 suspended，须显式 resume
+                this.resume();
+            },
+
+            // A-06：安全 resume（返回 Promise，可能被浏览器拒绝，统一吞掉避免未捕获拒绝）
+            resume() {
+                if (!this.ctx || this.ctx.state !== 'suspended') return;
+                try {
+                    var p = this.ctx.resume();
+                    if (p && p.catch) p.catch(function () {});
+                } catch (e) {}
             },
 
             playSfx(type) {
+                // A-02：尊重设置里的「音效」总开关（此前只有 js/sfx.js 判了，选项音/购买音会漏响）
+                if (typeof AppSettings !== 'undefined' && !AppSettings.sfx) return;
                 this.init();
+                if (!this.ctx) return;
                 const osc = this.ctx.createOscillator();
                 const gain = this.ctx.createGain();
                 osc.connect(gain);
@@ -558,13 +575,16 @@
                     osc.start(now);
                     osc.stop(now + 0.4);
                 } else if (type === 'buy') {
-                    osc.type = 'square';
-                    osc.frequency.setValueAtTime(200, now);
-                    osc.frequency.exponentialRampToValueAtTime(100, now + 0.2);
-                    gain.gain.setValueAtTime(0.1, now);
-                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+                    // A-08：原为 square 200→100 Hz 下行音，听感接近"错误/拒绝"提示，
+                    // 与购买/赠礼/兑换三处的正反馈语义相反。改为 C5→G5→C6 上行 sine 琶音。
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(523.25, now);
+                    osc.frequency.setValueAtTime(783.99, now + 0.06);
+                    osc.frequency.setValueAtTime(1046.50, now + 0.12);
+                    gain.gain.setValueAtTime(0.09, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.18);
                     osc.start(now);
-                    osc.stop(now + 0.2);
+                    osc.stop(now + 0.18);
                 }
             },
 
@@ -572,7 +592,19 @@
             _prevScene: null,
             sting: null,
 
+            // 音量锚点（§4.2）：BGM 0.30→0.22、sting 0.28→0.18，sting 期间 BGM duck 到 0.08
+            BGM_VOLUME: 0.22,
+            STING_VOLUME: 0.18,
+            DUCK_VOLUME: 0.08,
+            _stingDucked: false,
+            _bgmFadeTimer: null,
+
             playBgm(scene) {
+                // A-04(a)：尊重设置里的「背景音乐」开关——关掉后任何场景切换都不该重新起播
+                if (typeof AppSettings !== 'undefined' && !AppSettings.music) return;
+                // A-04(b)：同场景且仍在播放 → 不重头重启（此前重复调用会把曲子从头重放）
+                if (this.bgm && this.currentScene === scene && !this.bgm.paused) return;
+                if (this._bgmFadeTimer) { clearInterval(this._bgmFadeTimer); this._bgmFadeTimer = null; }
                 if (this.bgm) {
                     this.bgm.pause();
                     this.bgm = null;
@@ -586,11 +618,45 @@
                 this.currentScene = scene;
                 this.bgm = new Audio(encodeURI(track));
                 this.bgm.loop = true;
-                this.bgm.volume = 0.3;
+                // 若此刻正有 sting 在响，新起的 BGM 直接从 duck 电平进场，避免中途冒头
+                this.bgm.volume = this._stingDucked ? this.DUCK_VOLUME : this.BGM_VOLUME;
                 this.bgm.play().catch(function(e) { console.log('BGM play blocked by browser'); });
             },
 
+            // A-05：BGM 音量线性淡变。禁止瞬变——瞬间跳变会有明显"抽气"感
+            _fadeBgm(target, ms) {
+                var self = this;
+                if (this._bgmFadeTimer) { clearInterval(this._bgmFadeTimer); this._bgmFadeTimer = null; }
+                var el = this.bgm;
+                if (!el) return;
+                var from = el.volume;
+                var steps = Math.max(1, Math.round((ms || 200) / 40));
+                var i = 0;
+                this._bgmFadeTimer = setInterval(function () {
+                    // BGM 中途被换掉/停掉时立刻收手，别去改一个已经不在用的 Audio
+                    if (self.bgm !== el) { clearInterval(self._bgmFadeTimer); self._bgmFadeTimer = null; return; }
+                    i++;
+                    var v = from + (target - from) * (i / steps);
+                    try { el.volume = Math.max(0, Math.min(1, v)); } catch (e) {}
+                    if (i >= steps) { clearInterval(self._bgmFadeTimer); self._bgmFadeTimer = null; }
+                }, 40);
+            },
+
+            _duckForSting() {
+                if (this._stingDucked) return;
+                this._stingDucked = true;
+                if (this.bgm) this._fadeBgm(this.DUCK_VOLUME, 200);
+            },
+
+            _unduckForSting() {
+                if (!this._stingDucked) return;
+                this._stingDucked = false;
+                if (this.bgm) this._fadeBgm(this.BGM_VOLUME, 400);
+            },
+
             playSting(scene) {
+                // A-02：成就 / 峰值 sting 同样受「音效」总开关约束
+                if (typeof AppSettings !== 'undefined' && !AppSettings.sfx) return;
                 var track = null;
                 if (typeof BGM_PATHS !== 'undefined' && BGM_PATHS.stings && BGM_PATHS.stings[scene]) {
                     track = BGM_PATHS.stings[scene];
@@ -599,8 +665,25 @@
                 if (this.sting) { try { this.sting.pause(); } catch(e) {} }
                 this.sting = new Audio(encodeURI(track));
                 this.sting.loop = false;
-                this.sting.volume = 0.28;
-                this.sting.play().catch(function(){});
+                this.sting.volume = this.STING_VOLUME;
+                // A-05：sting 起播即把 BGM 压低，播完 / 出错 / 被下一个 sting 打断都要恢复，
+                // 否则一次异常就会把 BGM 永久留在 duck 电平上。
+                var self = this;
+                var el = this.sting;
+                var restore = function () {
+                    // pause 事件是异步派发的：上一个 sting 被打断时它的 restore 可能晚于
+                    // 下一个 sting 的 duck 才跑到，这里认元素，不是当前 sting 就不管。
+                    if (self.sting !== el) return;
+                    el.removeEventListener('ended', restore);
+                    el.removeEventListener('error', restore);
+                    el.removeEventListener('pause', restore);
+                    self._unduckForSting();
+                };
+                el.addEventListener('ended', restore);
+                el.addEventListener('error', restore);
+                el.addEventListener('pause', restore);
+                this._duckForSting();
+                el.play().catch(function(){ restore(); });
             },
 
             // 相册/日记等覆盖层关闭后，还原进入前的场景 BGM
@@ -833,10 +916,23 @@ function hideLoveTips() {
           }
         }
 
-        // 启动背景音乐
-        window.addEventListener('click', () => {
-            if (!SoundManager.bgm) SoundManager.playBgm('start');
-        }, { once: true });
+        // 启动背景音乐 + A-06 音频解锁
+        // 移动端首次交互常是 pointerdown/touchstart 而非 click，只听 click 会导致 AudioContext 永久 suspended
+        (function () {
+            var UNLOCK_EVENTS = ['pointerdown', 'touchstart', 'click', 'keydown'];
+            function unlockAudio() {
+                UNLOCK_EVENTS.forEach(function (ev) { window.removeEventListener(ev, unlockAudio); });
+                try { SoundManager.init(); } catch (e) {}
+                if (!SoundManager.bgm) SoundManager.playBgm('start');
+            }
+            UNLOCK_EVENTS.forEach(function (ev) {
+                window.addEventListener(ev, unlockAudio, { once: true, passive: true });
+            });
+            // iOS 切后台会挂起 context，回前台再 resume 一次
+            document.addEventListener('visibilitychange', function () {
+                if (!document.hidden && typeof SoundManager !== 'undefined') SoundManager.resume();
+            });
+        })();
     </script>
     <script>
     (function () {
@@ -901,15 +997,9 @@ function hideLoveTips() {
             r.style.left=(e.clientX-rect.left)+'px';r.style.top=(e.clientY-rect.top)+'px';
             b.appendChild(r);setTimeout(function(){r.remove()},600);
         });
-        // Tone.js 轻触音效
-        var hoverSynth=null;
-        function hoverBeep(){
-            if(!hoverSynth)hoverSynth=new Tone.Synth({oscillator:{type:'sine'},envelope:{attack:0.001,decay:0.04,sustain:0,release:0.01}}).toDestination();
-            hoverSynth.triggerAttackRelease('E6','0.03');
-        }
-        var hb='.choice-btn,.start-btn,.hdr-ico,.tab-btn,.shop-tab,.restart-btn,.back-btn,.buy-gift-btn,.import-bar-btn';
-        function bindBeep(){document.querySelectorAll(hb).forEach(function(e){e.removeEventListener('mouseenter',hoverBeep);e.addEventListener('mouseenter',hoverBeep)})}
-        bindBeep();new MutationObserver(bindBeep).observe(document.body,{childList:true,subtree:true});
+        // A-01：Tone.js 轻触音效（hoverBeep / bindBeep / 全 body MutationObserver）已整体移除。
+        // 原实现无 typeof Tone 保护，CDN 被墙或离线时每次 hover 都抛 ReferenceError 并被 MutationObserver 持续放大。
+        // 后续如需恢复 hover 音，请用 js/sfx.js 的 WebAudio 合成 + 事件委托 + 节流实现（详见 docs/audio-polish-phase6.md §3 ui.hover）。
     })();
     // AI 快捷菜单（入口已降级为背包内 🤖 道具）
     function toggleAiMenu(e){e.stopPropagation();var m=document.getElementById('ai-quick-menu');if(!m)return;m.classList.toggle('show');if(m.classList.contains('show')){try{localStorage.setItem('ai-hint-seen','1')}catch(_){}var d=document.getElementById('ai-red-dot');if(d)d.remove();}}

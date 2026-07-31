@@ -231,6 +231,10 @@
     // 弹出获得动画
     spawnItemPopup(item);
     showToast(item.icon + ' 获得「' + item.name + '」！' + item.desc, 'reward');
+    // A-07：接上此前零调用的 SFX.coin（1200+1600 Hz 双音）。
+    // acquireItem 是全项目"获得道具"的唯一收口（choice.reward / event.giveItem 都经此），
+    // 挂这里一处即可覆盖所有 reward 路径。
+    if (typeof SFX !== 'undefined' && SFX.coin) SFX.coin();
   };
 
   // 使用物品 — 从背包中移除（减 count，归零则删除）

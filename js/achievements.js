@@ -89,6 +89,9 @@ function unlockAchievement(id, title) {
             var card=document.querySelector('.achievement-card[data-ach-id="'+id+'"]');if(card){card.style.animation='achUnlock 0.6s ease';setTimeout(function(){card.style.animation=''},600);}
 showAchievementToast(title || id);
             SoundManager.playSting('achievement');
+            // A-07：接上此前零调用的 SFX.achieve（500-800-1100 上行琶音）。
+            // sting 是整首 mp3、起播慢，这一下短琶音负责"解锁瞬间"的即时反馈。
+            if (typeof SFX !== 'undefined' && SFX.achieve) SFX.achieve();
         }
 
 function checkStatsAchievements(isEnd = false) {

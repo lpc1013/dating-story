@@ -1,5 +1,13 @@
 // js/chat.js — 从 achievements.js 拆分（功能：聊天系统）
 
+// E-7：头像 <img> 补 alt 用。联系人名里可能带 emoji/引号，
+// 拼进 alt="" 前统一转义，避免重蹈 E-6（事件名含半角引号提前闭合属性）的覆辙。
+function altName(name) {
+    return String(name == null ? '联系人' : name)
+        .replace(/&/g, '&amp;').replace(/"/g, '&quot;')
+        .replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
 var contacts = [
             { id: 'girlfriend', name: '我的女孩 💖', avatar: '👧', avatarImg: 'assets/characters/gf_sunny.png', status: '在线', lastMsg: '晚安，梦里见！', unread: false },
             { id: 'roommate', name: '她的室友-小雅', avatar: '👩', avatarImg: 'https://picsum.photos/seed/xiaoya_love/100/100', status: '离线', lastMsg: '她今天心情好像不错。', unread: false },
@@ -929,7 +937,7 @@ function renderContactList() {
                 item.onclick = () => { if (c.status === '离线') { showToast('💤 ' + c.name + ' 当前离线', 'warn'); return; } startChat(c); };
                 const statusColor = c.status === '在线' ? '#4caf50' : c.status === '离线' ? '#999' : '#ff9800';
                 item.innerHTML = `
-                    <div class="contact-avatar" style="position:relative">${c.avatarImg ? '<img src="'+c.avatarImg+'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;" onerror="this.outerHTML=\''+(c.avatar||'👤')+'\'">' : c.avatar}${c.unread ? '<span class="contact-unread"></span>' : ''}</div>
+                    <div class="contact-avatar" style="position:relative">${c.avatarImg ? '<img src="'+c.avatarImg+'" alt="'+altName(c.name)+'头像" style="width:100%;height:100%;border-radius:50%;object-fit:cover;" onerror="this.outerHTML=\''+(c.avatar||'👤')+'\'">' : c.avatar}${c.unread ? '<span class="contact-unread"></span>' : ''}</div>
                     <div class="contact-info">
                         <div class="contact-name">${c.name}</div>
                         <div class="contact-last-msg">${c.lastMsg}</div>
@@ -950,7 +958,7 @@ function startChat(contact) {
             document.getElementById('chat-contact-view').style.display = 'none';
             document.getElementById('chat-message-view').style.display = 'flex';
             document.getElementById('chat-contact-name').textContent = contact.name;
-            document.getElementById('chat-contact-avatar').innerHTML = contact.avatarImg ? '<img src="'+contact.avatarImg+'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;" onerror="this.outerHTML=\''+(contact.avatar||'👤')+'\'">' : contact.avatar;
+            document.getElementById('chat-contact-avatar').innerHTML = contact.avatarImg ? '<img src="'+contact.avatarImg+'" alt="'+altName(contact.name)+'头像" style="width:100%;height:100%;border-radius:50%;object-fit:cover;" onerror="this.outerHTML=\''+(contact.avatar||'👤')+'\'">' : contact.avatar;
             document.getElementById('chat-contact-status').textContent = `● ${contact.status}`;
             document.getElementById('chat-contact-status').style.color = contact.status === '在线' ? '#4caf50' : '#999';
             
@@ -1119,7 +1127,7 @@ function loadChatNode(nodeId) {
             } else {
                 const contact = contacts.find(c => c.id === currentContactId);
                 const avEl = document.getElementById('chat-contact-avatar');
-                avEl.innerHTML = (contact && contact.avatarImg) ? '<img src="'+contact.avatarImg+'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">' : (contact ? contact.avatar : '👧');
+                avEl.innerHTML = (contact && contact.avatarImg) ? '<img src="'+contact.avatarImg+'" alt="'+altName(contact.name)+'头像" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">' : (contact ? contact.avatar : '👧');
                 document.getElementById('chat-contact-status').textContent = `● ${contact ? contact.status : '在线'}`;
                 document.getElementById('chat-contact-status').style.color = contact && contact.status === '在线' ? '#4caf50' : '#999';
             }

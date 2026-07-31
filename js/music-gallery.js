@@ -6,7 +6,8 @@ var MusicGallery = {
     async ensureInit() {
         if (this.initialized) return;
         this.initialized = true;
-        this.audio = new Audio(); this.audio.volume = 0.7;
+        // 音量锚点（§4.2）：播放器 0.7→0.55，与 #music-volume 滑块的 value="55" 保持一致
+        this.audio = new Audio(); this.audio.volume = 0.55;
         // DOM refs
         this.elTitle = document.getElementById('music-title');
         this.elArtist = document.getElementById('music-artist');
@@ -25,6 +26,9 @@ var MusicGallery = {
         this.audio.addEventListener('loadedmetadata', () => { this.elDur.textContent = fmtTime(this.audio.duration); });
         this.audio.addEventListener('ended', () => this.onEnded());
         this.audio.addEventListener('error', () => this.onError());
+        // A-03：音乐馆一开播就让游戏 BGM 让路，暂停时再放回来（覆盖 load/toggle/step/hideAlbum 全部路径）
+        this.audio.addEventListener('play', () => this.duckBgm());
+        this.audio.addEventListener('pause', () => this.unduckBgm());
         const bar = this.elBar.parentElement;
         const seek = (e) => { const r = bar.getBoundingClientRect(); if (this.audio.duration) this.audio.currentTime = ((e.clientX - r.left) / r.width) * this.audio.duration; };
         bar.addEventListener('click', seek);
@@ -86,7 +90,8 @@ var MusicGallery = {
                 a.albums.forEach(function(al){
                     var cnt = al.songs.filter(function(s){return s.playable!==false}).length;
                     h+='<div class="mg-album-row" onclick="MusicGallery.openAlbum(\''+esc(a.name)+'\',\''+esc(al.name)+'\')">';
-                    if (al.cover) h+='<img class="mg-album-cover" src="'+al.cover+'" onerror="this.style.display=\'none\'">';
+                    // E-7：补 alt（专辑名），此前屏幕阅读器读到的是空图
+                    if (al.cover) h+='<img class="mg-album-cover" src="'+al.cover+'" alt="'+esc(al.name)+' 专辑封面" onerror="this.style.display=\'none\'">';
                     else h+='<span class="mg-album-icon">💿</span>';
                     h+='<div class="mg-album-info"><div class="mg-album-name">'+esc(al.name)+'</div><div class="mg-album-count">'+cnt+' 首</div></div>';
                     h+='</div>';
@@ -127,7 +132,8 @@ var MusicGallery = {
         if (this.elArtist) this.elArtist.textContent = s.artist + ' · ' + s.album;
         // 显示封面
         if (this.elCover) {
-            if (s.cover) this.elCover.innerHTML = '<img src="'+s.cover+'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">';
+            // E-7：补 alt（专辑名），播放器封面此前同样无替代文本
+            if (s.cover) this.elCover.innerHTML = '<img src="'+s.cover+'" alt="'+esc(s.album)+' 专辑封面" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">';
             else this.elCover.textContent = '💿';
         }
         var player = this.elList.parentElement.parentElement;
@@ -142,7 +148,56 @@ var MusicGallery = {
     onEnded() { if (this.mode==='single') { this.audio.currentTime=0; this.audio.play(); } else { this.step(1); } },
     onError() { showToast('❌ 播放失败', 'warn'); },
     cycleMode() { var m=['order','shuffle','single']; this.mode=m[(m.indexOf(this.mode)+1)%3]; this.elMode.textContent={order:'🔁',shuffle:'🔀',single:'🔂'}[this.mode]; },
-    toggleBgm() { /* hook for bgm mode */ },
+
+    // ===== A-03：音乐馆 / 游戏 BGM 互斥，避免双轨叠播 =====
+    // _bgmDucked 只在"确实是我方把正在播的 BGM 按停"时置真，避免误把用户主动关掉的 BGM 重新拉起
+    _bgmDucked: false,
+
+    duckBgm() {
+        if (typeof SoundManager === 'undefined' || !SoundManager.bgm) return;
+        if (!SoundManager.bgm.paused) this._bgmDucked = true;
+        try { SoundManager.bgm.pause(); } catch (e) {}
+        this.syncBgmBtn();
+    },
+
+    unduckBgm() {
+        if (!this._bgmDucked) { this.syncBgmBtn(); return; }
+        this._bgmDucked = false;
+        if (typeof SoundManager === 'undefined' || !SoundManager.bgm) { this.syncBgmBtn(); return; }
+        if (typeof AppSettings !== 'undefined' && !AppSettings.music) { this.syncBgmBtn(); return; }
+        try { var p = SoundManager.bgm.play(); if (p && p.catch) p.catch(function () {}); } catch (e) {}
+        this.syncBgmBtn();
+    },
+
+    syncBgmBtn() {
+        if (!this.elBgm) return;
+        var on = typeof SoundManager !== 'undefined' && !!SoundManager.bgm && !SoundManager.bgm.paused;
+        this.elBgm.classList.toggle('active', on);
+        this.elBgm.title = on ? '游戏 BGM 播放中，点击让路' : '游戏 BGM 已让路，点击恢复';
+    },
+
+    // 「🎵 纯音」按钮：手动在"音乐馆独占"与"游戏 BGM 独占"之间切换，任一时刻只响一层
+    toggleBgm() {
+        if (typeof SoundManager === 'undefined') return;
+        var bgmOn = !!SoundManager.bgm && !SoundManager.bgm.paused;
+        if (bgmOn) {
+            this.duckBgm();
+            return;
+        }
+        // 恢复游戏 BGM 前先停掉音乐馆播放器（其 pause 事件会顺带走一次 unduckBgm）
+        if (this.audio && !this.audio.paused) {
+            this.audio.pause();
+            if (this.elToggle) this.elToggle.textContent = '▶';
+        }
+        if (typeof AppSettings !== 'undefined' && !AppSettings.music) { this.syncBgmBtn(); return; }
+        if (SoundManager.bgm) {
+            this._bgmDucked = true;
+            this.unduckBgm();
+        } else {
+            SoundManager.playBgm(SoundManager.currentScene || 'start');
+            this.syncBgmBtn();
+        }
+    },
 };
 
 function fmtTime(s) { if(!isFinite(s))return'0:00';var m=Math.floor(s/60),sec=Math.floor(s%60);return m+':'+(sec<10?'0':'')+sec; }
