@@ -16,6 +16,31 @@ function hasItem(id) {
     return (Number(entry.count) || 0) > 0;      // 正常对象格式；count 为 undefined/NaN 时安全取 0
 }
 
+// —— requireItem 上锁后的含蓄提示 ——
+// 玩家点击被上锁（未持有道具）的选项时，不直接说"你缺 XX"，而是给一句留白式伏笔，
+// 让"还差了点什么"的悬念留在氛围里（用户要求：别太直白）。
+function showLockedHint(itemId) {
+    var hints = [
+        '（她的目光在你口袋边停了一瞬，又轻轻移开了。）',
+        '（话到嘴边又咽了回去——总觉得，还差了那么一点铺垫。）',
+        '（你忽然觉得，这场约会的某个角落，似乎少了点什么。）',
+        '（指尖在身侧蜷了蜷，那句话终究没说出口。）'
+    ];
+    var h = hints[0];
+    if (itemId) {
+        var s = 0;
+        for (var k = 0; k < itemId.length; k++) s = (s + itemId.charCodeAt(k)) % 100000;
+        h = hints[s % hints.length];
+    }
+    var fb = document.getElementById('feedback');
+    if (fb) { fb.innerHTML = h; fb.className = 'feedback locked show'; }
+}
+
+function escHtml(s) {
+    return String(s == null ? '' : s)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
 function injectItemChoices(event, container) {
             const inv = gameState.inventory || {};
             // 赠予文案覆盖表（按礼物 id 索引）。未登记的商店礼物会自动派生一份通用文案。
@@ -273,9 +298,30 @@ function showEvent(index) {
                 let optNum = 0;
                 event.choices.forEach((choice, i) => {
                     if (choice.reqLike != null && gameState.like < choice.reqLike) return;
-                    // requireItem：未持有所需物品时隐藏该选项（如没带充电宝则"拿出充电宝"选项不出现）
-                    // 必须与上方 bestIdx 求解使用同一个 hasItem，否则会出现"提示指向一个看不见的选项"。
-                    if (choice.requireItem && !hasItem(choice.requireItem)) return;
+                    // requireItem：未持有所需物品时，该选项**上锁**（可见但禁用）而非隐藏——
+                    // 让玩家看到伏笔存在；点击时给含蓄提示（showLockedHint）。
+                    // 必须与上方 bestIdx 求解(:267)使用同一个 hasItem，否则"提示"会指向一个不可选项。
+                    if (choice.requireItem && !hasItem(choice.requireItem)) {
+                        optNum++;
+                        var lockNumSpan = '<span class="choice-num">' + optNum + '</span>';
+                        var lockItem = choice.requireItem;
+                        var lockName = (typeof window.ITEMS !== 'undefined' && window.ITEMS[lockItem])
+                            ? window.ITEMS[lockItem].name : lockItem;
+                        var lockMain = (choice.text || '').split('\n')[0];
+                        var lockBtn = document.createElement('button');
+                        lockBtn.className = 'choice-btn choice-locked';
+                        lockBtn.setAttribute('aria-disabled', 'true');
+                        lockBtn.setAttribute('data-locked-item', lockItem);
+                        lockBtn.innerHTML = lockNumSpan
+                            + '<span class="choice-locked-text">' + escHtml(lockMain) + '</span>'
+                            + '<span class="choice-lock-tag">🔒 ' + escHtml(lockName) + '</span>';
+                        lockBtn.addEventListener('click', function (e) {
+                            e.preventDefault();
+                            showLockedHint(lockItem);
+                        });
+                        choicesContainer.appendChild(lockBtn);
+                        return;
+                    }
 
                     optNum++;
                     const numSpan = '<span class="choice-num">' + optNum + '</span>';

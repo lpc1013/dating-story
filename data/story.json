@@ -814,30 +814,6 @@
               "result": "你们在草地上野餐，她开心地吃着三明治，说\"好好吃！\""
             },
             {
-              "key": "B",
-              "label": "买点零食和饮料",
-              "moneyRaw": "花费 3-2元",
-              "money": {
-                "type": "spend",
-                "min": -2,
-                "max": 3
-              },
-              "moodRaw": "😐 一般",
-              "mood": "neutral",
-              "like": {
-                "type": "fixed",
-                "value": 4
-              },
-              "heart": {
-                "type": "fixed",
-                "value": 0
-              },
-              "romantic": false,
-              "achievement": [],
-              "reqLike": null,
-              "result": "她吃了点零食，还算满意"
-            },
-            {
               "key": "C",
               "label": "一起DIY制作美食，享受过程",
               "moneyRaw": "花费 8-5元",
@@ -908,31 +884,6 @@
               "achievement": [],
               "reqLike": null,
               "result": "你抖开野餐垫，把边角仔细压上小石子：\"脏的是草地，又不是你。\"她噗嗤笑出声，乖乖坐下，指尖戳了戳垫子：\"没想到你还挺会照顾人。\"风掠过树梢，这一方小小的布，成了今天最舒服的角落。"
-            },
-            {
-              "key": "F",
-              "label": "趁着野餐气氛，给她拍张照",
-              "moneyRaw": "无花费",
-              "money": {
-                "type": "none",
-                "min": 0,
-                "max": 0
-              },
-              "moodRaw": "😊 开心",
-              "mood": "happy",
-              "like": {
-                "type": "fixed",
-                "value": 6
-              },
-              "heart": {
-                "type": "fixed",
-                "value": 5
-              },
-              "romantic": false,
-              "achievement": [],
-              "reqLike": null,
-              "result": "你举起手机，把这一刻的晴光与她的笑意一起定格。照片里她嘴里还叼着三明治，眼睛弯成月牙，像把整个午后的好天气都收了进去。",
-              "photo": "sunny_park"
             },
             {
               "key": "G",
@@ -1779,30 +1730,6 @@
               "achievement": [],
               "reqLike": null,
               "result": "她看了看夕阳，又看了看你，眼神里充满了失望：\"再等等嘛...再待一会儿...\"她依依不舍地看着夕阳，但还是跟着你走了..."
-            },
-            {
-              "key": "C",
-              "label": "拿出手机拍照，说\"拍个照纪念一下\"",
-              "moneyRaw": "无花费",
-              "money": {
-                "type": "none",
-                "min": 0,
-                "max": 0
-              },
-              "moodRaw": "😊 开心",
-              "mood": "happy",
-              "like": {
-                "type": "fixed",
-                "value": 6
-              },
-              "heart": {
-                "type": "fixed",
-                "value": 6
-              },
-              "romantic": false,
-              "achievement": [],
-              "reqLike": null,
-              "result": "你拿出手机，给她拍了一张照片。夕阳的余晖洒在她脸上，她笑着摆姿势，眼睛里闪烁着幸福的光芒：\"拍得真好看！谢谢你亲爱的！\"这一刻，她觉得你是世界上最贴心的人..."
             },
             {
               "key": "D",
@@ -2768,30 +2695,6 @@
               "result": "你侧身拍，她满意地点头：\"嗯，这个角度不错\""
             },
             {
-              "key": "C",
-              "label": "随意拍一张",
-              "moneyRaw": "无花费",
-              "money": {
-                "type": "none",
-                "min": 0,
-                "max": 0
-              },
-              "moodRaw": "😐 一般",
-              "mood": "neutral",
-              "like": {
-                "type": "fixed",
-                "value": 2
-              },
-              "heart": {
-                "type": "fixed",
-                "value": 1
-              },
-              "romantic": false,
-              "achievement": [],
-              "reqLike": null,
-              "result": "你随意拍了一张，她看了看：\"嗯...还行吧\""
-            },
-            {
               "key": "D",
               "label": "说不会拍，让她自己拍",
               "moneyRaw": "无花费",
@@ -3556,30 +3459,6 @@
               "achievement": [],
               "reqLike": null,
               "result": "她喝了口咖啡，撇撇嘴：\"有点苦...\""
-            },
-            {
-              "key": "C",
-              "label": "点一杯奶茶和一杯咖啡",
-              "moneyRaw": "花费 4-2元",
-              "money": {
-                "type": "spend",
-                "min": -2,
-                "max": 4
-              },
-              "moodRaw": "😊 开心",
-              "mood": "happy",
-              "like": {
-                "type": "fixed",
-                "value": 8
-              },
-              "heart": {
-                "type": "fixed",
-                "value": 6
-              },
-              "romantic": false,
-              "achievement": [],
-              "reqLike": null,
-              "result": "她开心地喝着奶茶，说\"这个好喝！\""
             },
             {
               "key": "D",
@@ -5415,30 +5294,6 @@
           "prompt": "你把伞向她那边倾斜，她靠在你肩上，轻声聊起了心事。伞下的小空间里，你们紧紧挨着，雨水打在伞面上，发出噼里啪啦的声音。她挽着你的手臂，轻声说：\"雨中聊天，感觉好亲密...\"她开始向你吐槽最近遇到的烦心事……",
           "options": [
             {
-              "key": "A",
-              "label": "快速思考，提出解决的建议",
-              "moneyRaw": "无花费",
-              "money": {
-                "type": "none",
-                "min": 0,
-                "max": 0
-              },
-              "moodRaw": "😐 一般",
-              "mood": "neutral",
-              "like": {
-                "type": "fixed",
-                "value": 0
-              },
-              "heart": {
-                "type": "fixed",
-                "value": -1
-              },
-              "romantic": false,
-              "achievement": [],
-              "reqLike": null,
-              "result": "你快速提出了解决方案，她点点头：\"嗯...你说得有道理...\"但她眼神里有点失落，她更希望你能认真听她说"
-            },
-            {
               "key": "B",
               "label": "认真倾听，不急着给建议",
               "moneyRaw": "无花费",
@@ -5511,31 +5366,6 @@
               "achievement": [],
               "reqLike": null,
               "result": "她愣了一下，然后失望地看着你：\"你根本不懂我...\"她松开了你的手，默默地走在前面"
-            },
-            {
-              "key": "E",
-              "label": "隔着雨窗，与她相视而笑拍一张",
-              "moneyRaw": "无花费",
-              "money": {
-                "type": "none",
-                "min": 0,
-                "max": 0
-              },
-              "moodRaw": "😊 开心",
-              "mood": "happy",
-              "like": {
-                "type": "fixed",
-                "value": 6
-              },
-              "heart": {
-                "type": "fixed",
-                "value": 6
-              },
-              "romantic": true,
-              "achievement": [],
-              "reqLike": null,
-              "result": "雨打在伞面噼啪作响，她靠着你说了好多心里话。你隔着雨窗与她相视而笑，顺手拍下这张，说往后的心事都讲给你听。",
-              "photo": "rainy_window"
             },
             {
               "key": "F",
@@ -6774,30 +6604,6 @@
               "result": "雪越下越柔，她自然而然靠上你的肩，脚印一深一浅并排延伸。她轻声说：\"要是这条路，一直走到白头就好了。\"你没接话，只是把她的手揣进自己口袋，让两个人的温度，在雪地里偷偷连成一条线。"
             },
             {
-              "key": "B",
-              "label": "说太冷了，找个地方暖和一下",
-              "moneyRaw": "无花费",
-              "money": {
-                "type": "none",
-                "min": 0,
-                "max": 0
-              },
-              "moodRaw": "😐 一般",
-              "mood": "neutral",
-              "like": {
-                "type": "fixed",
-                "value": 1
-              },
-              "heart": {
-                "type": "fixed",
-                "value": 1
-              },
-              "romantic": false,
-              "achievement": [],
-              "reqLike": null,
-              "result": "你们走进咖啡店，她喝了杯热咖啡，但还是有点失望..."
-            },
-            {
               "key": "C",
               "label": "说雪中漫步傻，却蹲下给她系紧松开的鞋带，先把她的手搓暖了再走",
               "moneyRaw": "无花费",
@@ -6844,31 +6650,6 @@
               "achievement": [],
               "reqLike": null,
               "result": "你扶着她，小心地走着，她笑着说：\"谢谢你...\""
-            },
-            {
-              "key": "E",
-              "label": "雪地里并肩，拍下这一程",
-              "moneyRaw": "无花费",
-              "money": {
-                "type": "none",
-                "min": 0,
-                "max": 0
-              },
-              "moodRaw": "😊 开心",
-              "mood": "happy",
-              "like": {
-                "type": "fixed",
-                "value": 10
-              },
-              "heart": {
-                "type": "fixed",
-                "value": 12
-              },
-              "romantic": true,
-              "achievement": [],
-              "reqLike": null,
-              "result": "雪落满肩，你们脚印并排延伸。你举起手机拍下这一程，说这条路要是能一直走到白头，该多好。",
-              "photo": "snow_date"
             },
             {
               "key": "F",
@@ -12148,30 +11929,6 @@
               "result": "你拉她下楼，满地落叶却没人受伤。她深吸一口湿漉漉的空气：『居然……真的没事。』"
             },
             {
-              "key": "B",
-              "label": "得意地说『我就说没事』",
-              "moneyRaw": "金钱 不变",
-              "money": {
-                "type": "none",
-                "min": 0,
-                "max": 0
-              },
-              "moodRaw": "😐 一般",
-              "mood": "neutral",
-              "like": {
-                "type": "fixed",
-                "value": 2
-              },
-              "heart": {
-                "type": "fixed",
-                "value": 0
-              },
-              "romantic": false,
-              "achievement": [],
-              "reqLike": null,
-              "result": "你翘着二郎腿：『看吧，虚惊一场。』她白你一眼：『你刚才明明也紧张得攥拳头了。』"
-            },
-            {
               "key": "C",
               "label": "一把将她拥入怀庆祝平安",
               "moneyRaw": "金钱 不变",
@@ -12219,31 +11976,6 @@
               "achievement": [],
               "reqLike": null,
               "result": "你数落她囤的辣条和雨靴：『末日生存专家，就这？』她反击：『要不是我，你连蜡烛都没有！』"
-            },
-            {
-              "key": "E",
-              "label": "雨后初晴，和她拍张平安纪念",
-              "moneyRaw": "金钱 不变",
-              "money": {
-                "type": "none",
-                "min": 0,
-                "max": 0
-              },
-              "moodRaw": "😊 开心",
-              "mood": "happy",
-              "like": {
-                "type": "fixed",
-                "value": 7
-              },
-              "heart": {
-                "type": "fixed",
-                "value": 5
-              },
-              "romantic": false,
-              "achievement": [],
-              "reqLike": null,
-              "result": "风停雨歇，阳光重新漏进窗台。你拉她到窗边，拍下这张劫后平安的合照，说以后每次台风，都要一起等到放晴。",
-              "photo": "conflict_resolved"
             },
             {
               "key": "F",
