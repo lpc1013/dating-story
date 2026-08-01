@@ -1663,6 +1663,21 @@
             font-size: 22px;
             box-shadow: 0 2px 8px rgba(255, 142, 142, 0.2);
             border: 2px solid white;
+            overflow: hidden;
+        }
+        /* 女友头像是 16:9 三视图转面图（正面/侧面/背面），直接圆形裁剪会取到侧面。
+           保持圆形头像不变，用 object-position 把可见区域移到左侧 1/3 的正面角色。 */
+        .contact-avatar,
+        .chat-header-avatar {
+            overflow: hidden;
+        }
+        .contact-avatar img,
+        .chat-header-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: 18% center;
+            border-radius: 50%;
         }
         .chat-header-text {
             display: flex;

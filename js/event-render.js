@@ -36,6 +36,24 @@ function showLockedHint(itemId) {
     if (fb) { fb.innerHTML = h; fb.className = 'feedback locked show'; }
 }
 
+// —— reqLike（好感度门槛）上锁后的含蓄提示 ——
+// 与道具上锁共用 .choice-locked 视觉，但提示文案指向"默契/时机未到"，避免数值味太重。
+function showLockedReqLikeHint(threshold) {
+    var hints = [
+        '（你望着她，突然觉得现在还不是说这句话的时候。）',
+        '（话到了嘴边，又被你轻轻咽了回去——你们之间的温度，好像还差那么一点。）',
+        '（你张了张嘴，却没能出声。也许再走近一些，时机才会成熟。）',
+        '（此刻的空气里，似乎还缺一点让你们更近一步的勇气。）'
+    ];
+    var h = hints[0];
+    if (threshold) {
+        var s = threshold;
+        h = hints[s % hints.length];
+    }
+    var fb = document.getElementById('feedback');
+    if (fb) { fb.innerHTML = h; fb.className = 'feedback locked show'; }
+}
+
 function escHtml(s) {
     return String(s == null ? '' : s)
         .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -297,7 +315,26 @@ function showEvent(index) {
 
                 let optNum = 0;
                 event.choices.forEach((choice, i) => {
-                    if (choice.reqLike != null && gameState.like < choice.reqLike) return;
+                    // reqLike（好感度门槛）：未达阈值时上锁可见，点击提示"时机未到"。
+                    // 与 requireItem 共用 .choice-locked 样式；bestIdx 求解已排除此项。
+                    if (choice.reqLike != null && gameState.like < choice.reqLike) {
+                        optNum++;
+                        var reqLikeNumSpan = '<span class="choice-num">' + optNum + '</span>';
+                        var reqLikeMain = (choice.text || '').split('\n')[0];
+                        var reqLikeBtn = document.createElement('button');
+                        reqLikeBtn.className = 'choice-btn choice-locked';
+                        reqLikeBtn.setAttribute('aria-disabled', 'true');
+                        reqLikeBtn.setAttribute('data-locked-like', choice.reqLike);
+                        reqLikeBtn.innerHTML = reqLikeNumSpan
+                            + '<span class="choice-locked-text">' + escHtml(reqLikeMain) + '</span>'
+                            + '<span class="choice-lock-tag">🔒 好感度 ' + escHtml(choice.reqLike) + '</span>';
+                        reqLikeBtn.addEventListener('click', function (e) {
+                            e.preventDefault();
+                            showLockedReqLikeHint(choice.reqLike);
+                        });
+                        choicesContainer.appendChild(reqLikeBtn);
+                        return;
+                    }
                     // requireItem：未持有所需物品时，该选项**上锁**（可见但禁用）而非隐藏——
                     // 让玩家看到伏笔存在；点击时给含蓄提示（showLockedHint）。
                     // 必须与上方 bestIdx 求解(:267)使用同一个 hasItem，否则"提示"会指向一个不可选项。
