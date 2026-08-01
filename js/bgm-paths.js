@@ -11,7 +11,7 @@ var BGM_PATHS = {
         'journal':   'video/纯音乐/moerzhuangyuan/摩乐乐家.mp3'
     },
     stings: {
-        'achievement': 'video/纯音乐/moerzhuangyuan/璨之花园.mp3',
+        'achievement': 'video/纯音乐/moerzhuangyuan/神秘花海.mp3',
         'peak':        'video/纯音乐/luokewangguo/凯旋门.mp3'
     },
     // 场景→播放后搜索的关键词（优先从 playlist 动态匹配，其次用 defaults）

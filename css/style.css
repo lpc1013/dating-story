@@ -2692,7 +2692,6 @@
 
 /* ── 反馈聊天泡泡 ── */
 .feedback { text-align: left !important; font-style: italic; border-radius: 16px 16px 16px 4px; max-width: 85%; margin-left: 14px; }
-.feedback::before { content: '💬 '; }
 
 /* ── 惊喜按钮 ── */
 .random-btn { background: linear-gradient(135deg, #667eea, #764ba2) !important; color: #fff !important; font-weight: 700 !important; animation: diceShake 2s ease-in-out infinite; }

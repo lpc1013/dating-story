@@ -97,11 +97,6 @@ function makeChoice(choice, event) {
             gameState.like = Math.min(100, Math.max(0, gameState.like + likeChange));
             gameState.heart = Math.min(100, Math.max(0, gameState.heart + heartChange));
             
-            // 浮动数值标签
-            if (moneyChange !== 0) spawnFloatLabel('game-container', (moneyChange > 0 ? '+' : '') + moneyChange + ' 🪙', moneyChange > 0 ? '#4caf50' : '#f44336');
-            if (likeChange !== 0) spawnFloatLabel('game-container', (likeChange > 0 ? '+' : '') + likeChange + ' ❤️', likeChange > 0 ? '#ff6b6b' : '#888');
-            if (heartChange !== 0) spawnFloatLabel('game-container', (heartChange > 0 ? '+' : '') + heartChange + ' 💫', heartChange > 0 ? '#ce93d8' : '#888');
-            
             // 更新波动记录
             gameState.minLike = Math.min(gameState.minLike, gameState.like);
             gameState.maxLike = Math.max(gameState.maxLike, gameState.like);
@@ -172,10 +167,7 @@ function makeChoice(choice, event) {
             checkStatsAchievements();
 
             const fb = document.getElementById('feedback');
-            const eIcons = { happy: '😊', normal: '😐', angry: '💢' };
-            const ei = eIcons[choice.emotion] || '';
-            const fbText = choice.feedback || '';
-            fb.innerHTML = fbText ? ei + ' ' + fbText : ei;
+            fb.innerHTML = choice.feedback || '';
             fb.className = 'feedback ' + (choice.emotion || 'normal') + ' show';
 
             // 检查结局

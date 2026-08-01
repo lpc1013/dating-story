@@ -124,7 +124,6 @@ function handleLikeClick() {
                     gameState.isHintRevealed = true;
                     showToast("✨ 你的真诚让她彻底敞开了心扉！", 'mood');
                     SoundManager.playSting('peak');
-                    SFX.heart();
                     const fb = document.getElementById('feedback');
                     fb.innerHTML = `💖 你的真诚让她彻底敞开了心扉！现在你可以看穿她的心思了。`;
                     fb.className = `feedback happy show`;
