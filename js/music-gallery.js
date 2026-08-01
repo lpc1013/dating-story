@@ -149,7 +149,19 @@ var MusicGallery = {
     toggle() { if (this.audio.paused) { this.audio.play(); this.elToggle.textContent='⏸'; } else { this.audio.pause(); this.elToggle.textContent='▶'; } },
     step(dir) { this.load(this.index+dir, !this.audio.paused); },
     onTime() { if (this.elBar) this.elBar.style.width = (this.audio.duration?(this.audio.currentTime/this.audio.duration*100):0)+'%'; if(this.elCur)this.elCur.textContent=fmtTime(this.audio.currentTime); },
-    onEnded() { if (this.mode==='single') { this.audio.currentTime=0; this.audio.play(); } else { this.step(1); } },
+    onEnded() {
+        if (this.mode === 'single') { this.audio.currentTime = 0; this.audio.play(); return; }
+        if (this.mode === 'shuffle') {
+            if (this.songs.length <= 1) { this.load(0, true); return; }
+            var r; do { r = Math.floor(Math.random() * this.songs.length); } while (r === this.index);
+            this.load(r, true);
+            return;
+        }
+        // order：自动续播下一首，到列表末尾回到第一首循环（连续播放）
+        var next = this.index + 1;
+        if (next >= this.songs.length) next = 0;
+        this.load(next, true);
+    },
     onError() { showToast('❌ 播放失败', 'warn'); },
     cycleMode() { var m=['order','shuffle','single']; this.mode=m[(m.indexOf(this.mode)+1)%3]; this.elMode.textContent={order:'🔁',shuffle:'🔀',single:'🔂'}[this.mode]; },
 

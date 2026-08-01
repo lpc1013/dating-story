@@ -59,7 +59,21 @@ function scan() {
 }
 
 const data = scan();
+// 提取「纯音乐」各专辑，作为游戏默认连续 BGM 的候选源（洛克王国等）
+const bgmAlbums = {};
+data.artists.forEach(a => {
+  if (a.name !== '纯音乐') return;
+  a.albums.forEach(al => {
+    bgmAlbums[al.name] = al.songs.filter(s => s.playable !== false).map(s => s.file);
+  });
+});
+data.bgmAlbums = bgmAlbums;
 let total = 0;
 data.artists.forEach(a => a.albums.forEach(al => total += al.songs.length));
-console.log(`✅ 生成 playlist.json: ${data.artists.length} 位歌手, ${data.artists.reduce((s,a)=>s+a.albums.length,0)} 张专辑, ${total} 首歌`);
+console.log(`✅ 生成 playlist.json: ${data.artists.length} 位歌手, ${data.artists.reduce((s,a)=>s+a.albums.length,0)} 张专辑, ${total} 首歌, BGM专辑 ${Object.keys(bgmAlbums).length} 个`);
 fs.writeFileSync(OUT, JSON.stringify(data, null, 2));
+
+// 同步生成 js/bgm-albums.js：游戏启动首声 BGM 需同步拿到专辑列表，避免异步未就绪静音
+const BGM_ALBUMS_JS = path.join(ROOT, 'js', 'bgm-albums.js');
+fs.writeFileSync(BGM_ALBUMS_JS, '// 自动生成 — game 启动首声 BGM 用的连续专辑列表（node gen-playlist.mjs 生成，勿手改）\nwindow.PLAYLIST_BGM = ' + JSON.stringify(bgmAlbums, null, 2) + ';\n');
+console.log(`✅ 生成 js/bgm-albums.js: ${Object.keys(bgmAlbums).join(', ')}`);

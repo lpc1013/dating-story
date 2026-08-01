@@ -10,6 +10,12 @@ var BGM_PATHS = {
         'album':     'video/纯音乐/moerzhuangyuan/蛋屋场景.mp3',
         'journal':   'video/纯音乐/moerzhuangyuan/摩乐乐家.mp3'
     },
+    // ★ 连续 BGM：游戏进入（start）/ 约会中（dating）默认在「洛克王国纯音乐」里连续循环播放
+    //   值为 playlist.json → bgmAlbums 的专辑键；SoundManager 会按列表顺序播、播完回到第一首
+    continuous: {
+        'start':  'luokewangguo',
+        'dating': 'luokewangguo'
+    },
     stings: {
         'achievement': 'video/纯音乐/moerzhuangyuan/神秘花海.mp3',
         'peak':        'video/纯音乐/luokewangguo/凯旋门.mp3'

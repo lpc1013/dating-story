@@ -7,7 +7,7 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <title>恋爱约会模拟器</title>
-    <link rel="stylesheet" href="css/style.css?v=260801">
+    <link rel="stylesheet" href="css/style.css?v=260802">
 </head>
 <body data-theme="parchment">
     <!-- 加载屏 -->
@@ -515,9 +515,9 @@
         <div id="root"></div>
     <!-- 主线剧情外部加载框架 -->
     <!-- A-01：已移除 Tone.js CDN 外链（仅用于一个 hover 单音，离线/被墙时会持续抛 ReferenceError） -->
-    <script src="js/story-loader.js?v=260801"></script>
-    <script src="js/backpack.js?v=260801"></script>
-    <script src="assets/asset-map.js?v=260801"></script>
+    <script src="js/story-loader.js?v=260802"></script>
+    <script src="js/backpack.js?v=260802"></script>
+    <script src="assets/asset-map.js?v=260802"></script>
     <script>
         // 全局设置（settings.js + toggleMusic/Sfx 共用）
         window.AppSettings = (function(){
@@ -597,6 +597,10 @@
             currentScene: null,
             _prevScene: null,
             sting: null,
+            // 连续 BGM 状态（洛克王国纯音乐专辑循环）
+            bgmAlbum: null,        // 当前连续播放的专辑键（如 'luokewangguo'）
+            bgmAlbumList: null,    // { 专辑键: [file,...] } 懒加载缓存
+            _bgmIndex: 0,          // 当前连续播放到的曲目下标
 
             // 音量锚点（§4.2）：BGM 0.30→0.22、sting 0.28→0.18，sting 期间 BGM duck 到 0.08
             BGM_VOLUME: 0.22,
@@ -609,6 +613,17 @@
             playBgm(scene) {
                 // A-04(a)：尊重设置里的「背景音乐」开关——关掉后任何场景切换都不该重新起播
                 if (typeof AppSettings !== 'undefined' && !AppSettings.music) return;
+                // ★ 连续 BGM 模式：start / dating 默认在「洛克王国纯音乐」里连续循环播放
+                var albumKey = (typeof BGM_PATHS !== 'undefined' && BGM_PATHS.continuous) ? BGM_PATHS.continuous[scene] : null;
+                if (albumKey) {
+                    // 同一专辑且仍在播 → 保持当前曲目，仅更新场景标签（start↔dating 不重启）
+                    if (this.bgm && this.bgmAlbum === albumKey && !this.bgm.paused) {
+                        this.currentScene = scene;
+                        return;
+                    }
+                    this._startContinuousBgm(albumKey, scene);
+                    return;
+                }
                 // A-04(b)：同场景且仍在播放 → 不重头重启（此前重复调用会把曲子从头重放）
                 if (this.bgm && this.currentScene === scene && !this.bgm.paused) return;
                 if (this._bgmFadeTimer) { clearInterval(this._bgmFadeTimer); this._bgmFadeTimer = null; }
@@ -622,12 +637,62 @@
                     track = BGM_PATHS.defaults[scene];
                 }
                 if (!track) return;
+                this.bgmAlbum = null;
                 this.currentScene = scene;
                 this.bgm = new Audio(encodeURI(track));
                 this.bgm.loop = true;
                 // 若此刻正有 sting 在响，新起的 BGM 直接从 duck 电平进场，避免中途冒头
                 this.bgm.volume = this._stingDucked ? this.DUCK_VOLUME : this.BGM_VOLUME;
                 this.bgm.play().catch(function(e) { console.log('BGM play blocked by browser'); });
+            },
+
+            // —— 连续 BGM：按专辑曲目列表顺序播放，播完回到第一首循环 ——
+            _startContinuousBgm(albumKey, scene) {
+                // 懒加载专辑曲目列表（playlist.json 的 bgmAlbums，回退 MusicGallery 扁平数据）
+                if (!this.bgmAlbumList) this.bgmAlbumList = {};
+                if (!this.bgmAlbumList[albumKey]) {
+                    var list = null;
+                    try {
+                        if (typeof PLAYLIST_BGM !== 'undefined' && PLAYLIST_BGM[albumKey]) list = PLAYLIST_BGM[albumKey];
+                        else if (typeof MusicGallery !== 'undefined' && MusicGallery.songs) {
+                            list = MusicGallery.songs
+                                .filter(function(s){ return s.artist === '纯音乐' && s.album === albumKey; })
+                                .map(function(s){ return s.file; });
+                        }
+                    } catch(e) {}
+                    this.bgmAlbumList[albumKey] = list || [];
+                }
+                if (!this.bgmAlbumList[albumKey].length) { this.bgmAlbum = null; return; }
+                if (this._bgmFadeTimer) { clearInterval(this._bgmFadeTimer); this._bgmFadeTimer = null; }
+                if (this.bgm) { try { this.bgm.pause(); } catch(e){} this.bgm = null; }
+                this.bgmAlbum = albumKey;
+                this.currentScene = scene;
+                // 跨场景（start↔dating）保留进度；首次或非连续场景切回则从头
+                if (typeof this._bgmIndex !== 'number' || this._bgmIndex < 0) this._bgmIndex = 0;
+                this._playContinuousTrack();
+            },
+
+            _playContinuousTrack() {
+                var list = this.bgmAlbumList && this.bgmAlbumList[this.bgmAlbum];
+                if (!list || !list.length) return;
+                if (this._bgmIndex >= list.length) this._bgmIndex = 0;
+                if (this._bgmIndex < 0) this._bgmIndex = list.length - 1;
+                var self = this;
+                if (this.bgm) { try { this.bgm.pause(); } catch(e){} }
+                this.bgm = new Audio(encodeURI(list[this._bgmIndex]));
+                this.bgm.loop = false; // 连续模式靠 ended 推进，不单首循环
+                this.bgm.volume = this._stingDucked ? this.DUCK_VOLUME : this.BGM_VOLUME;
+                this.bgm.addEventListener('ended', function(){ self._onBgmEnded(); });
+                var p = this.bgm.play();
+                if (p && p.catch) p.catch(function(e){ console.log('BGM play blocked by browser'); });
+            },
+
+            _onBgmEnded() {
+                if (!this.bgmAlbum) return;
+                var list = this.bgmAlbumList[this.bgmAlbum] || [];
+                this._bgmIndex = (this._bgmIndex + 1) % Math.max(1, list.length);
+                if (this._stingDucked) return; // sting 进行中，待 _unduckForSting 恢复（见下方守卫）
+                this._playContinuousTrack();
             },
 
             // A-05：BGM 音量线性淡变。禁止瞬变——瞬间跳变会有明显"抽气"感
@@ -663,7 +728,7 @@
                 if (!this._stingDucked) return;
                 this._stingDucked = false;
                 // 仅当音乐开关开启且 BGM 仍存在时恢复（尊重用户关音乐/音乐馆让路）
-                if (this.bgm && typeof AppSettings !== 'undefined' && AppSettings.music) {
+                if (this.bgm && typeof AppSettings !== 'undefined' && AppSettings.music && !this.bgm.ended) {
                     try { var p = this.bgm.play(); if (p && p.catch) p.catch(function () {}); } catch (e) {}
                 }
             },
@@ -974,34 +1039,35 @@ function hideLoveTips() {
     })();
     </script>
 
-    <script src="js/bgm-paths.js?v=260801"></script>
-    <script src="js/dev-panel.js?v=260801"></script>
-    <script src="js/achievements.js?v=260801"></script>
+    <script src="js/bgm-paths.js?v=260802"></script>
+    <script src="js/bgm-albums.js?v=260802"></script>
+    <script src="js/dev-panel.js?v=260802"></script>
+    <script src="js/achievements.js?v=260802"></script>
     <!-- 从 achievements.js 拆分出的功能模块（按依赖顺序加载，bootstrap 须最后） -->
-    <script src="js/sfx.js?v=260801"></script>
-    <script src="js/util.js?v=260801"></script>
-    <script src="js/start-screen.js?v=260801"></script>
-    <script src="js/chat.js?v=260801"></script>
-    <script src="js/stats.js?v=260801"></script>
-    <script src="js/redeem.js?v=260801"></script>
-    <script src="js/game-init.js?v=260801"></script>
-    <script src="js/inventory.js?v=260801"></script>
-    <script src="js/mood.js?v=260801"></script>
-    <script src="js/media.js?v=260801"></script>
-    <script src="js/event-render.js?v=260801"></script>
-    <script src="js/choice.js?v=260801"></script>
-    <script src="js/gift.js?v=260801"></script>
-    <script src="js/result.js?v=260801"></script>
-    <script src="js/endings.js?v=260801"></script>
-    <script src="js/journal.js?v=260801"></script>
-    <script src="js/bootstrap.js?v=260801"></script>
-    <script src="js/weather-panel.js?v=260801"></script>
-    <script src="js/music-gallery.js?v=260801"></script>
-    <script src="js/settings.js?v=260801"></script>
-    <script src="js/game-rules.js?v=260801"></script>
-    <script src="js/shop.js?v=260801"></script>
-    <script src="js/tips.js?v=260801"></script>
-    <script src="js/album.js?v=260801"></script>
+    <script src="js/sfx.js?v=260802"></script>
+    <script src="js/util.js?v=260802"></script>
+    <script src="js/start-screen.js?v=260802"></script>
+    <script src="js/chat.js?v=260802"></script>
+    <script src="js/stats.js?v=260802"></script>
+    <script src="js/redeem.js?v=260802"></script>
+    <script src="js/game-init.js?v=260802"></script>
+    <script src="js/inventory.js?v=260802"></script>
+    <script src="js/mood.js?v=260802"></script>
+    <script src="js/media.js?v=260802"></script>
+    <script src="js/event-render.js?v=260802"></script>
+    <script src="js/choice.js?v=260802"></script>
+    <script src="js/gift.js?v=260802"></script>
+    <script src="js/result.js?v=260802"></script>
+    <script src="js/endings.js?v=260802"></script>
+    <script src="js/journal.js?v=260802"></script>
+    <script src="js/bootstrap.js?v=260802"></script>
+    <script src="js/weather-panel.js?v=260802"></script>
+    <script src="js/music-gallery.js?v=260802"></script>
+    <script src="js/settings.js?v=260802"></script>
+    <script src="js/game-rules.js?v=260802"></script>
+    <script src="js/shop.js?v=260802"></script>
+    <script src="js/tips.js?v=260802"></script>
+    <script src="js/album.js?v=260802"></script>
     <script>
     // 指针涟漪：中心从点击位置扩散
     (function(){
@@ -1065,7 +1131,7 @@ function hideLoveTips() {
     }
     // PWA Service Worker：强制更新策略，避免服务器/浏览器缓存导致老版本残留
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js?v=260801').then(function(reg) {
+        navigator.serviceWorker.register('sw.js?v=260802').then(function(reg) {
             reg.addEventListener('updatefound', function() {
                 var newWorker = reg.installing;
                 newWorker.addEventListener('statechange', function() {
