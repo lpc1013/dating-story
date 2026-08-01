@@ -40,6 +40,7 @@ function showResult() {
 
             document.getElementById('final-money').textContent = gameState.money;
             document.getElementById('final-like').textContent = gameState.like;
+            document.getElementById('final-heart').textContent = gameState.heart;
             
             // 评价逻辑 — 拆分为 结局名 + 她的话 + 评语 + 亮点回顾
             let grade = "", herQuote = "", commentary = "", highlight = "";
@@ -143,7 +144,9 @@ function showResult() {
                 }
             } catch (e) {}
 
-            document.getElementById('result-grade').textContent = grade;
+            document.getElementById('result-title').textContent = grade || '约会圆满结束';
+            var tier = score >= 180 ? 'S' : score >= 150 ? 'A' : score >= 110 ? 'B' : score >= 75 ? 'C' : 'D';
+            document.getElementById('result-grade').textContent = '综合评级 ' + tier + ' · ' + score + ' 分';
             document.getElementById('result-her-quote').textContent = '"' + herQuote + '"';
             const finalRating = document.getElementById('final-rating');
             finalRating.textContent = commentary;

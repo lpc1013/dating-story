@@ -266,10 +266,12 @@
             
             <!-- 正常结局 -->
             <div class="result" id="result">
-                <div class="result-header">💝 约会圆满结束 💝</div>
-                <div id="rating-stars" style="margin-bottom: 20px;"></div>
-                
-                <div style="background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); border-radius: 25px; padding: 20px; box-shadow: 0 15px 35px rgba(255,107,107,0.15); border: 1px solid white;">
+                <div class="result-ribbon"><span>💝 本次约会圆满结束</span></div>
+                <div class="result-title" id="result-title">约会圆满结束</div>
+                <div id="rating-stars" class="result-stars"></div>
+                <div id="result-grade" class="result-grade"></div>
+
+                <div class="result-card">
                     <div class="final-stats">
                         <div class="stat-card">
                             <span class="stat-icon">🪙</span>
@@ -281,21 +283,22 @@
                             <span class="stat-label">最终好感</span>
                             <span id="final-like" class="stat-val">0</span>
                         </div>
-                    </div>
-                    
-                    <div class="rating-box" style="background: linear-gradient(135deg, #fff5f5 0%, #fff 100%); border: 2px solid #ffccd5; border-radius: 20px; padding: 20px; margin-top: 10px; position: relative; overflow: hidden;">
-                        <div style="position: absolute; top: -10px; right: -10px; font-size: 40px; opacity: 0.1; transform: rotate(15deg);">💌</div>
-                        <div style="font-weight: bold; color: #ff6b6b; margin-bottom: 10px; font-size: 16px; letter-spacing: 2px; display: flex; align-items: center; gap: 8px;">
-                            <span style="font-size: 20px;">💌</span> 恋爱导师寄语
+                        <div class="stat-card">
+                            <span class="stat-icon">💫</span>
+                            <span class="stat-label">心动值</span>
+                            <span id="final-heart" class="stat-val">0</span>
                         </div>
-                        <div id="final-rating" class="final-rating-text" style="font-size: 14px; line-height: 1.8; color: #555; text-align: justify; border-top: 1px dashed #ffccd5; padding-top: 10px;">-</div>
+                    </div>
+
+                    <div class="rating-box">
+                        <div class="rating-box-head"><span class="rating-box-ico">💌</span> 恋爱导师寄语</div>
+                        <div id="final-rating" class="final-rating-text">-</div>
                     </div>
                 </div>
 
-                <div id="result-grade" style="text-align:center;font-size:18px;font-weight:700;color:#ff6b6b;margin:12px 0 4px;"></div>
-                <div id="result-her-quote" style="text-align:center;font-size:14px;color:#888;font-style:italic;margin-bottom:4px;"></div>
-                <div id="result-highlight" style="text-align:center;font-size:13px;color:#666;margin-bottom:12px;"></div>
-                <div id="result-timeline" style="margin-bottom:16px;"></div>
+                <div id="result-her-quote" class="result-quote"></div>
+                <div id="result-highlight" class="result-highlight"></div>
+                <div id="result-timeline" class="result-timeline"></div>
 
                 <div class="result-actions">
                     <button class="view-journal-btn" onclick="showJournal('result')">📖 查看约会日记</button>

@@ -494,16 +494,16 @@
         .album-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 18px 16px;
-            margin-top: 20px;
-            padding: 16px 12px;
+            gap: 20px 16px;
+            margin-top: 18px;
+            padding: 18px 14px;
             background:
-                radial-gradient(circle at 20% 15%, rgba(255,255,255,.35), transparent 40%),
-                radial-gradient(circle at 80% 85%, rgba(255,225,210,.30), transparent 45%),
-                linear-gradient(160deg, #fbf3ea, #f3e7da);
-            border-radius: 18px;
-            border: 1px solid rgba(180,150,130,.18);
-            box-shadow: inset 0 2px 12px rgba(160,120,90,.08);
+                radial-gradient(circle at 12% 8%, rgba(255,255,255,.5), transparent 38%),
+                radial-gradient(circle at 88% 92%, rgba(255,221,205,.42), transparent 45%),
+                linear-gradient(155deg, #fdf6ee 0%, #f4e7d8 55%, #efe0cf 100%);
+            border-radius: 20px;
+            border: 1px solid rgba(190,158,132,.30);
+            box-shadow: inset 0 2px 14px rgba(160,120,90,.12), 0 10px 30px rgba(150,110,80,.10);
         }
 
         .photo-card {
@@ -513,11 +513,19 @@
             overflow: hidden;
             position: relative;
             cursor: pointer;
-            border: 1px solid rgba(0,0,0,0.06);
-            box-shadow: 0 6px 18px rgba(180, 140, 120, 0.14);
+            border: 1px solid rgba(255,255,255,.7);
+            box-shadow: 0 6px 18px rgba(180, 140, 120, 0.16), inset 0 0 0 1px rgba(255,255,255,.5);
             transition: transform .35s cubic-bezier(.2,.8,.3,1), box-shadow .35s, border-color .35s;
             display: flex;
             flex-direction: column;
+        }
+        /* 解锁照片：渐变描边光晕，区别于锁定卡 */
+        .photo-card:not(.locked)::after {
+            content: ''; position: absolute; inset: 0; border-radius: 16px;
+            padding: 1px; pointer-events: none;
+            background: linear-gradient(135deg, rgba(255,154,139,.55), rgba(255,183,153,.15) 50%, rgba(255,200,170,.5));
+            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            -webkit-mask-composite: xor; mask-composite: exclude;
         }
 
         /* 去同质化：相册照片墙的随机倾斜 + 胶带质感（区别于其它面板） */
@@ -544,34 +552,35 @@
         .photo-card.locked {
             cursor: default;
             background:
-                radial-gradient(circle at 30% 30%, rgba(255,255,255,.28), transparent 45%),
-                var(--album-locked-bg, #f1e9e0);
-            border: 1px dashed var(--album-locked-line, rgba(180, 150, 130, 0.55));
-            box-shadow: inset 0 0 24px rgba(120, 90, 70, 0.05);
+                radial-gradient(circle at 30% 25%, rgba(255,255,255,.35), transparent 50%),
+                linear-gradient(155deg, #efe6db 0%, #e7dccd 100%);
+            border: 1px dashed var(--album-locked-line, rgba(170, 140, 120, 0.6));
+            box-shadow: inset 0 0 26px rgba(120, 90, 70, 0.07);
             transition: background .3s ease, border-color .3s ease;
         }
         .photo-card.locked::before {
             content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
-            background-image: repeating-linear-gradient(45deg, transparent 0 13px, var(--album-locked-line, rgba(180,150,130,.5)) 13px 14px);
+            background-image: radial-gradient(circle at 1px 1px, rgba(150,120,100,.18) 1px, transparent 1.5px);
+            background-size: 14px 14px;
             opacity: 0; transition: opacity .35s ease;
         }
-        .photo-card.locked:hover::before { opacity: .45; }
+        .photo-card.locked:hover::before { opacity: .55; }
         .photo-card.locked:hover {
             transform: translateY(1px);
-            box-shadow: inset 0 0 24px rgba(120, 90, 70, 0.05), 0 1px 3px rgba(120, 90, 70, 0.06);
-            border-color: var(--album-locked-line, rgba(180, 150, 130, 0.65));
+            box-shadow: inset 0 0 26px rgba(120, 90, 70, 0.07), 0 2px 6px rgba(120, 90, 70, 0.10);
+            border-color: var(--album-locked-line, rgba(170, 140, 120, 0.8));
         }
         .photo-card.locked .lock-icon {
             position: absolute;
-            top: 40%; left: 50%;
+            top: 38%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 68px; height: 68px; border-radius: 50%;
+            width: 64px; height: 64px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             font-size: 30px;
-            opacity: 0.95;
-            background: rgba(255,255,255,0.95);
-            border: 2px solid var(--album-locked-line, rgba(180,150,130,.5));
-            box-shadow: 0 6px 18px rgba(120,90,70,0.18), inset 0 0 0 3px rgba(255,255,255,0.6);
+            opacity: 0.96;
+            background: linear-gradient(135deg, #fff, #f3ece2);
+            border: 2px solid var(--album-locked-line, rgba(180,150,130,.55));
+            box-shadow: 0 8px 22px rgba(120,90,70,0.22), inset 0 0 0 4px rgba(255,255,255,0.7), 0 0 0 6px rgba(255,255,255,0.18);
             z-index: 1;
         }
         .photo-card.locked .unlock-hint {
@@ -796,6 +805,107 @@
             background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
             color: #555;
             box-shadow: 0 10px 20px rgba(161, 196, 253, 0.3);
+        }
+
+        /* ── 好结局页视觉重绘：缎带 + 渐变标题 + 玻璃卡 + 导师寄语 ── */
+        .result { padding: 6px 2px 10px; }
+        /* 顶部雅致缎带（替代旧渐变文字条） */
+        .result-ribbon {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 4px auto 14px;
+            padding: 7px 22px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #ff8aa0 0%, #ffb199 100%);
+            color: #fff;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            box-shadow: 0 6px 18px rgba(255,122,140,0.35);
+        }
+        .result-ribbon::before, .result-ribbon::after {
+            content: '❀'; margin: 0 6px; font-size: 11px; opacity: .85;
+        }
+        .result-title {
+            text-align: center;
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            background: linear-gradient(120deg, #ff6b6b, #ff9a8b 50%, #ffb199);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+            animation: bounceIn 0.9s ease;
+        }
+        .result-stars { text-align: center; margin-bottom: 12px; font-size: 26px; letter-spacing: 3px; }
+        .result-grade {
+            text-align: center; font-size: 17px; font-weight: 700;
+            color: #ff6b6b; margin: 0 0 14px;
+            padding: 6px 16px; border-radius: 999px;
+            background: rgba(255,107,107,0.10); display: inline-block;
+            margin-left: 50%; transform: translateX(-50%);
+        }
+        /* 玻璃拟态主卡 */
+        .result-card {
+            background: rgba(255,255,255,0.78);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 22px;
+            padding: 20px;
+            box-shadow: 0 16px 40px rgba(255,107,107,0.16);
+            border: 1px solid rgba(255,255,255,0.9);
+            position: relative;
+            overflow: hidden;
+        }
+        .result-card::before {
+            content: ''; position: absolute; top: -30px; right: -30px;
+            width: 120px; height: 120px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,182,153,0.35), transparent 70%);
+            pointer-events: none;
+        }
+        .rating-box {
+            margin-top: 16px;
+            background: linear-gradient(135deg, #fff5f5 0%, #fff 100%);
+            border: 1px solid #ffd9e1;
+            border-radius: 18px;
+            padding: 18px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        .rating-box::after {
+            content: '💌'; position: absolute; top: -8px; right: -6px;
+            font-size: 44px; opacity: 0.10; transform: rotate(14deg);
+        }
+        .rating-box-head {
+            font-weight: 700; color: #ff6b6b; margin-bottom: 10px;
+            font-size: 16px; letter-spacing: 1px; display: flex; align-items: center; gap: 8px;
+        }
+        .rating-box-ico { font-size: 20px; }
+        .final-rating-text {
+            font-size: 14px; line-height: 1.85; color: #555; text-align: justify;
+            border-top: 1px dashed #ffccd5; padding-top: 10px;
+        }
+        .result-quote {
+            text-align: center; font-size: 14px; color: #8a7a6a;
+            font-style: italic; margin: 14px 8px 4px; line-height: 1.6;
+        }
+        .result-highlight {
+            text-align: center; font-size: 13px; color: #777; margin-bottom: 12px;
+        }
+        .result-timeline {
+            margin: 6px 0 4px; padding: 12px 14px;
+            background: rgba(255,255,255,0.7);
+            border: 1px dashed #ffd0c0; border-radius: 14px;
+            font-size: 12px; color: #666; line-height: 1.7;
+        }
+        .result-timeline .tl-row { display: flex; gap: 8px; align-items: baseline; }
+        .result-timeline .tl-idx {
+            flex: 0 0 auto; width: 20px; height: 20px; border-radius: 50%;
+            background: #ff8aa0; color: #fff; font-size: 10px; font-weight: 700;
+            display: inline-flex; align-items: center; justify-content: center;
         }
 
         /* 结局面板按钮组：垂直居中、统一宽度 */
@@ -2810,7 +2920,7 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
-    padding: 16px 18px 20px;
+    padding: 14px 12px 18px;
     overflow-y: auto;
     min-height: 0;
 }
@@ -2844,14 +2954,17 @@
 }
 .her-bub {
     flex: 1;
-    background: var(--bg-chip, #fff);
+    background: linear-gradient(180deg, #fffdfb 0%, #fff7f3 100%);
+    border: 1px solid #ffe3d6;
+    border-left: 4px solid #ff9a8b;
     border-radius: 16px 16px 16px 4px;
-    padding: 14px 18px;
-    font-size: 15px;
-    line-height: 1.7;
+    padding: 15px 18px;
+    font-size: 18px;
+    line-height: 1.75;
     color: var(--text-primary, #3d2c2c);
-    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    box-shadow: 0 4px 16px rgba(255,140,110,0.10);
     min-height: 56px;
+    position: relative;
 }
 
 /* ── 心情结局屏 ── */
