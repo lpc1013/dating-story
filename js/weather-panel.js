@@ -36,7 +36,9 @@
                 var isCur = w === wn;
                 var evts = gameData[wn] || [];
                 var total = totalByGroup[wn] || evts.length;
-                var progress = isCur && evts.length ? Math.round((gameState.currentEvent+1)/evts.length*100) : 0;
+                var curIdx = Math.min(gameState.currentEvent, evts.length - 1);
+                var curCount = Math.min(gameState.currentEvent + 1, evts.length);
+                var progress = isCur && evts.length ? Math.min(100, Math.round(curCount/evts.length*100)) : 0;
                 var varName = isCur && selectData.variantKey ? (VAR_LABEL[selectData.variantKey]||'') : '';
                 var card = document.createElement('div');
                 card.style.cssText = 'background:'+m.gradient+';border-radius:18px;padding:16px;margin-bottom:10px;border:2px solid '+(isCur?m.color:'transparent')+';box-shadow:'+(isCur?'0 4px 20px '+m.color+'30':'0 2px 8px rgba(0,0,0,.04)')+';transition:all .35s;';
@@ -50,11 +52,11 @@
                     '</div></div>';
                 if (isCur) {
                     h += '<div style="margin-top:8px;background:rgba(255,255,255,.5);border-radius:10px;padding:10px;">'+
-                        '<div style="display:flex;justify-content:space-between;font-size:10px;color:'+m.color+';margin-bottom:4px;"><span>本线进度</span><span>'+(gameState.currentEvent+1)+'/'+evts.length+' · '+progress+'%</span></div>'+
+                        '<div style="display:flex;justify-content:space-between;font-size:10px;color:'+m.color+';margin-bottom:4px;"><span>本线进度</span><span>'+curCount+'/'+evts.length+' · '+progress+'%</span></div>'+
                         '<div style="height:6px;background:rgba(0,0,0,.08);border-radius:3px;overflow:hidden;">'+
                         '<div style="height:100%;width:'+progress+'%;background:'+m.color+';border-radius:3px;transition:width .6s ease;"></div></div>'+
                         (evts.length <= 20 ? '<div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:3px;">'+evts.map(function(e,i){
-                            var done=i<gameState.currentEvent,cur=i===gameState.currentEvent;
+                            var done=i<curIdx,cur=i===curIdx;
                             return '<span style="font-size:9px;padding:2px 7px;border-radius:8px;'+(done?'background:rgba(0,0,0,.06);color:#888':'')+(cur?'background:'+m.color+';color:#fff;font-weight:600':'')+(!done&&!cur?'background:rgba(0,0,0,.02);color:#ccc':'')+';">'+(done?'✓':cur?'▶':'○')+' '+e.title+'</span>';
                         }).join('')+'</div>' : '')+
                         '</div>';
@@ -121,7 +123,7 @@
                 '<div class="data-metric"><div class="val" style="color:'+m.color+';">'+gameState.like+'</div><div class="lbl">💕 好感度</div></div>'+
                 '<div class="data-metric"><div class="val" style="color:#9b7fd4;">'+gameState.heart+'</div><div class="lbl">💫 心动值</div></div>'+
                 '<div class="data-metric"><div class="val" style="color:#ffa500;">'+gameState.money+'</div><div class="lbl">🪙 资产</div></div>'+
-                '<div class="data-metric"><div class="val" style="color:var(--text-primary);">'+(gameState.currentEvent+1)+'/'+(gameData[w]||[]).length+'</div><div class="lbl">📍 进度</div></div>'+
+                '<div class="data-metric"><div class="val" style="color:var(--text-primary);">'+(function(){var l=(gameData[w]||[]).length;return l?Math.min(gameState.currentEvent+1,l)+'/'+l:'-';})()+'</div><div class="lbl">📍 进度</div></div>'+
                 '</div>'+
                 '<div style="margin-top:10px;padding:12px;background:'+m.gradient+';border-radius:12px;font-size:11px;line-height:1.8;">'+
                 '<div style="font-weight:600;color:'+m.color+';">📐 当前公式</div>'+

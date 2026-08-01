@@ -2,6 +2,36 @@
 
 var RESTAURANT_SEQUENCE = ['餐厅点菜', '餐厅点汤', '餐厅点甜品'];
 
+// ===== 实用功能：数字键 1–9 快捷选择当前事件的可见选项 =====
+// 仅在主事件界面、#choices 可见、且没有任何模态/面板开启时生效；
+// 在输入框（音乐搜索/兑换码）或快捷键组合下不触发，避免误触。
+function selectChoiceByIndex(idx) {
+    var choicesEl = document.getElementById('choices');
+    if (!choicesEl || choicesEl.style.display === 'none') return;
+    var gc = document.getElementById('game-content');
+    if (!gc || gc.style.display === 'none') return;
+    // 任一模态/面板开启则禁用
+    var blocking = document.querySelector('.modal.show, .panel.show, #album-modal.show, #achievements-panel.show, .gift-modal.show, #redeem-modal.show, #love-tips-modal.show, #mood-info-modal.show, #journal.show, #result.show, #bad-end.show, #mood-end.show, #chat-modal.show, #weather-panel.show');
+    if (blocking) return;
+    var btns = Array.prototype.filter.call(
+        choicesEl.querySelectorAll('.choice-btn'),
+        function (b) { return b.style.display !== 'none' && b.offsetParent !== null; }
+    );
+    if (idx < 0 || idx >= btns.length) return;
+    btns[idx].click();
+}
+
+document.addEventListener('keydown', function (e) {
+    var t = e.target;
+    if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    if (e.key >= '1' && e.key <= '9') {
+        e.preventDefault();
+        selectChoiceByIndex(parseInt(e.key, 10) - 1);
+    }
+});
+
+
         function pulseStat(el) {
             if (!el) return;
             el.classList.remove('stat-pulse');

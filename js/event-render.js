@@ -364,7 +364,9 @@ function showEvent(index) {
                     const numSpan = '<span class="choice-num">' + optNum + '</span>';
                     const btn = document.createElement('button');
                     btn.className = 'choice-btn';
-                    if (gameState.isHintRevealed && i === bestIdx) btn.classList.add('hint-best');
+                    const isBest = gameState.isHintRevealed && i === bestIdx;
+                    if (isBest) btn.classList.add('hint-best');
+                    const hintBadge = isBest ? '<span class="hint-badge">✨ 最佳</span>' : '';
 
                     const parts = choice.text.split('\n');
                     const mainText = parts[0];
@@ -372,21 +374,20 @@ function showEvent(index) {
                     const showHint = visibleHints[i];
 
                     if (showHint && hintText) {
-                        const isRainy = selectData.weather === '雨天' && !gameState.isHintRevealed;
-
-                        // E-8：原来这里内联写死 font-size:11px + #00ff88/#ff1744/#fff，
-                        // 在浅色主题按钮上最差只有 1.01:1 对比度、字号也低于移动端下限。
-                        // 样式全部交回 CSS（.choice-hint 盒子 + .choice-hint-happy/normal/angry 配色，
-                        // 后三者已存在且对比度 4.77–5.50:1），JS 只负责挂类名，不再写 style。
-                        const emo = choice.emotion === 'happy' ? 'happy'
-                                  : choice.emotion === 'angry' ? 'angry'
-                                  : 'normal';
-                        const hintClass = 'choice-hint choice-hint-' + emo + (isRainy ? ' hint-blur' : '');
-
-                        const hintHtml = `<div class="${hintClass}">${hintText.replace(/\n/g, '<br>')}</div>`;
-                        btn.innerHTML = numSpan + `<div style="font-weight: bold; margin-bottom: 4px;">${mainText}${hintHtml}</div>`;
+                        // E-11：把选项下方红框提示改成按需弹窗，减少按钮高度与视觉干扰。
+                        // 雨天未揭示时 visibleHints[i] 已为 false，天然不显示图标。
+                        btn.innerHTML = numSpan + hintBadge + '<span class="choice-main">' + escHtml(mainText) + '</span>';
+                        const trigger = document.createElement('span');
+                        trigger.className = 'choice-hint-trigger';
+                        trigger.textContent = '💡';
+                        trigger.title = '查看提示';
+                        trigger.onclick = function (e) {
+                            e.stopPropagation();
+                            showToast(escHtml(hintText).replace(/\n/g, '<br>'), 'hint');
+                        };
+                        btn.appendChild(trigger);
                     } else {
-                        btn.innerHTML = numSpan + mainText;
+                        btn.innerHTML = numSpan + hintBadge + escHtml(mainText);
                     }
 
                     btn.onclick = () => makeChoice(choice, event);
@@ -395,6 +396,12 @@ function showEvent(index) {
 
                 // 物品影响：如果背包里有相关道具，额外显示"使用"选项
                 injectItemChoices(event, choicesContainer);
+
+                // 实用功能提示：数字键 1–9 快捷选择选项
+                const keysHint = document.createElement('div');
+                keysHint.className = 'choice-keys-hint';
+                keysHint.textContent = '⌨️ 提示：按数字键 1–9 可快速选择选项';
+                choicesContainer.appendChild(keysHint);
 
                 // 雪天特殊互动
                 const warmthBtn = document.getElementById('warmth-btn');

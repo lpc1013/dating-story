@@ -102,6 +102,7 @@ var MusicGallery = {
     },
 
     openAlbum(artist, album) {
+        this.currentArtist = artist; this.currentAlbum = album;
         // 展开专辑，显示歌曲列表
         var songs = [];
         if (this.data && this.data.artists) {
@@ -139,7 +140,10 @@ var MusicGallery = {
         var player = this.elList.parentElement.parentElement;
         if (player) player.classList.add('playing');
         if (play) { this.audio.play(); this.elToggle.textContent = '⏸'; }
-        this.renderList();
+        // 保持当前视图上下文：搜索态回搜索、专辑态回专辑、否则回浏览
+        if (this.filter) this.renderList();
+        else if (this.currentArtist && this.currentAlbum) this.openAlbum(this.currentArtist, this.currentAlbum);
+        else this.renderList();
     },
 
     toggle() { if (this.audio.paused) { this.audio.play(); this.elToggle.textContent='⏸'; } else { this.audio.pause(); this.elToggle.textContent='▶'; } },
