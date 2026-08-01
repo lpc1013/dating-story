@@ -15,3 +15,8 @@ node_modules/
 # ===== 系统文件 =====
 .DS_Store
 Thumbs.db
+
+# 本地临时截图与测试脚本
+.shots/
+tools/shot-art.mjs
+tools/test-e2e-tmp.mjs
