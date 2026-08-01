@@ -543,10 +543,12 @@
 
         .photo-card.locked {
             cursor: default;
-            background: var(--album-locked-bg, #f1e9e0);
-            border: 1px dashed var(--album-locked-line, rgba(180, 150, 130, 0.5));
+            background:
+                radial-gradient(circle at 30% 30%, rgba(255,255,255,.28), transparent 45%),
+                var(--album-locked-bg, #f1e9e0);
+            border: 1px dashed var(--album-locked-line, rgba(180, 150, 130, 0.55));
             box-shadow: inset 0 0 24px rgba(120, 90, 70, 0.05);
-            transition: background .3s ease;
+            transition: background .3s ease, border-color .3s ease;
         }
         .photo-card.locked::before {
             content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
@@ -557,19 +559,19 @@
         .photo-card.locked:hover {
             transform: translateY(1px);
             box-shadow: inset 0 0 24px rgba(120, 90, 70, 0.05), 0 1px 3px rgba(120, 90, 70, 0.06);
-            border-color: var(--album-locked-line, rgba(180, 150, 130, 0.5));
+            border-color: var(--album-locked-line, rgba(180, 150, 130, 0.65));
         }
         .photo-card.locked .lock-icon {
             position: absolute;
-            top: 42%; left: 50%;
+            top: 40%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 64px; height: 64px; border-radius: 50%;
+            width: 68px; height: 68px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            font-size: 32px;
+            font-size: 30px;
             opacity: 0.95;
-            background: rgba(255,255,255,0.92);
+            background: rgba(255,255,255,0.95);
             border: 2px solid var(--album-locked-line, rgba(180,150,130,.5));
-            box-shadow: 0 4px 12px rgba(120,90,70,0.18);
+            box-shadow: 0 6px 18px rgba(120,90,70,0.18), inset 0 0 0 3px rgba(255,255,255,0.6);
             z-index: 1;
         }
         .photo-card.locked .unlock-hint {
@@ -581,12 +583,12 @@
             font-size: 11px;
             font-weight: 600;
             color: var(--album-locked-ink, #9a8475);
-            background: rgba(255,255,255,0.85);
+            background: rgba(255,255,255,0.9);
             border: 1px solid var(--album-locked-line, rgba(180,150,130,.5));
             border-radius: 999px;
-            padding: 5px 12px;
+            padding: 6px 14px;
             line-height: 1.4;
-            box-shadow: 0 2px 6px rgba(120,90,70,0.10);
+            box-shadow: 0 2px 8px rgba(120,90,70,0.12);
             z-index: 1;
         }
         /* 阴影层级：解锁卡重影+浮起，锁定卡轻影+微沉 */
@@ -757,7 +759,7 @@
         .angry { background: linear-gradient(45deg, #ffebee, #ffcdd2); border-left: 4px solid #ef9a9a; color: #7f2626; }
 
 /* ═══ MODULE: endings — 结局（坏结局 / 好结局 / 结局面板） ═══ */
-        /* 结局按钮美化 */
+        /* 结局按钮统一美化 */
         .restart-btn, .view-journal-btn, .back-btn {
             background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
             color: white;
@@ -785,15 +787,46 @@
             transform: scale(0.95);
         }
 
-        .view-journal-btn { 
+        .view-journal-btn {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
         }
-        
-        .back-btn { 
+
+        .back-btn {
             background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
             color: #555;
             box-shadow: 0 10px 20px rgba(161, 196, 253, 0.3);
+        }
+
+        /* 结局面板按钮组：垂直居中、统一宽度 */
+        .result-actions {
+            margin-top: 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            align-items: center;
+        }
+        .result-actions .restart-btn,
+        .result-actions .view-journal-btn,
+        .result-actions .share-result-btn {
+            width: min(100%, 320px);
+            margin: 0;
+            padding: 15px 34px;
+            border-radius: 999px;
+            font-size: 16px;
+            letter-spacing: 0.8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .result-actions .share-result-btn {
+            background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%);
+            color: #fff;
+            box-shadow: 0 10px 24px rgba(86, 171, 47, 0.28);
+        }
+        .result-actions .share-result-btn:hover {
+            box-shadow: 0 16px 32px rgba(86, 171, 47, 0.36);
         }
 
 /* ═══ MODULE: shop — 商店（背包切换 / 商店面板） ═══ */
@@ -3342,14 +3375,26 @@
 .change-item { font-size: 11px; color: var(--sub, #666); }
 
 /* ── 相册 ── */
-.album-tabs { display: flex; gap: 8px; margin-bottom: 14px; }
-.album-tab {
-    padding: 7px 18px; border-radius: 18px; font-size: 12.5px; cursor: pointer;
-    background: rgba(255,255,255,0.6); color: var(--text-muted, #888);
-    border: 1px solid rgba(0,0,0,0.05); transition: all 0.25s; font-weight: 500;
+.album-tabs {
+    display: flex; gap: 10px; margin-bottom: 16px;
+    padding: 6px; background: rgba(255,255,255,0.55);
+    border-radius: 999px; border: 1px solid rgba(0,0,0,0.06);
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.04);
+    width: fit-content;
 }
-.album-tab:hover { background: rgba(255,255,255,0.92); color: var(--text-primary, #555); }
-.album-tab.active { background: var(--primary, #ff6b6b); color: #fff; font-weight: 600; border-color: transparent; box-shadow: 0 4px 12px rgba(255,107,107,0.3); }
+.album-tab {
+    padding: 8px 20px; border-radius: 999px; font-size: 13px; cursor: pointer;
+    background: transparent; color: var(--text-muted, #888);
+    border: 1px solid transparent; transition: all 0.25s; font-weight: 600;
+    display: inline-flex; align-items: center; gap: 5px;
+}
+.album-tab:hover { background: rgba(255,255,255,0.85); color: var(--text-primary, #555); }
+.album-tab.active {
+    background: linear-gradient(135deg, var(--primary, #ff8aa0), var(--primary-dark, #ff6b6b));
+    color: #fff; font-weight: 700;
+    border-color: rgba(255,255,255,0.35);
+    box-shadow: 0 5px 16px rgba(255,107,107,0.35);
+}
         .album-empty {
             grid-column: span 2; text-align: center; padding: 40px 0;
             color: var(--text-muted, #999); font-size: 13px;
@@ -4205,6 +4250,7 @@ button{outline:none;-webkit-tap-highlight-color:transparent}
 .achievement-toast.toast-achievement{background:linear-gradient(135deg,#fff5ee,#ffecd2)!important;color:#b5544e!important;border-left:4px solid #e8a13c!important}
 .achievement-toast.toast-reward{background:linear-gradient(135deg,#fff0f3,#ffd9e2)!important;color:#c0586b!important;border-left:4px solid #e87a98!important}
 .achievement-toast.toast-hint{background:linear-gradient(135deg,#f3f1ff,#e6e0ff)!important;color:#6b5bb0!important;border-left:4px solid #9b7fd4!important}
+.achievement-toast.toast-whisper{background:linear-gradient(135deg,#f3f8f4,#e8f3ea)!important;color:#5a7a62!important;border-left:4px solid #8fbc8f!important}
 .achievement-toast.toast-mood{background:linear-gradient(135deg,#ffe9f0,#ffd0e0)!important;color:#c2456b!important;border-left:4px solid #ff8fae!important}
 .achievement-toast.toast-system{background:linear-gradient(135deg,#eef3f8,#dde8f2)!important;color:#5b7a99!important;border-left:4px solid #6c99c4!important}
 .achievement-toast.toast-warn{background:linear-gradient(135deg,#fff1f0,#ffdcd6)!important;color:#c0392b!important;border-left:4px solid #e74c3c!important}

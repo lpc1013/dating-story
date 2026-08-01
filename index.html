@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>恋爱约会模拟器</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?v=260801">
 </head>
 <body data-theme="parchment">
     <!-- 加载屏 -->
@@ -294,7 +297,7 @@
                 <div id="result-highlight" style="text-align:center;font-size:13px;color:#666;margin-bottom:12px;"></div>
                 <div id="result-timeline" style="margin-bottom:16px;"></div>
 
-                <div style="margin-top: 30px; display: flex; flex-direction: column; gap: 12px; align-items: center;">
+                <div class="result-actions">
                     <button class="view-journal-btn" onclick="showJournal('result')">📖 查看约会日记</button>
                     <button class="restart-btn" onclick="restartGame()">🔄 重新开始</button>
                     <button class="share-result-btn" onclick="shareStory()">📤 分享这次约会</button>
@@ -509,9 +512,9 @@
         <div id="root"></div>
     <!-- 主线剧情外部加载框架 -->
     <!-- A-01：已移除 Tone.js CDN 外链（仅用于一个 hover 单音，离线/被墙时会持续抛 ReferenceError） -->
-    <script src="js/story-loader.js"></script>
-    <script src="js/backpack.js"></script>
-    <script src="assets/asset-map.js"></script>
+    <script src="js/story-loader.js?v=260801"></script>
+    <script src="js/backpack.js?v=260801"></script>
+    <script src="assets/asset-map.js?v=260801"></script>
     <script>
         // 全局设置（settings.js + toggleMusic/Sfx 共用）
         window.AppSettings = (function(){
@@ -968,34 +971,34 @@ function hideLoveTips() {
     })();
     </script>
 
-    <script src="js/bgm-paths.js"></script>
-    <script src="js/dev-panel.js"></script>
-    <script src="js/achievements.js"></script>
+    <script src="js/bgm-paths.js?v=260801"></script>
+    <script src="js/dev-panel.js?v=260801"></script>
+    <script src="js/achievements.js?v=260801"></script>
     <!-- 从 achievements.js 拆分出的功能模块（按依赖顺序加载，bootstrap 须最后） -->
-    <script src="js/sfx.js"></script>
-    <script src="js/util.js"></script>
-    <script src="js/start-screen.js"></script>
-    <script src="js/chat.js"></script>
-    <script src="js/stats.js"></script>
-    <script src="js/redeem.js"></script>
-    <script src="js/game-init.js"></script>
-    <script src="js/inventory.js"></script>
-    <script src="js/mood.js"></script>
-    <script src="js/media.js"></script>
-    <script src="js/event-render.js"></script>
-    <script src="js/choice.js"></script>
-    <script src="js/gift.js"></script>
-    <script src="js/result.js"></script>
-    <script src="js/endings.js"></script>
-    <script src="js/journal.js"></script>
-    <script src="js/bootstrap.js"></script>
-    <script src="js/weather-panel.js"></script>
-    <script src="js/music-gallery.js"></script>
-    <script src="js/settings.js"></script>
-    <script src="js/game-rules.js"></script>
-    <script src="js/shop.js"></script>
-    <script src="js/tips.js"></script>
-    <script src="js/album.js"></script>
+    <script src="js/sfx.js?v=260801"></script>
+    <script src="js/util.js?v=260801"></script>
+    <script src="js/start-screen.js?v=260801"></script>
+    <script src="js/chat.js?v=260801"></script>
+    <script src="js/stats.js?v=260801"></script>
+    <script src="js/redeem.js?v=260801"></script>
+    <script src="js/game-init.js?v=260801"></script>
+    <script src="js/inventory.js?v=260801"></script>
+    <script src="js/mood.js?v=260801"></script>
+    <script src="js/media.js?v=260801"></script>
+    <script src="js/event-render.js?v=260801"></script>
+    <script src="js/choice.js?v=260801"></script>
+    <script src="js/gift.js?v=260801"></script>
+    <script src="js/result.js?v=260801"></script>
+    <script src="js/endings.js?v=260801"></script>
+    <script src="js/journal.js?v=260801"></script>
+    <script src="js/bootstrap.js?v=260801"></script>
+    <script src="js/weather-panel.js?v=260801"></script>
+    <script src="js/music-gallery.js?v=260801"></script>
+    <script src="js/settings.js?v=260801"></script>
+    <script src="js/game-rules.js?v=260801"></script>
+    <script src="js/shop.js?v=260801"></script>
+    <script src="js/tips.js?v=260801"></script>
+    <script src="js/album.js?v=260801"></script>
     <script>
     // 指针涟漪：中心从点击位置扩散
     (function(){
@@ -1056,6 +1059,19 @@ function hideLoveTips() {
         document.querySelectorAll('.album-filter-chip').forEach(function(c){c.classList.remove('active')});
         document.querySelector('.album-filter-chip[onclick*="'+cat+'"]')?.classList.add('active');
         document.querySelectorAll('.photo-card').forEach(function(card){card.style.display=(cat==='all'||card.dataset.category===cat)?'':'none'});
+    }
+    // PWA Service Worker：强制更新策略，避免服务器/浏览器缓存导致老版本残留
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js?v=260801').then(function(reg) {
+            reg.addEventListener('updatefound', function() {
+                var newWorker = reg.installing;
+                newWorker.addEventListener('statechange', function() {
+                    if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                        newWorker.postMessage({ type: 'SKIP_WAITING' });
+                    }
+                });
+            });
+        }).catch(function(e) { console.warn('SW 注册失败:', e); });
     }
     </script>
 </body>

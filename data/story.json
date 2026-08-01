@@ -10717,7 +10717,8 @@
               "achievement": [],
               "reqLike": null,
               "result": "地铁来了，她攥着奶茶杯说不出的舍不得。你晃了晃那枚钥匙：心门我替你开——你想说的那句，我替你说：舍不得。她眼眶一热，把钥匙和你的手一起攥紧：那这门，归你管了。",
-              "requireItem": "key"
+              "requireItem": "key",
+              "useItem": "key"
             }
           ]
         }

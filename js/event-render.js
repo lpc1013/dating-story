@@ -19,12 +19,14 @@ function hasItem(id) {
 // —— requireItem 上锁后的含蓄提示 ——
 // 玩家点击被上锁（未持有道具）的选项时，不直接说"你缺 XX"，而是给一句留白式伏笔，
 // 让"还差了点什么"的悬念留在氛围里（用户要求：别太直白）。
+// —— requireItem 上锁后的含蓄提示 ——
+// 玩家点击被上锁（未持有道具）的选项时，不直接说"你缺 XX"，而是给一句留白式伏笔弹窗。
 function showLockedHint(itemId) {
     var hints = [
-        '（她的目光在你口袋边停了一瞬，又轻轻移开了。）',
-        '（话到嘴边又咽了回去——总觉得，还差了那么一点铺垫。）',
-        '（你忽然觉得，这场约会的某个角落，似乎少了点什么。）',
-        '（指尖在身侧蜷了蜷，那句话终究没说出口。）'
+        '她的目光在你口袋边停了一瞬，又轻轻移开了。',
+        '话到嘴边又咽了回去——总觉得，还差了那么一点铺垫。',
+        '你忽然觉得，这场约会的某个角落，似乎少了点什么。',
+        '指尖在身侧蜷了蜷，那句话终究没说出口。'
     ];
     var h = hints[0];
     if (itemId) {
@@ -32,26 +34,24 @@ function showLockedHint(itemId) {
         for (var k = 0; k < itemId.length; k++) s = (s + itemId.charCodeAt(k)) % 100000;
         h = hints[s % hints.length];
     }
-    var fb = document.getElementById('feedback');
-    if (fb) { fb.innerHTML = h; fb.className = 'feedback locked show'; }
+    if (typeof showToast === 'function') showToast(h, 'whisper');
 }
 
 // —— reqLike（好感度门槛）上锁后的含蓄提示 ——
 // 与道具上锁共用 .choice-locked 视觉，但提示文案指向"默契/时机未到"，避免数值味太重。
 function showLockedReqLikeHint(threshold) {
     var hints = [
-        '（你望着她，突然觉得现在还不是说这句话的时候。）',
-        '（话到了嘴边，又被你轻轻咽了回去——你们之间的温度，好像还差那么一点。）',
-        '（你张了张嘴，却没能出声。也许再走近一些，时机才会成熟。）',
-        '（此刻的空气里，似乎还缺一点让你们更近一步的勇气。）'
+        '你望着她，突然觉得现在还不是说这句话的时候。',
+        '话到了嘴边，又被你轻轻咽了回去——你们之间的温度，好像还差那么一点。',
+        '你张了张嘴，却没能出声。也许再走近一些，时机才会成熟。',
+        '此刻的空气里，似乎还缺一点让你们更近一步的勇气。'
     ];
     var h = hints[0];
     if (threshold) {
         var s = threshold;
         h = hints[s % hints.length];
     }
-    var fb = document.getElementById('feedback');
-    if (fb) { fb.innerHTML = h; fb.className = 'feedback locked show'; }
+    if (typeof showToast === 'function') showToast(h, 'whisper');
 }
 
 function escHtml(s) {

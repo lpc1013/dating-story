@@ -62,6 +62,7 @@ function showToast(message, type) {
                 achievement: { label: '成就', icon: '🏆' },
                 reward:      { label: '奖励', icon: '🎁' },
                 hint:        { label: '提示', icon: '💡' },
+                whisper:     { label: '心声', icon: '🍃' },
                 mood:        { label: '好感', icon: '💖' },
                 system:      { label: '系统', icon: '🌙' },
                 warn:        { label: '注意', icon: '⚠️' }
