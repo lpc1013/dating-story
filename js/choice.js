@@ -11,7 +11,7 @@ function selectChoiceByIndex(idx) {
     var gc = document.getElementById('game-content');
     if (!gc || gc.style.display === 'none') return;
     // 任一模态/面板开启则禁用
-    var blocking = document.querySelector('.modal.show, .panel.show, #album-modal.show, #achievements-panel.show, .gift-modal.show, #redeem-modal.show, #love-tips-modal.show, #mood-info-modal.show, #journal.show, #result.show, #bad-end.show, #mood-end.show, #chat-modal.show, #weather-panel.show');
+    var blocking = document.querySelector('.modal.show, .panel.show, #album-modal.show, #achievements-panel.show, .gift-modal.show, #redeem-modal.show, #love-tips-modal.show, #mood-info-modal.show, #journal.show, #result.show, #bad-end.show, #mood-end.show, #chat-modal.show, #weather-panel.show, #tool-drawer.show');
     if (blocking) return;
     var btns = Array.prototype.filter.call(
         choicesEl.querySelectorAll('.choice-btn'),
@@ -94,12 +94,14 @@ function makeChoice(choice, event) {
             const wMod = weatherModifiers[selectData.weather] || { pos: 1, neg: 1 };
             
             const scaleValue = (val, isHeart = false) => {
-                if (val === 0) return 0;
-                let multiplier = val > 0 ? (mod.pos * wMod.pos) : (mod.neg * wMod.neg);
+                // NaN 防护：导入数据缺失数值字段时 Math.round(undefined*mult)=NaN 会污染状态
+                const n = Number(val);
+                if (!isFinite(n) || n === 0) return 0;
+                let multiplier = n > 0 ? (mod.pos * wMod.pos) : (mod.neg * wMod.neg);
                 
                 // 挑战模式：数值更极端
                 if (selectData.isChallenge) {
-                    multiplier *= (val > 0 ? 0.8 : 2.0);
+                    multiplier *= (n > 0 ? 0.8 : 2.0);
                 }
 
                 // 黑夜模式：变化翻倍
@@ -107,25 +109,19 @@ function makeChoice(choice, event) {
                     multiplier *= 2.0;
                 }
 
-            // 困难/挑战难度附加值调整
-            if (selectData.difficulty === '困难' || selectData.difficulty === '挑战' || selectData.isChallenge) {
-                if (val > 0) {
-                    multiplier *= (isHeart ? 0.55 : 0.7);
-                } else if (val < 0) {
-                    multiplier *= 1.5;
-                }
-            }
+                // 难度缩放完全由 difficultyModifiers（tips.js 权威配置）驱动；
+                // 挑战变体（isChallenge）的额外极端化已在上方 *0.8 / *2.0 处理，此处不再重复叠加，
+                // 避免困难/挑战难度被双重惩罚（此前硬编码 *0.7/0.55/1.5 与配置表相乘，导致好感倍率失真）。
 
-                return Math.round(val * multiplier);
+                return Math.round(n * multiplier);
             };
 
             const moneyChange = scaleValue(choice.money);
             const likeChange = scaleValue(choice.like);
             const heartChange = scaleValue(choice.heart, true);
 
-            gameState.money += moneyChange;
-            gameState.like = Math.min(100, Math.max(0, gameState.like + likeChange));
-            gameState.heart = Math.min(100, Math.max(0, gameState.heart + heartChange));
+            // 统一经由 commitStats 提交数值变更（P1-05 事务层：单一写入入口 + 范围钳制）
+            commitStats({ money: moneyChange, like: likeChange, heart: heartChange });
             
             // 更新波动记录
             gameState.minLike = Math.min(gameState.minLike, gameState.like);
@@ -137,7 +133,8 @@ function makeChoice(choice, event) {
                 choice: choice.text,
                 moneyChange: moneyChange,
                 likeChange: likeChange,
-                heartChange: heartChange
+                heartChange: heartChange,
+                photo: choice.photo || null   // 日记按事件关联照片（此前日记把所有照片塞进每一条）
             });
 
             updateStats();
@@ -197,7 +194,8 @@ function makeChoice(choice, event) {
             checkStatsAchievements();
 
             const fb = document.getElementById('feedback');
-            fb.innerHTML = choice.feedback || '';
+            // 剧本文本（含用户导入的自定义 JSON）统一用 textContent，杜绝 HTML 注入
+            fb.textContent = choice.feedback || '';
             fb.className = 'feedback ' + (choice.emotion || 'normal') + ' show';
 
             // 检查结局

@@ -1,0 +1,19 @@
+{
+  "name": "dating-story",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:smoke": "playwright test",
+    "serve": "node tools/static-server.mjs",
+    "ci": "node tools/ci-check.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.0",
+    "jsdom": "^25.0.1",
+    "pngjs": "^7.0.0",
+    "vitest": "^5.0.4"
+  }
+}

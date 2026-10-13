@@ -6,6 +6,11 @@ index.html.bak
 # ===== 依赖（Playwright 装在 managed workspace，不在项目内）=====
 node_modules/
 
+# ===== 测试产物 =====
+test-results/
+playwright-report/
+.vitest/
+
 # ===== 本地工作记忆（不进版本控制）=====
 .workbuddy/
 
@@ -18,5 +23,9 @@ Thumbs.db
 
 # 本地临时截图与测试脚本
 .shots/
+.shots-*/
 tools/shot-art.mjs
 tools/test-e2e-tmp.mjs
+
+# ===== 本地 AI 工作记忆 =====
+.workbuddy-ai/

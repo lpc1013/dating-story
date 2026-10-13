@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="恋爱约会模拟器">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2a2a4a"/>
+      <stop offset="1" stop-color="#1a1a2e"/>
+    </linearGradient>
+    <linearGradient id="heart" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff8e8e"/>
+      <stop offset="1" stop-color="#ff5b8d"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+  <path d="M256 388C256 388 104 296 104 196a76 76 0 0 1 152-12 76 76 0 0 1 152 12c0 100-152 192-152 192z" fill="url(#heart)"/>
+  <circle cx="256" cy="150" r="14" fill="#ffd98a"/>
+</svg>

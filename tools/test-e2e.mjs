@@ -43,7 +43,7 @@ try {
   chromium = (await import(path.join(PLAYWRIGHT_WORKSPACE, 'node_modules', 'playwright', 'index.js'))).chromium;
 }
 
-const NODE = process.env.TEST_NODE || 'C:\\Users\\Pengcheng_Li\\.workbuddy\\binaries\\node\\versions\\22.22.2\\node.exe';
+const NODE = process.env.TEST_NODE || process.execPath;
 const PORT = 8088;
 const BASE = `http://localhost:${PORT}`;
 
@@ -268,7 +268,7 @@ async function playWeather(browser, weather) {
     if (pick == null) { await sleep(200); continue; }
 
     const before = await page.evaluate(() => window.gameState.currentEvent);
-    const btns = await page.$$('#choices .choice-btn:not([data-item])');
+    const btns = await page.$$('#choices .choice-btn:not([data-item]):not(.choice-locked)');
     if (pick >= btns.length) {
       errors.push(`[${weather}] 选项索引越界 pick=${pick} len=${btns.length}`);
       break;
@@ -443,8 +443,9 @@ async function smokeItemLinkage(browser) {
     return page.evaluate(() => {
       const btns = [...document.querySelectorAll('#choices .choice-btn')];
       return {
-        plain: btns.filter((b) => !b.hasAttribute('data-item')).map((b) => b.textContent.trim().slice(0, 40)),
+        plain: btns.filter((b) => !b.hasAttribute('data-item') && !b.classList.contains('choice-locked')).map((b) => b.textContent.trim().slice(0, 40)),
         items: btns.filter((b) => b.hasAttribute('data-item')).map((b) => b.getAttribute('data-item')),
+        locked: btns.filter((b) => b.classList.contains('choice-locked')).map((b) => b.textContent.trim().slice(0, 40)),
         hintBest: btns.findIndex((b) => b.classList.contains('hint-best')),
         hintBestText: (btns.find((b) => b.classList.contains('hint-best')) || {}).textContent
           ? btns.find((b) => b.classList.contains('hint-best')).textContent.trim().slice(0, 40) : null,
@@ -455,10 +456,11 @@ async function smokeItemLinkage(browser) {
   // --- 2) 未持有 powerbank → 门控选项必须缺席 ---
   const without = await renderAndRead(forced.evIdx, {});
   const key = forced.chText.slice(0, 8);
-  const absentOk = !without.plain.some((t) => t.includes(key));
-  add('未持有道具时门控选项不渲染', absentOk,
-    absentOk ? `渲染 ${without.plain.length} 个选项，均不含「${key}」`
-             : `不该出现却出现了：${JSON.stringify(without.plain)}`);
+  // 真实设计：未持有道具时门控选项以「锁定态」显示（可见不可点，露伏笔），而非完全隐藏
+  const lockedOk = without.locked.some((t) => t.includes(key)) && !without.plain.some((t) => t.includes(key));
+  add('未持有道具时门控选项以锁定态显示(可见不可点)', lockedOk,
+    lockedOk ? `锁定选项含「${key}」且不在可点列表中（设计：可见伏笔）`
+             : `期望锁定显示却未找到：${JSON.stringify(without.locked)}`);
 
   // --- 3) 持有 powerbank（真实对象格式）→ 门控选项必须出现 ---
   const withIt = await renderAndRead(forced.evIdx, { [forced.reqId]: { icon: '🔋', count: 1, description: 'x', quote: '' } });
@@ -466,8 +468,10 @@ async function smokeItemLinkage(browser) {
   add('持有道具时门控选项正常渲染（核心回归）', presentOk,
     presentOk ? `渲染 ${withIt.plain.length} 个选项，含「${key}」—— 修复前此项恒为 false`
               : `应出现却缺席：${JSON.stringify(withIt.plain)}`);
-  add('持有前后可见选项数量确有变化', withIt.plain.length === without.plain.length + 1,
-    `未持有 ${without.plain.length} 个 → 持有 ${withIt.plain.length} 个`);
+  // 核心门控验证：未持有时锁定、持有时变为可点（plain 出现且 locked 消失）
+  const unlockedOk = without.locked.some((t) => t.includes(key)) && withIt.plain.some((t) => t.includes(key)) && !withIt.locked.some((t) => t.includes(key));
+  add('持有后门控选项由锁定变为可点(核心门控验证)', unlockedOk,
+    `未持有时锁定、持有时可点（plain含key=${withIt.plain.some((t) => t.includes(key))}，locked含key=${withIt.locked.some((t) => t.includes(key))}）`);
 
   // --- 4) 心花怒放提示指向的选项必须真实可见（两处判定一致性）---
   const hintOk = withIt.hintBest >= 0 && withIt.hintBest < withIt.plain.length + withIt.items.length;

@@ -10,7 +10,7 @@ function showBadEnd() {
             badEnd.style.display = 'flex';
             badEnd.classList.add('show');
             
-            // 坏结局粒��
+            // 坏结局粒子
             setTimeout(() => spawnEndingParticles('bad'), 300);
             
             let title = "约会宣告失败";

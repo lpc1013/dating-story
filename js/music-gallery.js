@@ -67,15 +67,19 @@ var MusicGallery = {
         if (!this.data) { this.elList.innerHTML = '<div class="music-hint">暂无音乐</div>'; return; }
 
         var f = this.filter;
-        // 过滤
-        var filtered = f
-            ? this.songs.filter(s => (s.title||'').toLowerCase().includes(f) || (s.artist||'').toLowerCase().includes(f) || (s.album||'').toLowerCase().includes(f))
-            : this.songs;
+        // 过滤时保留歌曲在 this.songs 中的全局下标——此前直接用过滤后下标当作全局下标
+        // 传给 load()，搜索后点第 N 首实际播放的是全局第 N 首（另一首歌）。
+        var filtered = this.songs.map(function(s, i) { return { s: s, idx: i }; })
+            .filter(function(o) {
+                return !f || (o.s.title || '').toLowerCase().includes(f)
+                    || (o.s.artist || '').toLowerCase().includes(f)
+                    || (o.s.album || '').toLowerCase().includes(f);
+            });
 
         if (f) {
             // 搜索模式：标题列表
-            this.elList.innerHTML = filtered.map(function(s,i){
-                var idx = i;
+            this.elList.innerHTML = filtered.map(function(o){
+                var s = o.s, idx = o.idx;
                 return '<div class="music-item'+(s.playable===false?' locked':'')+'" onclick="MusicGallery.load('+idx+',true)">'+
                     '<span class="music-item-cover">🎵</span>'+
                     '<div class="music-item-meta"><div class="music-item-title">'+esc(s.title)+'</div>'+

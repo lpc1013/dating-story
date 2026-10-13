@@ -270,6 +270,12 @@
       const res = await fetch(url, { cache: 'no-cache' });
       if (!res.ok) throw new Error('HTTP ' + res.status);
       const json = await res.json();
+      const preCheck = validateStoryJson(json);
+      if (!preCheck.ok) {
+        console.error('[story-loader] 数据契约校验未通过（仍尝试加载，无效部分会被跳过）：', preCheck.errors);
+      } else if (preCheck.warnings.length) {
+        console.warn('[story-loader] 数据契约告警：', preCheck.warnings);
+      }
       const groups = normalizeGroups(json);
       if (!Object.keys(groups).length) {
         console.warn('[story-loader] 外部数据为空，使用内置回退。');
@@ -296,8 +302,76 @@
     }
   }
 
+  // ---------- 数据契约校验（审计 P1-05 / P0-02 三层校验之一）----------
+  // 对导入或主线 JSON 做深层校验，返回 { ok, errors, warnings, stats }。
+  // 不修改数据，只报告；供 bootstrapStoryData 与 CI 门禁复用。
+  function validateStoryJson(json) {
+    const errors = [];
+    const warnings = [];
+    const stats = { weathers: 0, variants: 0, events: 0, choices: 0 };
+
+    if (!json || typeof json !== 'object' || Array.isArray(json)) {
+      errors.push('根节点不是对象');
+      return { ok: false, errors, warnings, stats };
+    }
+
+    const groups = buildGroups(json);
+    const cnList = Object.keys(groups);
+    if (!cnList.length) {
+      errors.push('未找到任何天气分组（期望 weathers.{key}.events 或顶层 {天气:[事件]}）');
+      return { ok: false, errors, warnings, stats };
+    }
+    stats.weathers = cnList.length;
+
+    const isFiniteNum = (v) => typeof v === 'number' && isFinite(v);
+    const validRange = (v) =>
+      v && typeof v === 'object' && !Array.isArray(v) && (
+        (isFiniteNum(v.min) && isFiniteNum(v.max)) ||
+        isFiniteNum(v.value)
+      );
+
+    for (const cn of cnList) {
+      for (const v of groups[cn]) {
+        stats.variants++;
+        const evs = v.events || [];
+        if (!evs.length) { warnings.push('天气「' + cn + '」变体「' + v.key + '」无事件'); continue; }
+        for (const e of evs) {
+          stats.events++;
+          if (e == null) { errors.push('存在空事件（null）'); continue; }
+          // 与 normalizeEvent 保持一致：title 可回退到 name，description 可回退到 prompt
+          const evTitle = e.title != null ? e.title : e.name;
+          const evDesc = e.description != null ? e.description : e.prompt;
+          if (evTitle == null || evTitle === '') warnings.push('事件缺少 title/name（位置 ' + cn + '）');
+          if (evDesc == null || evDesc === '') warnings.push('事件缺少 description/prompt（' + (evTitle || '?') + '）');
+          const rawChoices = e.choices || e.options || [];
+          if (!rawChoices.length) { errors.push('事件「' + (e.title || '?') + '」无选项'); continue; }
+          for (const c of rawChoices) {
+            stats.choices++;
+            if (!c || (c.text == null && c.label == null)) {
+              errors.push('选项缺少 text/label（事件「' + (e.title || '?') + '」）');
+              continue;
+            }
+            // 数值字段：定值(有限数) / 区间对象 / null 合法；其余报错
+            for (const f of ['money', 'like', 'heart']) {
+              const val = c[f];
+              if (val == null) continue;
+              if (!isFiniteNum(val) && !validRange(val)) {
+                errors.push('选项「' + (c.text || c.label) + '」字段 ' + f + ' 非法（非有限数值/区间）：' + JSON.stringify(val));
+              }
+            }
+            if (c.reqLike != null && !isFiniteNum(c.reqLike)) {
+              errors.push('选项「' + (c.text || c.label) + '」reqLike 非法：' + JSON.stringify(c.reqLike));
+            }
+          }
+        }
+      }
+    }
+
+    return { ok: errors.length === 0, errors, warnings, stats };
+  }
+
   global.StoryLoader = {
-    load, normalize, normalizeGroups, pickWeather, getVariantKey,
+    load, normalize, normalizeGroups, pickWeather, getVariantKey, validate: validateStoryJson,
     resolveValue, normalizeEvent, normalizeChoice,
     achievementRegistry: lastRegistry,
     variants: lastVariants,

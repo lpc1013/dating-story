@@ -1,0 +1,194 @@
+.header-actions-left
+.header-actions-right
+.achievement-btn, .gift-shop-btn, .album-btn, .love-tips-btn
+.achievement-btn:hover, .gift-shop-btn:hover, .album-btn:hover, .love-tips-btn:hover
+.heart-card
+.heart-card.hint-active
+.money-card
+.mood-display
+/* ═══ MODULE: gift — 礼物系统（礼物商店 / 自定义礼物） ═══ */
+        /* 礼物商店样式 */
+        .gift-shop-btn, .album-btn
+.gift-shop-btn:hover, .album-btn:hover
+.result-header
+.journal-entry
+.disk-layer
+.disk-layer-1
+.disk-layer-2
+.import-start-btn
+.import-start-btn:hover
+/* ═══ MODULE: weather-panel — 天气面板（天气弹窗 / 天气面板） ═══ */
+        /* 天气弹窗 */
+        .weather-info-modal
+/* ═══ MODULE: tips — 恋爱贴士（模糊提示 / 贴士弹窗） ═══ */
+        /* 模糊提示 */
+        .hint-blur
+.hint-blur:hover
+/* ═══ MODULE: mood — 心情系统（情绪头像 / 堆叠偏移） ═══ */
+        /* 情绪头像 */
+        .mood-avatar
+/* ═══ MODULE: achievements — 成就系统（按钮 / 面板 / 详情弹窗） ═══ */
+        /* 成就按钮 */
+        .achievement-btn, .gift-shop-btn, .album-btn
+.achievement-btn:hover, .gift-shop-btn:hover, .album-btn:hover
+.weather-card
+.weather-card-header
+.weather-event-list
+.browser-comment-item
+/* ═══ MODULE: choice — 选项（颜色提示 / 选项按钮） ═══ */
+        /* 选项颜色提示 */
+        .choice-hint-happy
+.choice-hint-normal
+.choice-hint-angry
+.love-tips-btn
+.love-tips-btn:hover
+.achievement-badge
+.badge-common
+.badge-rare
+.badge-rare::after
+.badge-legendary
+[data-theme="parchment"] .result-header
+[data-theme="parchment"] .event-card
+[data-theme="parchment"] .weather-card
+[data-theme="parchment"] .weather-card-header
+[data-theme="parchment"] .journal-entry
+[data-theme="cinnabar"] .result-header
+[data-theme="cinnabar"] .event-card
+[data-theme="cinnabar"] .weather-card
+[data-theme="cinnabar"] .weather-card-header
+[data-theme="cinnabar"] .journal-entry
+[data-theme="rosegold"] .result-header
+[data-theme="rosegold"] .event-card
+[data-theme="rosegold"] .weather-card
+[data-theme="rosegold"] .weather-card-header
+[data-theme="rosegold"] .journal-entry
+[data-theme="dusk"] .result-header
+[data-theme="dusk"] .event-card
+[data-theme="dusk"] .weather-card
+[data-theme="dusk"] .weather-card-header
+[data-theme="dusk"] .journal-entry
+/* ===== 主题切换器（中性 UI，不随主题变色） ===== */
+    .theme-switcher
+.theme-switcher-title
+#camera-flash.fire
+.music-grid
+.music-card
+.music-card:hover
+.music-item-text
+/* ══════ 音乐浮层曲名词条 ══════ */
+.music-float-tag
+.weather-overview
+.weather-card
+.weather-card:hover
+.weather-card-title
+.weather-card-desc
+.weather-card-mod
+/* ══════ SVG 事件流向图 ══════ */
+.weather-flow-container
+.weather-flow-svg
+.chat-bubble
+/* ══════ 礼品卡 ══════ */
+.gift-card
+.gift-card:hover
+.tl-line
+.slideshow-area
+.slideshow-area img
+/* ── 功能行 ── */
+.func-row
+.func-chip
+.func-chip:hover
+.stat-plabel
+.ach-foot-row
+.ach-foot-bar
+.ach-foot-fill
+/* ── 日记项 ── */
+.journal-event
+.journal-choice
+.journal-changes
+.change-item
+/* ── 天气事件标签 ── */
+.weather-event-tag
+.set-row
+.set-row input[type=checkbox]
+.set-theme-pick
+.set-theme-dot
+.set-btn
+.set-close-btn
+.import-close-btn
+.import-start-btn
+.import-start-btn:hover
+.import-btn
+.import-btn:hover
+.import-example pre
+/* ═══════ AI 浮动机器人 ═══════ */
+.ai-float-btn
+.ai-float-btn:hover
+.ai-float-avatar
+.ai-float-pulse
+/* ═══════ 通讯录头像 ═══════ */
+.contact-card
+.contact-card:hover
+.contact-card.offline
+.contact-photo
+.contact-photo img
+/* ═══════ 女友玩手机动画 ═══════ */
+.her-phone-check
+.result-header
+/* ── 聊天 ── */
+.contact-card
+.contact-card:hover
+.contact-photo
+.contact-card:hover .contact-photo
+.chat-bubble
+/* ── 商品卡 ── */
+.gift-card
+.gift-card:hover
+/* ── 设置 ── */
+.set-row input[type=checkbox]
+.set-theme-dot:hover
+.set-theme-dot:active
+.set-btn
+.set-btn:hover
+.set-close-btn
+.set-theme-dot
+.set-theme-dot:hover
+.achievement-badge
+.import-close-btn
+.ai-float-btn
+.ai-float-btn:hover
+.rarity-common
+.rarity-rare
+.rarity-legendary
+.ach-foot-row
+.ach-foot-bar
+.ach-foot-fill
+.weather-card
+.weather-card:hover
+.weather-card-header
+.weather-card-desc
+.weather-tab-btn
+.ach-foot-row
+/* ══ 6. 详情弹窗 ══ */
+.ach-detail-modal
+.ach-detail-card
+.ach-detail-icon
+.ach-detail-name
+.ach-detail-desc
+.ach-detail-time
+.ach-detail-close
+/* ══ 相册分类 ══ */
+.album-filter-row
+.album-filter-row::-webkit-scrollbar
+/* ══ 商店物品3D翻转 ══ */
+.gift-card
+.gift-card-inner
+.gift-card:hover .gift-card-inner
+.gift-card-front,.gift-card-back
+.gift-card-back
+.rarity-common
+.rarity-rare
+.rarity-legendary
+.rarity-common
+.rarity-rare
+.rarity-legendary
+.ai-quick-sep

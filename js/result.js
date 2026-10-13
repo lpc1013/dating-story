@@ -65,9 +65,9 @@ function showResult() {
                 stars = 3;
                 highlight = "本次约会总花费 " + spentTotal + " 元，是当之无愧的「金主爸爸」级别。";
                 unlockAchievement('sugar_daddy', '金主爸爸');
-            } else if (gameState.money === 0 && score >= 160) {
+            } else if (gameState.money < 10 && score >= 160) {
                 grade = "隐藏结局 · 贫民窟的浪漫";
-                herQuote = "虽然今天花光了最后一分钱，但只要有你在，哪里都是天堂。";
+                herQuote = "虽然今天几乎花光了最后一分钱，但只要有你在，哪里都是天堂。";
                 commentary = "你们用最少的物质创造了最丰富的浪漫。真爱不需要金钱来证明。";
                 stars = 5;
                 highlight = "口袋空空但分数爆表——" + score + " 分证明有心比有钱重要得多。";

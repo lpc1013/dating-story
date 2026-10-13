@@ -9,9 +9,10 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "data/covers/叶惠美.jpg",
-      "sizes": "192x192",
-      "type": "image/jpeg"
+      "src": "assets/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
     }
   ]
 }

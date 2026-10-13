@@ -24,8 +24,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT = path.resolve(__dirname, '..');
 
-// 给定 Node 路径（与任务环境一致）
-const NODE = 'C:////Users////Pengcheng_Li////.workbuddy////binaries////node////versions////22.22.2////node.exe';
+// 给定 Node 路径 —— 直接取当前进程的可执行文件，跨机器/跨版本永远有效。
+// （历史坑：此处曾硬编码 versions/22.22.2/node.exe，实际目录是 22.22.2-6，
+//   且斜杠被二次转义成 //// ，导致 A 组 44 项语法检查全部 ENOENT）
+const NODE = process.execPath;
 
 // ---- 报告结构 ----------------------------------------------------------------
 const report = {
@@ -555,14 +557,16 @@ function blockG() {
 
   let api;
   try {
-    // shop.js 在前（提供 shopGifts / gifts / selectData / gameState），event-render.js 在后。
+    // shop.js 在前（提供 shopGifts / gifts / selectData），event-render.js 在后。
     // 两者顶层均无 DOM 副作用，可安全加载。
-    api = new Function('document', 'window', 'showToast', 'updateStats', 'makeChoice',
+    // ⚠️ gameState 现定义在 js/game-init.js（**不在** shop.js），故此处以**形参注入**提供，
+    //    保证沙箱内的 setInv 与 injectItemChoices 读写的是同一个 gameState 对象。
+    api = new Function('document', 'window', 'showToast', 'updateStats', 'makeChoice', 'gameState',
       shopCode + '\n' + erCode +
       '\n;return { inject: injectItemChoices, setInv: function(i){ gameState.inventory = i; },' +
       ' shopGifts: (typeof shopGifts !== "undefined" ? shopGifts : null),' +
       ' legacyGifts: (typeof gifts !== "undefined" ? gifts : null) };'
-    )(documentStub, {}, () => {}, () => {}, () => {});
+    )(documentStub, {}, () => {}, () => {}, () => {}, { inventory: {} });
     rec('G', '沙箱加载 shop.js + event-render.js', true, 'OK');
   } catch (e) {
     rec('G', '沙箱加载 shop.js + event-render.js', false, e.message);

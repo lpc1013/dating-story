@@ -187,33 +187,10 @@ var shopGifts = [
                 body: 'linear-gradient(135deg, #121212, #1a1a1a)'
             }
         };
-        var gameState = { 
-            currentEvent: 0, 
-            money: 30, 
-            like: 40, 
-            heart: 40, 
-            mood: 'normal', // 'normal', 'happy', 'sad', 'angry'
-            journalEntries: [], 
-            unlockedAchievements: [], // 存储 ID
-            unlockHistory: [], // 存储 {id, time} 用于排序
-            unlockedPhotos: [], // 存储 ID
-            usedCodes: [], // 记录已使用的兑换码
-            currentFilter: 'all',
-            currentSort: 'default',
-            minLike: 40,
-            maxLike: 40,
-            inventory: {},
-            isChatCompleted: false,
-            isHintRevealed: false,
-            unlockedTips: ['basic_bag', 'heart_glow', 'custom_gift'], // Initial tips
-            unlockedPhotos: ['first_meet'],
-            chatProgress: {},
-            momMoneyTriggered: false,
-            claimedRewards: [], // 用于记录一次性奖励
-            aiGiftTriggered: false,
-            aiWeatherTriggered: false,
-            isNight: false,
-            nightTriggerEvent: -1
-        };
+
+        // ⚠️ 全局 gameState 唯一声明在 js/game-init.js（含 initGame() 重置逻辑）。
+        // 此处曾重复声明 var gameState，靠加载顺序覆盖生效；且其字段（claimedRewards/isNight/
+        // nightTriggerEvent 等）在 initGame() 重置后丢失，导致聊天崩溃与黑夜永不触发——已删除，
+        // 相关字段已统一收敛到 game-init.js 的顶层声明与 initGame() 重置中。
 
         

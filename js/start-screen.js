@@ -21,7 +21,12 @@ function selectWeather(w) {
             if (iconEl) iconEl.textContent = icons[w] || '☀️';
             
             updateDifficultyColors();
-            initWeatherEffects(w);
+            // 开始屏阶段游戏容器尚不可见，粒子 canvas 在隐藏容器内空转 rAF 纯属浪费——
+            // 仅当容器已显形时才启动粒子动画（startGame 会再次调用 initWeatherEffects 兜底）
+            const gc = document.getElementById('game-container');
+            if (gc && gc.style.display !== 'none' && gc.offsetParent !== null) {
+                initWeatherEffects(w);
+            }
         }
 
 function selectDifficulty(d, m, c) {
@@ -32,7 +37,7 @@ function selectDifficulty(d, m, c) {
         }
 
 function startRandomGame() {
-            const weathers = ['晴天', '多云', '雨���', '雪天'];
+            const weathers = ['晴天', '多云', '雨天', '雪天'];
             const diffs = [{ d: '简单', m: 30, c: false },{ d: '中等', m: 20, c: false },{ d: '困难', m: 15, c: false },{ d: '挑战', m: 15, c: true }];
             const types = ['白天', '一整天'];
             const randW = weathers[Math.floor(Math.random() * weathers.length)];

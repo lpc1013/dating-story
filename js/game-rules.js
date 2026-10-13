@@ -104,3 +104,51 @@
             console.info('[game-rules] 已解析 ' + Object.keys(resolved).length + ' 条运行时规则');
             return resolved;
         }
+
+// ===== 统一数值边界（对抗审计 P1-05 / P1-02 防护）=====
+// 任何模块在直接修改 gameState.money / like / heart 后都应调用本函数，
+// 确保 like、heart 始终落在 [0,100]，并杜绝 NaN 污染（NaN 会破坏所有大小比较）。
+// 说明：money 允许为负（≤0 在主线结算中触发坏结局），此处仅修复 NaN，不强行清零负值。
+function clampGameStats() {
+    if (typeof gameState === 'undefined' || !gameState) return gameState;
+    var fix = function (v) {
+        if (typeof v !== 'number' || !isFinite(v)) return 0;
+        return Math.min(100, Math.max(0, v));
+    };
+    gameState.like = fix(gameState.like);
+    gameState.heart = fix(gameState.heart);
+    if (typeof gameState.money !== 'number' || !isFinite(gameState.money)) gameState.money = 0;
+    return gameState;
+}
+
+// 统一状态写入入口（P1-05 事务层核心）：任何模块修改 money/like/heart 都应经过本函数，
+// 把取值范围约束集中在单一位置，避免散落各文件反复追加防御代码。
+function commitStats(patch) {
+    if (!gameState) return gameState;
+    if (patch) {
+        if (typeof patch.money === 'number' && isFinite(patch.money)) gameState.money += patch.money;
+        if (typeof patch.like === 'number' && isFinite(patch.like)) gameState.like += patch.like;
+        if (typeof patch.heart === 'number' && isFinite(patch.heart)) gameState.heart += patch.heart;
+    }
+    return clampGameStats();
+}
+
+// 一次性奖励分发骨架（P1-02 推荐模式落地）：同一 rewardId 只结算一次，避免重复领取。
+// 调用方负责提供唯一 rewardId（如聊天节点 id + 奖励序号）；数值变化统一经 commitStats 收敛。
+function applyEffects(effects) {
+    if (!effects) return;
+    const patch = {};
+    if (typeof effects.money === 'number') patch.money = effects.money;
+    if (typeof effects.like === 'number') patch.like = effects.like;
+    if (typeof effects.heart === 'number') patch.heart = effects.heart;
+    commitStats(patch);
+    if (typeof effects.mood === 'string' && typeof updateMood === 'function') updateMood(effects.mood);
+}
+
+function grantReward(rewardId, effects) {
+    if (!gameState.claimedRewards) gameState.claimedRewards = [];
+    if (gameState.claimedRewards.indexOf(rewardId) >= 0) return false; // 已领取，拒绝重复
+    gameState.claimedRewards.push(rewardId);
+    applyEffects(effects);
+    return true;
+}

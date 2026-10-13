@@ -9,7 +9,7 @@ import { execFileSync } from 'node:child_process';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
-const NODE = 'C:////Users////Pengcheng_Li////.workbuddy////binaries////node////versions////22.22.2////node.exe';
+const NODE = process.execPath;
 const p = path.join(ROOT, 'data', 'story.json');
 
 const data = JSON.parse(fs.readFileSync(p, 'utf8'));

@@ -75,13 +75,6 @@ function showMusicHall() {
     
     
 
-        function fmtTime(sec) {
-            if (!sec || isNaN(sec)) return '0:00';
-            const m = Math.floor(sec / 60);
-            const s = Math.floor(sec % 60);
-            return m + ':' + (s < 10 ? '0' : '') + s;
-        }
-
         function viewPhoto(url, title) {
             var idx = albumPhotos.findIndex(function(p){ return p.url === url; });
             function showSlide(offset) {

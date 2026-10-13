@@ -2,19 +2,22 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
+    <meta name="theme-color" content="#ff6b6b">
     <title>恋爱约会模拟器</title>
-    <link rel="stylesheet" href="css/style.css?v=260802">
+    <link rel="stylesheet" href="css/style.css?v=261012">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><path fill='%23ff5b8d' d='M16 28C16 28 2 19 2 10a6 6 0 0 1 12-2 6 6 0 0 1 12 2c0 9-14 18-14 18z'/></svg>">
 </head>
 <body data-theme="parchment">
     <!-- 加载屏 -->
-    <div id="loading-screen" style="position:fixed;inset:0;z-index:99999;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.5s;">
-        <div style="font-size:48px;margin-bottom:20px;">💘</div>
-        <div style="width:200px;height:4px;background:#f0e0e0;border-radius:2px;overflow:hidden;"><div id="load-bar" style="height:100%;width:0;background:linear-gradient(90deg,#ff8e8e,#ff6b6b);transition:width 0.3s;"></div></div>
-        <div style="margin-top:12px;font-size:12px;color:#999;">正在加载你的约会故事...</div>
+    <div id="loading-screen" style="position:fixed;inset:0;height:100dvh;width:100vw;z-index:99999;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity 0.5s;">
+        <div style="font-size:clamp(36px,11vw,48px);margin-bottom:clamp(14px,4vw,20px);">💘</div>
+        <div style="width:min(60vw,200px);height:4px;background:#f0e0e0;border-radius:2px;overflow:hidden;"><div id="load-bar" style="height:100%;width:0;background:linear-gradient(90deg,#ff8e8e,#ff6b6b);transition:width 0.3s;"></div></div>
+        <div style="margin-top:12px;font-size:clamp(11px,3vw,12px);color:#999;">正在加载你的约会故事...</div>
     </div>
     <!-- 天气特效 canvas 已移入 #game-container 内部，限制于手机壳范围 -->
     <div id="camera-flash" class="camera-flash"></div>
@@ -222,16 +225,17 @@
 
         <div class="header">
             <div class="top-line">
-                <div class="top-left">
-                    <button class="hdr-ico" onclick="showAchievements()" title="成就">🏆</button>
-                    <button class="hdr-ico" onclick="showLoveTips()" title="贴士">💡</button>
-                    <button class="hdr-ico" onclick="showSettings()" title="设置">⚙️</button>
-                </div>
+                <button class="hdr-ico tool-drawer-btn" onclick="toggleToolDrawer()" title="工具箱" aria-label="工具箱">☰</button>
                 <div class="title" onclick="showWeatherInfo()">恋爱约会 <span id="weather-icon">☀️</span><span id="daytime-indicator"></span></div>
-                <div class="top-right">
-                    <button class="hdr-ico" onclick="showAlbum()" title="相册">📸</button>
-                    <button class="hdr-ico" onclick="showGiftShop()" title="商店">🎁</button>
-                </div>
+                <div class="top-right" style="min-width:40px;"></div>
+            </div>
+            <!-- 工具抽屉：收纳成就/贴士/设置/相册/商店，降低顶栏功能密度（审计 P2-01） -->
+            <div class="tool-drawer" id="tool-drawer">
+                <button class="tool-item" onclick="toolAction('achievements')">🏆 <span>我的成就</span></button>
+                <button class="tool-item" onclick="toolAction('tips')">💡 <span>恋爱贴士</span></button>
+                <button class="tool-item" onclick="toolAction('settings')">⚙️ <span>设置</span></button>
+                <button class="tool-item" onclick="toolAction('album')">📸 <span>回忆相册</span></button>
+                <button class="tool-item" onclick="toolAction('shop')">🎁 <span>礼物商店</span></button>
             </div>
             <div class="stat-pills">
                 <div class="stat-pill-item" onclick="showRedeemModal()" title="点击兑换礼包">
@@ -515,9 +519,9 @@
         <div id="root"></div>
     <!-- 主线剧情外部加载框架 -->
     <!-- A-01：已移除 Tone.js CDN 外链（仅用于一个 hover 单音，离线/被墙时会持续抛 ReferenceError） -->
-    <script src="js/story-loader.js?v=260802"></script>
-    <script src="js/backpack.js?v=260802"></script>
-    <script src="assets/asset-map.js?v=260802"></script>
+    <script src="js/story-loader.js?v=261012"></script>
+    <script src="js/backpack.js?v=261012"></script>
+    <script src="assets/asset-map.js?v=261012"></script>
     <script>
         // 全局设置（settings.js + toggleMusic/Sfx 共用）
         window.AppSettings = (function(){
@@ -863,7 +867,9 @@
 
                 if (this.y > weatherCanvas.height || this.x > weatherCanvas.width || this.x < 0) {
                     this.reset();
-                    this.y = -20;
+                    // 多云粒子 vy=0，若强制 y=-20 会永远停在屏幕外不再出现（历史缺陷）；
+                    // reset() 已按天气类型重设 y，仅雨/雪需要统一拉到顶部重入场。
+                    if (this.type !== '多云') this.y = -20;
                 }
             }
 
@@ -890,6 +896,8 @@
         function initWeatherEffects(type) {
             cancelAnimationFrame(animationId);
             resizeCanvas();
+            // 切回晴天时无动画循环，不清屏会残留上一天气的最后一帧（雨滴/雪花）
+            ctx.clearRect(0, 0, weatherCanvas.width, weatherCanvas.height);
             particles = [];
             let count = 0;
             if (type === '雨天') count = 250; // 增加雨滴数量
@@ -899,6 +907,12 @@
 
             for (let i = 0; i < count; i++) {
                 particles.push(new Particle(type));
+            }
+            // 尊重「减少动画」偏好：仅绘制一帧静态画面，不进入 rAF 循环，降低开销（P2）
+            const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (reduceMotion) {
+                particles.forEach(p => p.draw());
+                return;
             }
             animate();
         }
@@ -913,13 +927,8 @@
         }
 
         function gfPhoneCheck(){var gf=document.getElementById("her-avatar");if(gf){gf.style.transform="scale(1.1)";gf.style.transition="transform .2s";setTimeout(function(){gf.style.transform="scale(1)"},400);}showAchievementToast("📱 她看了一眼手机，似乎在等谁的消息...");}
-        function updateSettingsUI(){
-          var b=document.getElementById("settings-body");if(!b)return;
-          var html="";
-             }
         function toggleMusic(on){ if(!window.AppSettings)window.AppSettings={};AppSettings.music=on;if(on&&typeof SoundManager!="undefined"&&!SoundManager.bgm)SoundManager.playBgm("start");else if(!on&&typeof SoundManager!="undefined"&&SoundManager.bgm){SoundManager.bgm.pause();SoundManager.bgm=null;} }
         function toggleSfx(on){ if(!window.AppSettings)window.AppSettings={};AppSettings.sfx=on; }
-        function setThemeDirect(v){ document.body.setAttribute("data-theme",v); try{localStorage.setItem("theme",v)}catch(e){} updateSettingsUI(); }
 function hideLoveTips() {
             document.getElementById('love-tips-modal').classList.remove('show');
         }
@@ -949,8 +958,6 @@ function hideLoveTips() {
           };
           reader.readAsText(file);
         }
-
-        function loadSavedTheme(){ var t=localStorage.getItem("theme");if(t)document.body.setAttribute("data-theme",t); }
 
         // 浮动数值标签（金钱/好感/心情变化反馈）
         function spawnFloatLabel(containerId, text, color){
@@ -1039,35 +1046,35 @@ function hideLoveTips() {
     })();
     </script>
 
-    <script src="js/bgm-paths.js?v=260802"></script>
-    <script src="js/bgm-albums.js?v=260802"></script>
-    <script src="js/dev-panel.js?v=260802"></script>
-    <script src="js/achievements.js?v=260802"></script>
+    <script src="js/bgm-paths.js?v=261012"></script>
+    <script src="js/bgm-albums.js?v=261012"></script>
+    <script src="js/dev-panel.js?v=261012"></script>
+    <script src="js/achievements.js?v=261012"></script>
     <!-- 从 achievements.js 拆分出的功能模块（按依赖顺序加载，bootstrap 须最后） -->
-    <script src="js/sfx.js?v=260802"></script>
-    <script src="js/util.js?v=260802"></script>
-    <script src="js/start-screen.js?v=260802"></script>
-    <script src="js/chat.js?v=260802"></script>
-    <script src="js/stats.js?v=260802"></script>
-    <script src="js/redeem.js?v=260802"></script>
-    <script src="js/game-init.js?v=260802"></script>
-    <script src="js/inventory.js?v=260802"></script>
-    <script src="js/mood.js?v=260802"></script>
-    <script src="js/media.js?v=260802"></script>
-    <script src="js/event-render.js?v=260802"></script>
-    <script src="js/choice.js?v=260802"></script>
-    <script src="js/gift.js?v=260802"></script>
-    <script src="js/result.js?v=260802"></script>
-    <script src="js/endings.js?v=260802"></script>
-    <script src="js/journal.js?v=260802"></script>
-    <script src="js/bootstrap.js?v=260802"></script>
-    <script src="js/weather-panel.js?v=260802"></script>
-    <script src="js/music-gallery.js?v=260802"></script>
-    <script src="js/settings.js?v=260802"></script>
-    <script src="js/game-rules.js?v=260802"></script>
-    <script src="js/shop.js?v=260802"></script>
-    <script src="js/tips.js?v=260802"></script>
-    <script src="js/album.js?v=260802"></script>
+    <script src="js/sfx.js?v=261012"></script>
+    <script src="js/util.js?v=261012"></script>
+    <script src="js/start-screen.js?v=261012"></script>
+    <script src="js/chat.js?v=261012"></script>
+    <script src="js/stats.js?v=261012"></script>
+    <script src="js/redeem.js?v=261012"></script>
+    <script src="js/game-init.js?v=261012"></script>
+    <script src="js/inventory.js?v=261012"></script>
+    <script src="js/mood.js?v=261012"></script>
+    <script src="js/media.js?v=261012"></script>
+    <script src="js/event-render.js?v=261012"></script>
+    <script src="js/choice.js?v=261012"></script>
+    <script src="js/gift.js?v=261012"></script>
+    <script src="js/result.js?v=261012"></script>
+    <script src="js/endings.js?v=261012"></script>
+    <script src="js/journal.js?v=261012"></script>
+    <script src="js/bootstrap.js?v=261012"></script>
+    <script src="js/weather-panel.js?v=261012"></script>
+    <script src="js/music-gallery.js?v=261012"></script>
+    <script src="js/settings.js?v=261012"></script>
+    <script src="js/game-rules.js?v=261012"></script>
+    <script src="js/shop.js?v=261012"></script>
+    <script src="js/tips.js?v=261012"></script>
+    <script src="js/album.js?v=261012"></script>
     <script>
     // 指针涟漪：中心从点击位置扩散
     (function(){
@@ -1087,9 +1094,14 @@ function hideLoveTips() {
     function toggleAiMenu(e){e.stopPropagation();var m=document.getElementById('ai-quick-menu');if(!m)return;m.classList.toggle('show');if(m.classList.contains('show')){try{localStorage.setItem('ai-hint-seen','1')}catch(_){}var d=document.getElementById('ai-red-dot');if(d)d.remove();}}
     // 主题色板展开/收起（入口为背包内 🎨 道具；force 为布尔时强制开/关）
     function toggleThemeExpand(force){var x=document.getElementById('theme-expand');if(!x)return;if(typeof force==='boolean')x.classList.toggle('show',force);else x.classList.toggle('show');}
+    // 工具抽屉（P2-01）：开合与分发，点击抽屉外区域自动收起
+    function toggleToolDrawer(){var d=document.getElementById('tool-drawer');if(!d)return;d.classList.toggle('show');}
+    function hideToolDrawer(){var d=document.getElementById('tool-drawer');if(d)d.classList.remove('show');}
+    function toolAction(which){hideToolDrawer();if(which==='achievements')showAchievements();else if(which==='tips')showLoveTips();else if(which==='settings')showSettings();else if(which==='album')showAlbum();else if(which==='shop')showGiftShop();}
     document.addEventListener('click',function(e){
       if(!e.target.closest('.bp-ai')&&!e.target.closest('.ai-quick-menu'))document.getElementById('ai-quick-menu')?.classList.remove('show');
       if(!e.target.closest('.bp-theme')&&!e.target.closest('.theme-expand'))document.getElementById('theme-expand')?.classList.remove('show');
+      if(!e.target.closest('.tool-drawer-btn')&&!e.target.closest('.tool-drawer'))hideToolDrawer();
     });
     function aiWeather(){
         if(gameState.aiWeatherTriggered){showAchievementToast('⚠️ 气象干预每局仅限一次');return}
@@ -1131,7 +1143,7 @@ function hideLoveTips() {
     }
     // PWA Service Worker：强制更新策略，避免服务器/浏览器缓存导致老版本残留
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js?v=260802').then(function(reg) {
+        navigator.serviceWorker.register('sw.js?v=261012').then(function(reg) {
             reg.addEventListener('updatefound', function() {
                 var newWorker = reg.installing;
                 newWorker.addEventListener('statechange', function() {

@@ -56,8 +56,6 @@ function provideWarmth() {
 
 function updateMood(emotion) {
             // 冗余心情显示已移除，仅保留逻辑以防报错
-            const icons = { 'happy': '😊', 'normal': '😐', 'angry': '💢' };
-            const texts = { 'happy': '开心', 'normal': '一般', 'angry': '生气' };
             
             // 触发好感度区域的微动效
             const likeDisplay = document.getElementById('like-display');

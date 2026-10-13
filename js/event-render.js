@@ -116,10 +116,8 @@ function injectItemChoices(event, container) {
                 btn.style.borderTop = '1px dashed var(--gold)';
                 btn.style.background = 'linear-gradient(90deg, rgba(255,215,0,0.08), transparent)';
                 btn.onclick = function(){
-                    gameState.like = Math.min(100, gameState.like + def.like);
-                    updateStats();
                     showToast(def.emoji+' 使用了：'+def.displayName, 'reward');
-                    // 消耗物品
+                    // 消耗物品（先扣库存，再交给 makeChoice 统一结算好感/心动，避免重复累加）
                     if (inv[itemName]) { inv[itemName].count--; if (inv[itemName].count <= 0) delete inv[itemName]; }
                     makeChoice({ text: def.text, like: def.like, money: 0, heart: def.like > 10 ? 5 : 2, emotion: 'happy', feedback: def.text, branch: 'good' }, event);
                 };
@@ -158,6 +156,17 @@ function showEvent(index) {
             if (typeof updateContactStatuses === 'function') updateContactStatuses();
             
             const events = gameData[selectData.weather];
+            // 防御：剧情数据未就绪（story.json 加载失败 / file:// 限制 / 导入非法 JSON）时，
+            // 直接访问 events.length 会抛 TypeError。给出明确提示而非崩溃。
+            if (!events || !Array.isArray(events) || events.length === 0) {
+                const fbEl = document.getElementById('feedback');
+                if (fbEl) {
+                    fbEl.textContent = '⚠️ 剧情数据未能加载，请通过 http 方式打开本目录（例如在根目录运行 python -m http.server 后访问 localhost），或检查 data/story.json 与导入的 JSON 是否合法。';
+                    fbEl.className = 'feedback show';
+                }
+                showToast('剧情数据未加载', 'warn');
+                return;
+            }
             if (index >= events.length) {
                 showResult();
                 return;
@@ -265,7 +274,8 @@ function showEvent(index) {
                     sceneCg.onclick = () => showCgLightbox(imgPath, event.title);
                     const w = selectData.weather;
                     const cls = w === '雨天' ? 'scene-cg-rain' : w === '雪天' ? 'scene-cg-snow' : w === '多云' ? 'scene-cg-cloud' : 'scene-cg-sun';
-                    sceneCg.className = 'scene-cg' + (sceneCg.classList.contains('has-img') ? ' has-img' : '') + ' ' + cls;
+                    // 此前先赋 className 再判 classList.contains('has-img')，刚 add 的 has-img 必被覆盖丢失
+                    sceneCg.className = 'scene-cg has-img ' + cls;
                   } else {
                     sceneCg.innerHTML = '';
                     sceneCg.style.display = 'flex';

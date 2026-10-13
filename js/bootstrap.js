@@ -18,8 +18,11 @@ window.addEventListener('click', () => {
 (function hideLoading() {
             const ls = document.getElementById('loading-screen');
             if (!ls) return;
+            // 彻底隐藏：display:none + visibility:hidden，确保纯白全屏层完全脱离渲染树，
+            // 避免 iOS 合成时与下层彩色开始屏之间周期性露白（持续白闪）。
+            const hide = () => { ls.classList.add('hidden'); ls.style.display = 'none'; ls.style.visibility = 'hidden'; };
             // 非首次访问：直接跳过加载屏
-            if (localStorage.getItem('_visited')) { ls.style.display = 'none'; return; }
+            if (localStorage.getItem('_visited')) { hide(); return; }
             localStorage.setItem('_visited', '1');
             const bar = document.getElementById('load-bar');
             let p = 0;
@@ -31,9 +34,9 @@ window.addEventListener('click', () => {
             window.addEventListener('load', () => {
                 setTimeout(() => {
                     if (bar) bar.style.width = '100%';
-                    setTimeout(() => { ls.classList.add('hidden'); }, 300);
+                    setTimeout(hide, 300);
                 }, 200);
             });
             // 兜底：3秒后强制隐藏
-            setTimeout(() => { if (!ls.classList.contains('hidden')) ls.classList.add('hidden'); }, 3000);
+            setTimeout(() => { if (ls.style.display !== 'none') hide(); }, 3000);
         })();

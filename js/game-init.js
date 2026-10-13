@@ -8,7 +8,12 @@ var gameState = {
     unlockHistory: [],
     unlockedPhotos: ['first_meet'],
     unlockedTips: ['basic_bag', 'heart_glow', 'custom_gift'],
-    usedCodes: []
+    usedCodes: [],
+    // 与 initGame() 保持一致（曾因 shop.js 残留的重复声明才补齐，现 shop.js 已删除重复声明）
+    claimedRewards: [],
+    mood: 'normal',
+    isNight: false,
+    nightTriggerEvent: -1
 };
 
 function startGame() {
@@ -65,12 +70,8 @@ function startGame() {
             // 清空上一局背包显示缓存（gameState.inventory 已在 initGame 重置）
             if (window.resetBackpack) window.resetBackpack();
             
-            gameState.isNight = false;
-            if (selectData.dateType === '一整天') {
-                gameState.nightTriggerEvent = Math.floor(Math.random() * 3) + 10; // 10, 11, 12
-            } else {
-                gameState.nightTriggerEvent = -1;
-            }
+            // 黑夜触发逻辑已移入 initGame（nightTriggerEvent/isNight 由 initGame 统一初始化，
+            // 此前在 startGame 赋值会被 initGame 的全新 gameState 覆盖，导致一整天模式黑夜永不触发）
             
             initGame();
         }
@@ -110,7 +111,14 @@ function initGame() {
                 choicesMade: {},
                 momMoneyTriggered: false,
                 aiWeatherTriggered: false,
-                aiGiftTriggered: false
+                aiGiftTriggered: false,
+                // 以下字段曾在 shop.js 的重复 gameState 声明中存在、initGame 重置后丢失，
+                // 导致聊天一次性奖励（野餐/雨天电影）崩溃、一整天黑夜永不触发——现统一在此初始化
+                claimedRewards: [],
+                mood: 'normal',
+                isNight: false,
+                // 一整天模式：第 10/11/12 个事件触发夜幕；白天模式永不触发
+                nightTriggerEvent: selectData.dateType === '一整天' ? (Math.floor(Math.random() * 3) + 10) : -1
             };
             updateStats();
             updateMood('normal');

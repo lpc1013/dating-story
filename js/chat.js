@@ -66,8 +66,8 @@ var chatData = {
                 messages: ["你对我真好！那我一定要多吃一点。😋", "等下吃完我们去散散步消消食吧。"],
                 options: [{ text: "好，都听你的。", next: 'gf_end' }],
                 onEnter: () => {
-                    gameState.money -= 20;
-                    gameState.like += 5;
+                    commitStats({ money: -20 });
+                    commitStats({ like: 5 });
                     gameState.mood = 'happy';
                     updateStats();
                 }
@@ -77,8 +77,8 @@ var chatData = {
                 messages: ["好吧，听你的。那我们去吃那家拉面吧，也挺好吃的。", "只要和你在一起，吃什么都行。"],
                 options: [{ text: "真懂事，下次一定带你去吃日料。", next: 'gf_end' }],
                 onEnter: () => {
-                    gameState.money -= 10;
-                    gameState.like += 1;
+                    commitStats({ money: -10 });
+                    commitStats({ like: 1 });
                     gameState.mood = 'normal';
                     updateStats();
                 }
@@ -87,7 +87,7 @@ var chatData = {
                 messages: ["海边吗？听起来好浪漫！🌊", "我们可以一起踩水，然后看日落。"],
                 options: [{ text: "那就这么说定了！", next: 'close' }],
                 onEnter: () => {
-                    gameState.like += 2;
+                    commitStats({ like: 2 });
                     updateStats();
                     unlockPhoto('sunny_beach');
                 }
@@ -96,9 +96,10 @@ var chatData = {
                 messages: ["公园也不错，可以看看花。🌷", "不过你要帮我拍好看的照片哦！"],
                 options: [{ text: "没问题，我是专业摄影师。", next: 'close' }],
                 onEnter: () => {
-                    gameState.heart += 1;
+                    commitStats({ heart: 1 });
                     updateStats();
-                    unlockPhoto('park_date');
+                    // 原为 park_date（相册无此 id 的幽灵解锁），实为相册中「晴日公园」sunny_park
+                    unlockPhoto('sunny_park');
                 }
             },
             'gf_sunny_picnic': {
@@ -107,8 +108,8 @@ var chatData = {
                 options: [{ text: "没问题，只要你喜欢。", next: 'gf_sunny_picnic_2' }],
                 onEnter: () => {
                     if (!gameState.claimedRewards.includes('sunny_picnic_reward')) {
-                        gameState.like += 2;
-                        gameState.heart += 1;
+                        commitStats({ like: 2 });
+                        commitStats({ heart: 1 });
                         gameState.claimedRewards.push('sunny_picnic_reward');
                         updateStats();
                         showToast("获得初次野餐奖励！💖", 'reward');
@@ -177,7 +178,7 @@ var chatData = {
                 messages: ["嘿嘿，你真体贴。那我就眯一小会儿...", "晚安...不对，是午安。"],
                 options: [{ text: "午安，好梦。", next: 'gf_end' }],
                 onEnter: () => {
-                    gameState.heart += 3;
+                    commitStats({ heart: 3 });
                     gameState.mood = 'happy';
                     updateStats();
                 }
@@ -187,7 +188,7 @@ var chatData = {
                 messages: ["哼，真没情调！", "那我不睡了，你陪我聊天吧。"],
                 options: [{ text: "好，你想聊什么？", next: 'gf_rainy_chat' }],
                 onEnter: () => {
-                    gameState.like -= 2;
+                    commitStats({ like: -2 });
                     gameState.mood = 'sad';
                     updateStats();
                 }
@@ -205,7 +206,7 @@ var chatData = {
                 messages: ["哎呀，你太夸张了啦！哪有那么夸张...", "不过...听你这么说，我还是挺开心的。"],
                 options: [{ text: "我说的是真心话。", next: 'gf_end' }],
                 onEnter: () => {
-                    gameState.like += 5;
+                    commitStats({ like: 5 });
                     updateStats();
                 }
             },
@@ -214,7 +215,7 @@ var chatData = {
                 messages: ["特别？是哪种特别？是特别可爱还是特别漂亮？", "快说快说！"],
                 options: [{ text: "是特别让我心动。", next: 'gf_end' }],
                 onEnter: () => {
-                    gameState.heart += 5;
+                    commitStats({ heart: 5 });
                     updateStats();
                 }
             },
@@ -224,7 +225,7 @@ var chatData = {
                 options: [{ text: "听你的，我去准备。", next: 'gf_rainy_movie_2' }],
                 onEnter: () => {
                     if (!gameState.claimedRewards.includes('rainy_movie_reward')) {
-                        gameState.like += 1;
+                        commitStats({ like: 1 });
                         gameState.claimedRewards.push('rainy_movie_reward');
                         updateStats();
                     }
@@ -399,8 +400,8 @@ var chatData = {
                 messages: ["我不是想管你，我只是...我只是害怕失去你。", "你以后能不能多考虑一下我的感受？"],
                 options: [{ text: "我会的，我保证。", next: 'gf_end' }],
                 onEnter: () => {
-                    gameState.like += 1;
-                    gameState.heart += 2;
+                    commitStats({ like: 1 });
+                    commitStats({ heart: 2 });
                     gameState.mood = 'normal';
                     unlockPhoto('conflict_resolved');
                     updateStats();
@@ -411,8 +412,8 @@ var chatData = {
                 messages: ["你竟然这么跟我说话...", "我不想理你了，再见！"],
                 options: [{ text: "喂！等等...", next: 'close' }],
                 onEnter: () => {
-                    gameState.like -= 20;
-                    gameState.heart -= 10;
+                    commitStats({ like: -20 });
+                    commitStats({ heart: -10 });
                     gameState.mood = 'angry';
                     updateStats();
                 }
@@ -422,7 +423,7 @@ var chatData = {
                 messages: ["好啦，我相信你就是了。不用看手机啦。", "以后记得要跟我说实话哦。"],
                 options: [{ text: "一定会的。", next: 'gf_end' }],
                 onEnter: () => {
-                    gameState.like += 3;
+                    commitStats({ like: 3 });
                     gameState.mood = 'happy';
                     unlockPhoto('conflict_resolved');
                     updateStats();
@@ -530,7 +531,7 @@ var chatData = {
                     if (gameState.heart >= 15) {
                         const lockedTips = loveTipsData.filter(t => !gameState.unlockedTips.includes(t.id));
                         if (lockedTips.length > 0) {
-                            gameState.heart -= 15;
+                            commitStats({ heart: -15 });
                             const randomTip = lockedTips[Math.floor(Math.random() * lockedTips.length)];
                             unlockLoveTip(randomTip.id);
                             updateStats();
@@ -558,7 +559,7 @@ var chatData = {
                         return;
                     }
                     if (gameState.heart >= 10) {
-                        gameState.heart -= 10;
+                        commitStats({ heart: -10 });
                         const gifts = [
                             { id: 'ai_chocolate', name: 'AI定制巧克力', desc: '由AI精心调配比例的巧克力，甜而不腻。', price: 0, like: 10, heart: 3, icon: '🍫', quote: '每一口都是精算的甜蜜。' },
                             { id: 'ai_flower', name: '永生玫瑰', desc: '永远不会凋谢的玫瑰，象征永恒的爱。', price: 0, like: 15, heart: 5, icon: '🌹', quote: '爱意永不凋零。' }
@@ -589,7 +590,7 @@ var chatData = {
                         return;
                     }
                     if (gameState.heart >= 20) {
-                        gameState.heart -= 20;
+                        commitStats({ heart: -20 });
                         const weathers = ['晴天', '多云', '雨天', '雪天'].filter(w => w !== selectData.weather);
                         const newWeather = weathers[Math.floor(Math.random() * weathers.length)];
                         
@@ -880,7 +881,7 @@ function renderBrowserHistory() {
                 return scoreB - scoreA;
             });
             content.innerHTML = `
-                <div style="font-size: 12px; color: #999; margin-bottom: 10px;">智能推荐 · 搜��：${query}</div>
+                <div style="font-size: 12px; color: #999; margin-bottom: 10px;">智能推荐 · 搜索：${query}</div>
                 ${sorted.map(item => `
                     <div class="browser-history-item" onclick="showBrowserPage('${item.id}')">
                         <div class="browser-history-title">${item.title}</div>
@@ -895,6 +896,7 @@ function showBrowserPage(id) {
             if (!item) return;
 
             if (item.onEnter) item.onEnter();
+            clampGameStats(); // 钳制浏览页奖励越界（好感/心动锁在 0–100，并修复 NaN）
 
             document.getElementById('browser-address').textContent = item.url;
             const content = document.getElementById('browser-content');
@@ -1112,7 +1114,16 @@ function loadChatNode(nodeId) {
 
             optContainer.innerHTML = '';
             
-            if (node.onEnter) node.onEnter();
+            // 一次性奖励去重（P1-02 #2）：同一聊天节点本局仅首次执行 onEnter 的数值副作用，
+            // 避免重新进入节点时反复领取好感/心动/金钱（gameState 每局重建，chatEntered 随之按局重置）。
+            if (node.onEnter) {
+                if (!gameState.chatEntered) gameState.chatEntered = [];
+                if (gameState.chatEntered.indexOf(nodeId) < 0) {
+                    node.onEnter();
+                    gameState.chatEntered.push(nodeId);
+                }
+            }
+            clampGameStats(); // 钳制聊天奖励越界（好感/心动锁在 0–100，并修复 NaN 污染）
 
             // 更新表情/状态
             if (node.expression) {
